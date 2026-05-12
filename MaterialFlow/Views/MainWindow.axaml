@@ -1,0 +1,310 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MaterialFlow.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:material="using:Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
+        x:Class="MaterialFlow.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="MaterialFlow"
+        Background="{DynamicResource BackgroundBrush}"
+        Foreground="{DynamicResource OnSurfaceBrush}"
+        MinWidth="900" MinHeight="600">
+
+    <!-- Root layout: floating sidebar + main content -->
+    <Grid ColumnDefinitions="Auto,*" Margin="12,16,16,16">
+
+        <!-- ============================================================ -->
+        <!-- FLOATING NAVIGATION RAIL (Android 16 / Material You style)  -->
+        <!-- ============================================================ -->
+        <Border Grid.Column="0"
+                Width="272"
+                Margin="0,0,12,0"
+                CornerRadius="28"
+                Background="{DynamicResource SurfaceContainerLowBrush}">
+            <Grid RowDefinitions="Auto,*,Auto">
+
+                <!-- Logo / App Header -->
+                <StackPanel Grid.Row="0" Margin="20,28,20,0">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Border Width="44" Height="44" CornerRadius="14"
+                                Background="{DynamicResource PrimaryBrush}">
+                            <TextBlock Text="MF"
+                                       Foreground="{DynamicResource OnPrimaryBrush}"
+                                       FontWeight="Black" FontSize="15"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="MaterialFlow"
+                                       FontWeight="Bold" FontSize="18"
+                                       Foreground="{DynamicResource OnSurfaceBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Rectangle Height="1"
+                               Fill="{DynamicResource OutlineVariantBrush}"
+                               Margin="0,20,0,8"/>
+                </StackPanel>
+
+                <!-- Navigation Items -->
+                <ListBox Grid.Row="1"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         SelectedIndex="0"
+                         Margin="0,8,0,0">
+                    <ListBoxItem Theme="{StaticResource SidebarNavItem}">
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <material:MaterialIcon Kind="Home" Width="24" Height="24"/>
+                            <TextBlock Text="Home" VerticalAlignment="Center" FontSize="15"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+
+                <!-- Bottom: Settings + Login -->
+                <StackPanel Grid.Row="2" Margin="0,0,0,20">
+                    <Rectangle Height="1"
+                               Fill="{DynamicResource OutlineVariantBrush}"
+                               Margin="16,0,16,8"/>
+
+                    <!-- Settings item -->
+                    <Border Margin="12,2" Height="52" CornerRadius="28" Cursor="Hand">
+                        <Border.Styles>
+                            <Style Selector="Border:pointerover">
+                                <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighBrush}"/>
+                            </Style>
+                        </Border.Styles>
+                        <StackPanel Orientation="Horizontal" Spacing="16" Margin="20,0"
+                                    VerticalAlignment="Center">
+                            <material:MaterialIcon Kind="Cog" Width="22" Height="22"
+                                                   Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                            <TextBlock Text="Settings" VerticalAlignment="Center"
+                                       FontSize="15"
+                                       Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Login Button -->
+                    <Button Theme="{StaticResource TonalButton}"
+                            Margin="12,4"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Spacing="12"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <material:MaterialIcon Kind="Login" Width="20" Height="20"
+                                                   VerticalAlignment="Center"/>
+                            <TextBlock Text="Login" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ============================================================ -->
+        <!-- MAIN CONTENT (floating card, tonal surface)                  -->
+        <!-- ============================================================ -->
+        <Border Grid.Column="1"
+                CornerRadius="28"
+                Background="{DynamicResource SurfaceContainerLowestBrush}"
+                ClipToBounds="True">
+            <Grid RowDefinitions="Auto,Auto,*">
+
+                <!-- Top App Bar -->
+                <Border Grid.Row="0"
+                        Background="{DynamicResource SurfaceContainerLowBrush}"
+                        CornerRadius="28,28,0,0"
+                        Padding="24,18">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+
+                        <!-- Create Button -->
+                        <Button Grid.Column="0"
+                                Theme="{StaticResource PrimaryActionButton}"
+                                Height="52">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <material:MaterialIcon Kind="Plus" Width="22" Height="22"/>
+                                <TextBlock Text="Create Project" VerticalAlignment="Center"
+                                           FontSize="15"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Right Controls -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10">
+
+                            <!-- Search bar -->
+                            <Border Background="{DynamicResource SurfaceContainerHighBrush}"
+                                    CornerRadius="32"
+                                    Width="300" Height="52">
+                                <Grid ColumnDefinitions="Auto,*" Margin="18,0,8,0">
+                                    <material:MaterialIcon Kind="Magnify"
+                                                           Foreground="{DynamicResource OnSurfaceVariantBrush}"
+                                                           Width="22" Height="22"
+                                                           Margin="0,0,10,0"
+                                                           VerticalAlignment="Center"/>
+                                    <TextBox Grid.Column="1"
+                                             Theme="{StaticResource SearchBar}"
+                                             Watermark="Search projects..."
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             Padding="0"
+                                             VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- View toggle -->
+                            <Border Background="{DynamicResource SurfaceContainerHighBrush}"
+                                    CornerRadius="32" Padding="4"
+                                    Height="52">
+                                <StackPanel Orientation="Horizontal" Spacing="2">
+                                    <Button Background="{DynamicResource SecondaryContainerBrush}"
+                                            CornerRadius="28" Padding="12"
+                                            BorderThickness="0"
+                                            Cursor="Hand">
+                                        <material:MaterialIcon Kind="ViewGrid"
+                                                               Width="20" Height="20"
+                                                               Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                    </Button>
+                                    <Button Background="Transparent"
+                                            CornerRadius="28" Padding="12"
+                                            BorderThickness="0"
+                                            Cursor="Hand">
+                                        <material:MaterialIcon Kind="ViewList"
+                                                               Width="20" Height="20"
+                                                               Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Filter button -->
+                            <Button Background="{DynamicResource SurfaceContainerHighBrush}"
+                                    CornerRadius="32" Padding="14"
+                                    BorderThickness="0"
+                                    Height="52" Width="52"
+                                    Cursor="Hand">
+                                <material:MaterialIcon Kind="FilterVariant"
+                                                       Width="20" Height="20"
+                                                       Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Tab Row -->
+                <Border Grid.Row="1"
+                        Background="{DynamicResource SurfaceContainerLowestBrush}"
+                        Padding="20,10">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <Border Background="{DynamicResource SecondaryContainerBrush}"
+                                CornerRadius="32"
+                                Padding="20,10">
+                            <TextBlock Text="All Projects"
+                                       FontWeight="Bold" FontSize="14"
+                                       Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                        </Border>
+                        <Border CornerRadius="32" Padding="20,10" Cursor="Hand">
+                            <Border.Styles>
+                                <Style Selector="Border:pointerover">
+                                    <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighBrush}"/>
+                                </Style>
+                            </Border.Styles>
+                            <TextBlock Text="Recent"
+                                       FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                        </Border>
+                        <Border CornerRadius="32" Padding="20,10" Cursor="Hand">
+                            <Border.Styles>
+                                <Style Selector="Border:pointerover">
+                                    <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighBrush}"/>
+                                </Style>
+                            </Border.Styles>
+                            <TextBlock Text="Favorites"
+                                       FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- Projects Grid -->
+                <ScrollViewer Grid.Row="2"
+                              Background="{DynamicResource BackgroundBrush}"
+                              Padding="20,16,20,20">
+                    <ItemsControl ItemsSource="{Binding Projects}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" ItemWidth="300"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{DynamicResource SurfaceContainerLowestBrush}"
+                                        BorderBrush="{DynamicResource OutlineVariantBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="28"
+                                        Margin="0,0,20,20"
+                                        Width="272"
+                                        Theme="{StaticResource ElevatedCard}"
+                                        ClipToBounds="True">
+                                    <Grid RowDefinitions="160,Auto">
+                                        <Border Grid.Row="0"
+                                                Background="{DynamicResource SurfaceContainerHighestBrush}"
+                                                CornerRadius="28,28,0,0">
+                                            <Grid>
+                                                <material:MaterialIcon Kind="FileVideo"
+                                                                       Width="64" Height="64"
+                                                                       Foreground="{DynamicResource OutlineVariantBrush}"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"/>
+                                                <Border HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Margin="12"
+                                                        Background="#CC000000"
+                                                        CornerRadius="10"
+                                                        Padding="10,4">
+                                                    <TextBlock Text="{Binding Duration, StringFormat={}{0:mm\\:ss}}"
+                                                               Foreground="White"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"/>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+
+                                        <Grid Grid.Row="1"
+                                              ColumnDefinitions="*,Auto"
+                                              Margin="16,12,8,14">
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="{Binding Name}"
+                                                           FontWeight="SemiBold"
+                                                           FontSize="15"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,4,0,0">
+                                                    <TextBlock Text="{Binding CreatedAt, StringFormat={}{0:MM/dd/yyyy}}"
+                                                               Foreground="{DynamicResource OnSurfaceVariantBrush}"
+                                                               FontSize="12"/>
+                                                    <TextBlock Text="1920x1080"
+                                                               Foreground="{DynamicResource OnSurfaceVariantBrush}"
+                                                               FontSize="12"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Button Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="8"
+                                                    VerticalAlignment="Center"
+                                                    CornerRadius="20"
+                                                    Cursor="Hand"
+                                                    Grid.Column="1">
+                                                <material:MaterialIcon Kind="DotsVertical"
+                                                                       Foreground="{DynamicResource OnSurfaceVariantBrush}"
+                                                                       Width="20" Height="20"/>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

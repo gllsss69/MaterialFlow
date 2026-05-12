@@ -1,0 +1,46 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <!-- Backgrounds & Surfaces -->
+            <SolidColorBrush x:Key="Background" Color="#FEF7FF"/>
+            <SolidColorBrush x:Key="Surface" Color="#FEF7FF"/>
+            <SolidColorBrush x:Key="SurfaceLow" Color="#F7F2FA"/>
+            <SolidColorBrush x:Key="SurfaceHigh" Color="#ECE6F0"/>
+            <SolidColorBrush x:Key="SurfaceLowest" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="SurfaceHighest" Color="#E6E0E9"/>
+
+            <!-- Brand Colors -->
+            <SolidColorBrush x:Key="Primary" Color="#6750A4"/>
+            <SolidColorBrush x:Key="OnPrimary" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="SecondaryContainer" Color="#E8DEF8"/>
+            <SolidColorBrush x:Key="OnSecondaryContainer" Color="#1E192B"/>
+            <SolidColorBrush x:Key="TertiaryContainer" Color="#FFD8E4"/>
+            
+            <!-- Outlines & Text -->
+            <SolidColorBrush x:Key="Outline" Color="#7A757F"/>
+            <SolidColorBrush x:Key="OutlineVariant" Color="#CAC4D0"/>
+            <SolidColorBrush x:Key="OnSurface" Color="#1C1B1F"/>
+            <SolidColorBrush x:Key="OnSurfaceVariant" Color="#49454E"/>
+
+            <!-- Aliases for layout compatibility -->
+            <StaticResource x:Key="BackgroundBrush" ResourceKey="Background"/>
+            <StaticResource x:Key="SurfaceBrush" ResourceKey="Surface"/>
+            <StaticResource x:Key="SurfaceContainerLowestBrush" ResourceKey="SurfaceLowest"/>
+            <StaticResource x:Key="SurfaceContainerLowBrush" ResourceKey="SurfaceLow"/>
+            <StaticResource x:Key="SurfaceContainerHighBrush" ResourceKey="SurfaceHigh"/>
+            <StaticResource x:Key="SurfaceContainerHighestBrush" ResourceKey="SurfaceHighest"/>
+            <StaticResource x:Key="PrimaryBrush" ResourceKey="Primary"/>
+            <StaticResource x:Key="OnPrimaryBrush" ResourceKey="OnPrimary"/>
+            <StaticResource x:Key="SecondaryContainerBrush" ResourceKey="SecondaryContainer"/>
+            <StaticResource x:Key="OnSecondaryContainerBrush" ResourceKey="OnSecondaryContainer"/>
+            <StaticResource x:Key="TertiaryContainerBrush" ResourceKey="TertiaryContainer"/>
+            <StaticResource x:Key="OutlineBrush" ResourceKey="Outline"/>
+            <StaticResource x:Key="OutlineVariantBrush" ResourceKey="OutlineVariant"/>
+            <StaticResource x:Key="OnSurfaceBrush" ResourceKey="OnSurface"/>
+            <StaticResource x:Key="OnSurfaceVariantBrush" ResourceKey="OnSurfaceVariant"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

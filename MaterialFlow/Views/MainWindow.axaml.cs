@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using MaterialFlow.ViewModels;
 
 namespace MaterialFlow
 {
@@ -7,6 +8,7 @@ namespace MaterialFlow
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
         }
     }
 }
