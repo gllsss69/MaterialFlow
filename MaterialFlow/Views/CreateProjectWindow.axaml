@@ -1,0 +1,152 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p1="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+        xmlns:material="using:Material.Icons.Avalonia"
+        x:Class="MaterialFlow.Views.CreateProjectWindow"
+        Title="Create Project"
+        Width="550"
+        SizeToContent="Height"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        WindowDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent">
+
+    <Window.Styles>
+        <Style Selector="RadioButton.Chip">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Name="PART_RootBorder" 
+                            Background="White" 
+                            CornerRadius="20" 
+                            Padding="16,8" 
+                            Margin="0,0,8,8">
+                        <TextBlock Name="PART_Text" 
+                                   Text="{TemplateBinding Content}" 
+                                   Foreground="#1D1B20" 
+                                   FontWeight="SemiBold"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="RadioButton.Chip:checked /template/ Border#PART_RootBorder">
+            <Setter Property="Background" Value="#EADDFF"/>
+        </Style>
+        <Style Selector="RadioButton.Chip:checked /template/ TextBlock#PART_Text">
+            <Setter Property="Foreground" Value="#21005D"/>
+        </Style>
+        
+        <Style Selector="ComboBox.dense">
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+    </Window.Styles>
+
+    <Border CornerRadius="32" Background="#F3EDF7" Padding="32" Margin="10" BoxShadow="0 8 32 0 #20000000">
+        <Border.Styles>
+            <Style Selector="Border">
+                <Style.Animations>
+                    <Animation Duration="0:0:0.3" Easing="CubicEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="Opacity" Value="0"/>
+                            <Setter Property="ScaleTransform.ScaleX" Value="0.95"/>
+                            <Setter Property="ScaleTransform.ScaleY" Value="0.95"/>
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Setter Property="ScaleTransform.ScaleX" Value="1.0"/>
+                            <Setter Property="ScaleTransform.ScaleY" Value="1.0"/>
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+        </Border.Styles>
+        <Grid RowDefinitions="Auto,Auto,Auto">
+            <TextBlock Grid.Row="0" Text="Create Project" FontSize="32" FontWeight="Normal" Foreground="#1D1B20" Margin="0,0,0,16"/>
+
+            <StackPanel Grid.Row="1" Spacing="16">
+                <!-- Name Input -->
+                <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                         p1:TextFieldAssist.Label="Project Name"
+                         Classes="outline"
+                         Background="#F3EDF7"
+                         UseFloatingPlaceholder="True"/>
+
+                <!-- Save Path Input -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBox Name="PathTextBox"
+                             Theme="{StaticResource MaterialOutlineTextBox}"
+                             p1:TextFieldAssist.Label="Save Path"
+                             Classes="outline"
+                             Background="#F3EDF7"
+                             UseFloatingPlaceholder="True"
+                             IsReadOnly="True"
+                             PlaceholderText="Select destination folder..."/>
+                    <Button Grid.Column="1" 
+                            Classes="Flat" 
+                            Width="48" Height="48" 
+                            Margin="8,4,0,0"
+                            Padding="0"
+                            Click="SelectPath_Click">
+                        <material:MaterialIcon Kind="FolderOpen" Width="24" Height="24" Foreground="#6750A4"/>
+                    </Button>
+                </Grid>
+
+                <!-- Platform Selection -->
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Platform" Foreground="#6750A4" FontWeight="Bold" FontSize="14"/>
+                    <WrapPanel>
+                        <RadioButton Content="YouTube" Classes="Chip" IsChecked="True" GroupName="Platform"/>
+                        <RadioButton Content="TikTok" Classes="Chip" GroupName="Platform"/>
+                        <RadioButton Content="Facebook" Classes="Chip" GroupName="Platform"/>
+                        <RadioButton Content="Instagram" Classes="Chip" GroupName="Platform"/>
+                        <RadioButton Content="Other" Classes="Chip" GroupName="Platform"/>
+                    </WrapPanel>
+                </StackPanel>
+
+                <!-- Settings -->
+                <StackPanel Spacing="16">
+                    <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="Resolution" 
+                              Classes="dense"
+                              Foreground="#6750A4">
+                        <ComboBoxItem IsSelected="True">1920x1080</ComboBoxItem>
+                        <ComboBoxItem>1280x720</ComboBoxItem>
+                        <ComboBoxItem>3840x2160</ComboBoxItem>
+                    </ComboBox>
+
+                    <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="Bitrate" 
+                              Classes="dense"
+                              Foreground="#6750A4">
+                        <ComboBoxItem IsSelected="True">Auto</ComboBoxItem>
+                        <ComboBoxItem>5 Mbps</ComboBoxItem>
+                        <ComboBoxItem>10 Mbps</ComboBoxItem>
+                    </ComboBox>
+
+                    <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="Format" 
+                              Classes="dense"
+                              Foreground="#6750A4">
+                        <ComboBoxItem IsSelected="True">.mp4</ComboBoxItem>
+                        <ComboBoxItem>.mkv</ComboBoxItem>
+                        <ComboBoxItem>.avi</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Watermark -->
+                <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,8,0,0">
+                    <TextBlock Text="Watermark" VerticalAlignment="Center" Foreground="#6750A4" FontWeight="Bold" FontSize="14"/>
+                    <CheckBox IsChecked="True" Theme="{StaticResource MaterialCheckBox}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Actions -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="24" Margin="0,16,0,0">
+                <Button Content="Cancel" Classes="Flat" Foreground="#6750A4" FontWeight="Bold" Click="Cancel_Click" FontSize="16"/>
+                <Button Content="Create" Classes="Flat" Foreground="#6750A4" FontWeight="Bold" Click="Create_Click" FontSize="16"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

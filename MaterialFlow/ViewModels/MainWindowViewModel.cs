@@ -2,13 +2,37 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Avalonia.Layout;
 using MaterialFlow.Models;
 
 namespace MaterialFlow.ViewModels;
 
-public class MainWindowViewModel : INotifyPropertyChanged
-{
-    public ObservableCollection<VideoProject> Projects { get; set; } = new();
+    public class MainWindowViewModel : INotifyPropertyChanged
+    {
+        private bool _isSidebarCollapsed;
+        public bool IsSidebarCollapsed
+        {
+            get => _isSidebarCollapsed;
+            set
+            {
+                _isSidebarCollapsed = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SidebarWidth));
+                OnPropertyChanged(nameof(DividerWidth));
+                OnPropertyChanged(nameof(ItemWidth));
+                OnPropertyChanged(nameof(SidebarContentAlignment));
+            }
+        }
+
+        public double SidebarWidth => IsSidebarCollapsed ? 104 : 280;
+        public double DividerWidth => IsSidebarCollapsed ? 56 : 232;
+        public double ItemWidth => IsSidebarCollapsed ? 80 : 232;
+        public double ItemHeight => 56;
+        public HorizontalAlignment SidebarContentAlignment => IsSidebarCollapsed ? HorizontalAlignment.Center : HorizontalAlignment.Left;
+
+        public void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
+
+        public ObservableCollection<VideoProject> Projects { get; set; } = new();
 
     public MainWindowViewModel()
     {
