@@ -2,7 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p1="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
         xmlns:material="using:Material.Icons.Avalonia"
+        xmlns:vm="using:MaterialFlow.ViewModels"
+        xmlns:conv="using:MaterialFlow.Converters"
         x:Class="MaterialFlow.Views.CreateProjectWindow"
+        x:DataType="vm:CreateProjectViewModel"
         Title="Create Project"
         Width="550"
         SizeToContent="Height"
@@ -11,6 +14,10 @@
         WindowDecorations="None"
         TransparencyLevelHint="Transparent"
         Background="Transparent">
+
+    <Window.Resources>
+        <conv:EqualityToBoolConverter x:Key="EqualityConverter"/>
+    </Window.Resources>
 
     <Window.Styles>
         <Style Selector="RadioButton.Chip">
@@ -71,18 +78,65 @@
                          p1:TextFieldAssist.Label="Project Name"
                          Classes="outline"
                          Background="#F3EDF7"
-                         UseFloatingPlaceholder="True"/>
+                         UseFloatingPlaceholder="True"
+                         Text="{Binding ProjectName}"/>
 
-                <!-- Save Path Input -->
+                <!-- Source File Selection -->
+                <Panel>
+                    <!-- Button when no file selected -->
+                    <Button Theme="{StaticResource MaterialOutlineButton}"
+                            Height="56" 
+                            HorizontalAlignment="Stretch"
+                            IsVisible="{Binding !IsSourceFileSelected}"
+                            Click="SelectSourceFile_Click"
+                            BorderBrush="#6750A4"
+                            CornerRadius="28">
+                        <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                            <material:MaterialIcon Kind="FileVideoOutline" Width="24" Height="24" Foreground="#6750A4"/>
+                            <TextBlock Text="Select Video File" VerticalAlignment="Center" Foreground="#6750A4" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <!-- File info when selected -->
+                    <Border Height="56" 
+                            CornerRadius="28" 
+                            BorderThickness="1" 
+                            BorderBrush="#6750A4"
+                            Background="#EADDFF"
+                            Padding="16,0"
+                            IsVisible="{Binding IsSourceFileSelected}">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <material:MaterialIcon Kind="FileCheck" Width="24" Height="24" Foreground="#21005D"/>
+                            <TextBlock Grid.Column="1" 
+                                       Text="{Binding SourceFileName}" 
+                                       VerticalAlignment="Center" 
+                                       Margin="12,0"
+                                       Foreground="#21005D"
+                                       FontWeight="Medium"
+                                       TextTrimming="CharacterEllipsis"/>
+                            <Button Grid.Column="2" 
+                                    Theme="{StaticResource MaterialFlatButton}"
+                                    Width="40" Height="40" 
+                                    Padding="0"
+                                    Click="SelectSourceFile_Click"
+                                    ToolTip.Tip="Change file">
+                                <material:MaterialIcon Kind="SwapHorizontal" Width="20" Height="20" Foreground="#21005D"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Panel>
+
+                <!-- Export Folder Input -->
                 <Grid ColumnDefinitions="*,Auto">
                     <TextBox Name="PathTextBox"
                              Theme="{StaticResource MaterialOutlineTextBox}"
-                             p1:TextFieldAssist.Label="Save Path"
+                             p1:TextFieldAssist.Label="Export to"
                              Classes="outline"
                              Background="#F3EDF7"
                              UseFloatingPlaceholder="True"
                              IsReadOnly="True"
-                             PlaceholderText="Select destination folder..."/>
+                             PlaceholderText="Select destination folder..."
+                             Text="{Binding SavePath}"/>
                     <Button Grid.Column="1" 
                             Classes="Flat" 
                             Width="48" Height="48" 
@@ -97,30 +151,35 @@
                 <StackPanel Spacing="12">
                     <TextBlock Text="Platform" Foreground="#6750A4" FontWeight="Bold" FontSize="14"/>
                     <WrapPanel>
-                        <RadioButton Content="YouTube" Classes="Chip" IsChecked="True" GroupName="Platform"/>
-                        <RadioButton Content="TikTok" Classes="Chip" GroupName="Platform"/>
-                        <RadioButton Content="Facebook" Classes="Chip" GroupName="Platform"/>
-                        <RadioButton Content="Instagram" Classes="Chip" GroupName="Platform"/>
-                        <RadioButton Content="Other" Classes="Chip" GroupName="Platform"/>
+                        <RadioButton Content="YouTube" Classes="Chip" GroupName="Platform"
+                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=YouTube}"/>
+                        <RadioButton Content="TikTok" Classes="Chip" GroupName="Platform"
+                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=TikTok}"/>
+                        <RadioButton Content="Facebook" Classes="Chip" GroupName="Platform"
+                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Facebook}"/>
+                        <RadioButton Content="Instagram" Classes="Chip" GroupName="Platform"
+                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Instagram}"/>
+                        <RadioButton Content="Other" Classes="Chip" GroupName="Platform"
+                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Other}"/>
                     </WrapPanel>
                 </StackPanel>
 
                 <!-- Settings -->
                 <StackPanel Spacing="16">
-                    <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                    <ComboBox Name="ResolutionComboBox"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
                               p1:ComboBoxAssist.Label="Resolution" 
                               Classes="dense"
-                              Foreground="#6750A4">
-                        <ComboBoxItem IsSelected="True">1920x1080</ComboBoxItem>
-                        <ComboBoxItem>1280x720</ComboBoxItem>
-                        <ComboBoxItem>3840x2160</ComboBoxItem>
-                    </ComboBox>
+                              Foreground="#6750A4"
+                              ItemsSource="{Binding Resolutions}"
+                              SelectedItem="{Binding SelectedResolution}"/>
 
                     <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
                               p1:ComboBoxAssist.Label="Bitrate" 
                               Classes="dense"
-                              Foreground="#6750A4">
-                        <ComboBoxItem IsSelected="True">Auto</ComboBoxItem>
+                              Foreground="#6750A4"
+                              SelectedItem="{Binding SelectedBitrate}">
+                        <ComboBoxItem>Auto</ComboBoxItem>
                         <ComboBoxItem>5 Mbps</ComboBoxItem>
                         <ComboBoxItem>10 Mbps</ComboBoxItem>
                     </ComboBox>
@@ -128,8 +187,9 @@
                     <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
                               p1:ComboBoxAssist.Label="Format" 
                               Classes="dense"
-                              Foreground="#6750A4">
-                        <ComboBoxItem IsSelected="True">.mp4</ComboBoxItem>
+                              Foreground="#6750A4"
+                              SelectedItem="{Binding SelectedFormat}">
+                        <ComboBoxItem>.mp4</ComboBoxItem>
                         <ComboBoxItem>.mkv</ComboBoxItem>
                         <ComboBoxItem>.avi</ComboBoxItem>
                     </ComboBox>
@@ -138,7 +198,7 @@
                 <!-- Watermark -->
                 <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,8,0,0">
                     <TextBlock Text="Watermark" VerticalAlignment="Center" Foreground="#6750A4" FontWeight="Bold" FontSize="14"/>
-                    <CheckBox IsChecked="True" Theme="{StaticResource MaterialCheckBox}"/>
+                    <CheckBox IsChecked="{Binding UseWatermark}" Theme="{StaticResource MaterialCheckBox}"/>
                 </StackPanel>
             </StackPanel>
 

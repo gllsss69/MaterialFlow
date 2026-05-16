@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="using:Material.Icons.Avalonia"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:vm="using:MaterialFlow.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="MaterialFlow.Views.SettingsView"
+             x:DataType="vm:MainWindowViewModel">
+
+    <Grid RowDefinitions="Auto,*" Margin="32">
+        <!-- Centered Settings Header -->
+        <Border Grid.Row="0" HorizontalAlignment="Center" Background="#F3EDF7" CornerRadius="32" Padding="48,16" Margin="0,0,0,48">
+            <TextBlock Text="Settings" FontSize="32" FontWeight="Normal" Foreground="#1D1B20"/>
+        </Border>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Spacing="32" MaxWidth="600" HorizontalAlignment="Left">
+                <!-- Language -->
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Language" Foreground="#6750A4" FontWeight="Bold" FontSize="16"/>
+                    <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                              Width="400"
+                              assists:ComboBoxAssist.Label="Select Language"
+                              ItemsSource="{Binding Languages}"
+                              SelectedItem="{Binding SelectedLanguage}"/>
+                </StackPanel>
+
+                <!-- Theme -->
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Theme" Foreground="#6750A4" FontWeight="Bold" FontSize="16"/>
+                    <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                              Width="400"
+                              assists:ComboBoxAssist.Label="Select Theme"
+                              ItemsSource="{Binding Themes}"
+                              SelectedItem="{Binding SelectedTheme}"/>
+                </StackPanel>
+
+                <!-- Save Path -->
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Default Save Path" Foreground="#6750A4" FontWeight="Bold" FontSize="16"/>
+                    <Grid ColumnDefinitions="*,Auto" Width="550">
+                        <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                                 assists:TextFieldAssist.Label="Path for drafts"
+                                 Classes="outline"
+                                 Background="Transparent"
+                                 UseFloatingPlaceholder="True"
+                                 IsReadOnly="True"
+                                 Text="{Binding DefaultSavePath}"/>
+                        <Button Grid.Column="1" 
+                                Theme="{StaticResource MaterialFlatButton}" 
+                                Width="48" Height="48" 
+                                Margin="8,4,0,0"
+                                Padding="0"
+                                Click="SelectDefaultPath_Click">
+                            <material:MaterialIcon Kind="FolderEdit" Width="24" Height="24" Foreground="#6750A4"/>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

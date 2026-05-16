@@ -3,15 +3,45 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using MaterialFlow.ViewModels;
 using System.Threading.Tasks;
 
 namespace MaterialFlow.Views;
 
 public partial class CreateProjectWindow : Window
 {
+    private CreateProjectViewModel _viewModel;
+
     public CreateProjectWindow()
     {
         InitializeComponent();
+        DataContext = _viewModel = new CreateProjectViewModel();
+    }
+
+    private async void SelectSourceFile_Click(object? sender, RoutedEventArgs e)
+    {
+        var topLevel = TopLevel.GetTopLevel(this);
+        if (topLevel == null) return;
+
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Select Source Video",
+            AllowMultiple = false,
+            FileTypeFilter = new[] 
+            { 
+                new FilePickerFileType("Video files") 
+                { 
+                    Patterns = new[] { "*.mp4", "*.mkv", "*.avi", "*.mov" } 
+                } 
+            }
+        });
+
+        if (files.Count > 0)
+        {
+            _viewModel.SourceFilePath = files[0].Path.LocalPath;
+            _viewModel.SourceFileName = files[0].Name;
+            _viewModel.IsSourceFileSelected = true;
+        }
     }
 
     private async void SelectPath_Click(object? sender, RoutedEventArgs e)
@@ -27,11 +57,7 @@ public partial class CreateProjectWindow : Window
 
         if (folders.Count > 0)
         {
-            var textBox = this.FindControl<TextBox>("PathTextBox");
-            if (textBox != null)
-            {
-                textBox.Text = folders[0].Path.LocalPath;
-            }
+            _viewModel.SavePath = folders[0].Path.LocalPath;
         }
     }
 
@@ -42,7 +68,7 @@ public partial class CreateProjectWindow : Window
 
     private void Create_Click(object? sender, RoutedEventArgs e)
     {
-        // Here you would typically gather data and return it
+        // Data is already in _viewModel thanks to bindings
         Close(true);
     }
 }

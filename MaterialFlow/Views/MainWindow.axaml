@@ -6,12 +6,18 @@
         xmlns:material="using:Material.Icons.Avalonia"
         xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
         xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+        xmlns:conv="using:MaterialFlow.Converters"
+        xmlns:views="using:MaterialFlow.Views"
         mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
         x:Class="MaterialFlow.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="MaterialFlow"
         Background="#E2D9F3"
         MinWidth="900" MinHeight="600">
+
+    <Window.Resources>
+        <conv:EqualityToBoolConverter x:Key="EqualityConverter"/>
+    </Window.Resources>
 
     <Window.Styles>
         <!-- Capsule Button Base -->
@@ -171,17 +177,30 @@
                 <!-- Navigation List -->
                 <ListBox Grid.Row="1" Background="Transparent" BorderThickness="0" Margin="0,16,0,0">
                     <ListBoxItem Padding="0" Background="Transparent" BorderThickness="0" HorizontalAlignment="Center" FocusAdorner="{x:Null}">
-                        <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" Background="{DynamicResource SecondaryContainerBrush}" HorizontalAlignment="Center" ClipToBounds="True">
-                            <Border.Transitions>
-                                <Transitions>
-                                    <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
-                                </Transitions>
-                            </Border.Transitions>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
-                                <material:MaterialIcon Kind="HomeOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="Home" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
-                            </StackPanel>
-                        </Border>
+                        <Button Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
+                                Command="{Binding SetPageIndex}" CommandParameter="0">
+                            <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" 
+                                    Classes.active="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=0}"
+                                    HorizontalAlignment="Center" ClipToBounds="True">
+                                <Border.Styles>
+                                    <Style Selector="Border.active">
+                                        <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+                                    </Style>
+                                    <Style Selector="Border:not(.active)">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                    </Style>
+                                </Border.Styles>
+                                <Border.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                                    </Transitions>
+                                </Border.Transitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+                                    <material:MaterialIcon Kind="HomeOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                    <TextBlock Text="Home" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                                </StackPanel>
+                            </Border>
+                        </Button>
                     </ListBoxItem>
                 </ListBox>
 
@@ -189,17 +208,30 @@
                 <StackPanel Grid.Row="2" Margin="0,0,0,32" Spacing="8">
                     <ListBox Background="Transparent" BorderThickness="0" Margin="0,0,0,8">
                         <ListBoxItem Padding="0" Background="Transparent" BorderThickness="0" HorizontalAlignment="Center" FocusAdorner="{x:Null}">
-                            <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" Background="{DynamicResource SecondaryContainerBrush}" HorizontalAlignment="Center" ClipToBounds="True">
-                                <Border.Transitions>
-                                    <Transitions>
-                                        <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
-                                    </Transitions>
-                                </Border.Transitions>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
-                                    <material:MaterialIcon Kind="SettingsOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                    <TextBlock Text="Settings" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
-                                </StackPanel>
-                            </Border>
+                            <Button Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
+                                    Command="{Binding SetPageIndex}" CommandParameter="1">
+                                <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" 
+                                        Classes.active="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=1}"
+                                        HorizontalAlignment="Center" ClipToBounds="True">
+                                    <Border.Styles>
+                                        <Style Selector="Border.active">
+                                            <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+                                        </Style>
+                                        <Style Selector="Border:not(.active)">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
+                                    </Border.Styles>
+                                    <Border.Transitions>
+                                        <Transitions>
+                                            <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                                        </Transitions>
+                                    </Border.Transitions>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+                                        <material:MaterialIcon Kind="SettingsOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                        <TextBlock Text="Settings" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                                    </StackPanel>
+                                </Border>
+                            </Button>
                         </ListBoxItem>
                     </ListBox>
                     
@@ -212,7 +244,8 @@
                         </Separator.Transitions>
                     </Separator>
 
-                    <Button Classes="Capsule PrimaryCapsule" HorizontalAlignment="Center" Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" Padding="0" CornerRadius="28" FocusAdorner="{x:Null}">
+                    <Button Classes="Capsule PrimaryCapsule" HorizontalAlignment="Center" Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" Padding="0" CornerRadius="28" FocusAdorner="{x:Null}"
+                            Click="Login_Click" IsVisible="{Binding IsLoggedOut}">
                         <Button.Transitions>
                             <Transitions>
                                 <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
@@ -223,13 +256,38 @@
                             <TextBlock Text="Login" VerticalAlignment="Center" Foreground="White" IsVisible="{Binding !IsSidebarCollapsed}"/>
                         </StackPanel>
                     </Button>
+
+                    <!-- Profile Section (Visible when logged in) -->
+                    <StackPanel Spacing="8" IsVisible="{Binding IsLoggedIn}">
+                        <Border Background="{DynamicResource SecondaryContainerBrush}" CornerRadius="28" Padding="12" Margin="12,0" HorizontalAlignment="Center" Width="{Binding ItemWidth}">
+                            <Border.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                                </Transitions>
+                            </Border.Transitions>
+                            <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="{Binding SidebarContentAlignment}">
+                                <Border Width="32" Height="32" CornerRadius="16" Background="{DynamicResource PrimaryBrush}" MinWidth="32">
+                                    <TextBlock Text="{Binding UserInitials}" Foreground="White" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="{Binding UserFullName}" VerticalAlignment="Center" Foreground="{DynamicResource OnSecondaryContainerBrush}" FontWeight="SemiBold" IsVisible="{Binding !IsSidebarCollapsed}" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                        </Border>
+                        <Button Theme="{StaticResource MaterialFlatButton}" Foreground="#6750A4" HorizontalAlignment="Center" Width="{Binding ItemWidth}" Click="Logout_Click" FocusAdorner="{x:Null}" Padding="0">
+                             <StackPanel Orientation="Horizontal" Spacing="12">
+                                <material:MaterialIcon Kind="Logout" Width="24" Height="24"/>
+                                <TextBlock Text="Logout" VerticalAlignment="Center" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </Border>
 
         <!-- Main Content Area -->
         <Border Grid.Column="1" CornerRadius="32" Background="{DynamicResource SurfaceBrush}" BoxShadow="0 4 20 0 #15000000" ClipToBounds="True">
-            <Grid RowDefinitions="Auto,Auto,*">
+            <Panel>
+                <!-- Home Page -->
+                <Grid RowDefinitions="Auto,Auto,*" IsVisible="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=0}">
                 
                 <!-- Top Toolbar -->
                 <Grid Grid.Row="0" Margin="24,24,24,16" ColumnDefinitions="Auto,*,Auto">
@@ -269,40 +327,48 @@
                     <ListBoxItem Classes="TabChip"><TextBlock Text="Recent"/></ListBoxItem>
                     <ListBoxItem Classes="TabChip"><TextBlock Text="Favorites"/></ListBoxItem>
                 </ListBox>
-
                 <!-- Projects Grid -->
-                <ScrollViewer Grid.Row="2" Padding="24,0,24,24">
-                    <ItemsControl ItemsSource="{Binding Projects}">
-                        <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="280" Margin="0,0,20,20" CornerRadius="24" ClipToBounds="True" Background="{DynamicResource SurfaceContainerHighestBrush}">
-                                    <Grid RowDefinitions="140,Auto">
-                                        <!-- Top (Thumbnail) Area -->
-                                        <Panel Grid.Row="0">
-                                            <material:MaterialIcon Kind="FolderOutline" Width="48" Height="48" Opacity="0.6" Foreground="{DynamicResource PrimaryBrush}"/>
-                                        </Panel>
-                                        
-                                        <!-- Bottom (Details) Area -->
-                                        <Border Grid.Row="1" Background="{DynamicResource SurfaceVariantBrush}" Padding="16" CornerRadius="0,0,24,24">
-                                            <Grid ColumnDefinitions="*,Auto">
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                                    <TextBlock Text="{Binding CreatedAt, StringFormat=\{0:dd.MM.yyyy\}}" Opacity="0.6" FontSize="12" Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button Grid.Column="1" Background="Transparent" Width="32" Height="32" Padding="0" CornerRadius="10">
-                                                    <material:MaterialIcon Kind="DotsVertical" Width="20" Height="20" Opacity="0.6" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                                </Button>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+                <Border Grid.Row="2" Margin="24,0,24,24" Padding="0" CornerRadius="24" Background="Transparent" ClipToBounds="True">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
+                                  VerticalScrollBarVisibility="Auto" 
+                                  Theme="{StaticResource MaterialModernScrollViewer}"
+                                  Padding="24">
+                        <ItemsControl ItemsSource="{Binding Projects}">
+                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="280" Margin="0,0,20,20" CornerRadius="24" ClipToBounds="True" Background="{DynamicResource SurfaceContainerHighestBrush}">
+                                        <Grid RowDefinitions="140,Auto">
+                                            <!-- Top (Thumbnail) Area -->
+                                            <Panel Grid.Row="0">
+                                                <material:MaterialIcon Kind="FolderOutline" Width="48" Height="48" Opacity="0.6" Foreground="{DynamicResource PrimaryBrush}"/>
+                                            </Panel>
+                                            
+                                            <!-- Bottom (Details) Area -->
+                                            <Border Grid.Row="1" Background="{DynamicResource SurfaceVariantBrush}" Padding="16" CornerRadius="0,0,24,24">
+                                                <Grid ColumnDefinitions="*,Auto">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                                        <TextBlock Text="{Binding CreatedAt, StringFormat=\{0:dd.MM.yyyy\}}" Opacity="0.6" FontSize="12" Margin="0,2,0,0"/>
+                                                    </StackPanel>
+                                                    <Button Grid.Column="1" Background="Transparent" Width="32" Height="32" Padding="0" CornerRadius="10">
+                                                        <material:MaterialIcon Kind="DotsVertical" Width="20" Height="20" Opacity="0.6" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
             </Grid>
-        </Border>
-    </Grid>
+
+            <!-- Settings Page -->
+            <views:SettingsView IsVisible="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=1}"/>
+        </Panel>
+    </Border>
+</Grid>
 </Window>
 

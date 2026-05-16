@@ -1,0 +1,116 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:material="using:Material.Icons.Avalonia"
+        xmlns:p1="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+        xmlns:vm="using:MaterialFlow.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="600"
+        x:Class="MaterialFlow.Views.LoginWindow"
+        x:DataType="vm:LoginViewModel"
+        Title="{Binding Title}"
+        Width="480" 
+        SizeToContent="Height"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        WindowDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent">
+
+    <Window.Resources>
+        <vm:MessageColorConverter x:Key="MessageColorConverter"/>
+    </Window.Resources>
+
+    <Border CornerRadius="32" Background="#F3EDF7" Padding="32" Margin="20" BoxShadow="0 8 32 0 #20000000">
+        <Border.Styles>
+            <Style Selector="Border">
+                <Style.Animations>
+                    <Animation Duration="0:0:0.4" Easing="CubicEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="Opacity" Value="0"/>
+                            <Setter Property="ScaleTransform.ScaleX" Value="0.9"/>
+                            <Setter Property="ScaleTransform.ScaleY" Value="0.9"/>
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Setter Property="ScaleTransform.ScaleX" Value="1.0"/>
+                            <Setter Property="ScaleTransform.ScaleY" Value="1.0"/>
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+        </Border.Styles>
+
+        <StackPanel Spacing="24">
+            <!-- Header with Close Button -->
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="32" FontWeight="Normal" Foreground="#1D1B20"/>
+                <Button Grid.Column="1" Classes="Flat" Width="40" Height="40" Padding="0" Click="Close_Click">
+                    <material:MaterialIcon Kind="Close" Width="24" Height="24" Foreground="#49454F"/>
+                </Button>
+            </Grid>
+
+            <!-- Error/Success Message -->
+            <Border IsVisible="{Binding Message, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                    Background="{Binding Message, Converter={StaticResource MessageColorConverter}, ConverterParameter=bg}"
+                    CornerRadius="12" Padding="16,12">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <material:MaterialIcon Kind="AlertCircleOutline" Width="20" Height="20" 
+                                           Foreground="{Binding Message, Converter={StaticResource MessageColorConverter}}"/>
+                    <TextBlock Text="{Binding Message}" 
+                               Foreground="{Binding Message, Converter={StaticResource MessageColorConverter}}" 
+                               FontSize="14" FontWeight="Medium"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Inputs -->
+            <StackPanel Spacing="16">
+                <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                         p1:TextFieldAssist.Label="Login"
+                         Classes="outline"
+                         Background="#F3EDF7"
+                         UseFloatingPlaceholder="True"
+                         Text="{Binding Login}"/>
+
+                <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                         p1:TextFieldAssist.Label="Full Name"
+                         Classes="outline"
+                         Background="#F3EDF7"
+                         UseFloatingPlaceholder="True"
+                         IsVisible="{Binding IsRegisterMode}"
+                         Text="{Binding FullName}"/>
+
+                <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                         p1:TextFieldAssist.Label="Password"
+                         Classes="outline"
+                         Background="#F3EDF7"
+                         UseFloatingPlaceholder="True"
+                         PasswordChar="*"
+                         Text="{Binding Password}"/>
+            </StackPanel>
+
+            <!-- Actions -->
+            <StackPanel Spacing="12" Margin="0,8,0,0">
+                <Button Classes="Capsule PrimaryCapsule" 
+                        Theme="{StaticResource MaterialFlatButton}"
+                        Background="#6750A4"
+                        Foreground="White"
+                        Height="56" 
+                        HorizontalAlignment="Stretch"
+                        Click="Auth_Click"
+                        CornerRadius="28">
+                    <TextBlock Text="{Binding ButtonText}" FontSize="18" FontWeight="Medium"/>
+                </Button>
+
+                <Button Theme="{StaticResource MaterialFlatButton}"
+                        Foreground="#6750A4"
+                        HorizontalAlignment="Center"
+                        Click="SwitchMode_Click"
+                        Padding="16,8">
+                    <TextBlock Text="{Binding SwitchText}" FontSize="14" FontWeight="Medium"/>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

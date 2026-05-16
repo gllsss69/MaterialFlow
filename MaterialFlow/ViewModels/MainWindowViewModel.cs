@@ -1,14 +1,37 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Avalonia.Layout;
 using MaterialFlow.Models;
+using MaterialFlow.Services;
 
 namespace MaterialFlow.ViewModels;
 
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        private User? _currentUser;
+        public User? CurrentUser
+        {
+            get => _currentUser;
+            set 
+            { 
+                _currentUser = value; 
+                OnPropertyChanged(); 
+                OnPropertyChanged(nameof(IsLoggedIn));
+                OnPropertyChanged(nameof(IsLoggedOut));
+                OnPropertyChanged(nameof(UserFullName));
+                OnPropertyChanged(nameof(UserInitials));
+            }
+        }
+
+        public bool IsLoggedIn => CurrentUser != null;
+        public bool IsLoggedOut => CurrentUser == null;
+        public string UserFullName => CurrentUser?.FullName ?? "Guest";
+        public string UserInitials => string.IsNullOrWhiteSpace(CurrentUser?.FullName) ? "?" : 
+            new string(CurrentUser.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
+
         private bool _isSidebarCollapsed;
         public bool IsSidebarCollapsed
         {
@@ -29,6 +52,53 @@ namespace MaterialFlow.ViewModels;
         public double ItemWidth => IsSidebarCollapsed ? 80 : 232;
         public double ItemHeight => 56;
         public HorizontalAlignment SidebarContentAlignment => IsSidebarCollapsed ? HorizontalAlignment.Center : HorizontalAlignment.Left;
+
+        private int _currentPageIndex = 0;
+        public int CurrentPageIndex
+        {
+            get => _currentPageIndex;
+            set { _currentPageIndex = value; OnPropertyChanged(); }
+        }
+
+        // Settings
+        private string _selectedLanguage = "English";
+        private string _selectedTheme = "System Default";
+        private string _defaultSavePath = "C:\\Users\\maksim\\Documents\\MaterialFlow\\Projects";
+
+        public string SelectedLanguage
+        {
+            get => _selectedLanguage;
+            set { _selectedLanguage = value; OnPropertyChanged(); }
+        }
+
+        public string SelectedTheme
+        {
+            get => _selectedTheme;
+            set { _selectedTheme = value; OnPropertyChanged(); }
+        }
+
+        public string DefaultSavePath
+        {
+            get => _defaultSavePath;
+            set { _defaultSavePath = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<string> Languages { get; } = new() { "English", "Ukrainian", "German", "French" };
+        public ObservableCollection<string> Themes { get; } = new() { "System Default", "Light", "Dark" };
+
+        public void Logout()
+        {
+            AuthService.Instance.Logout();
+            CurrentUser = null;
+        }
+
+        public void SetPageIndex(string index)
+        {
+            if (int.TryParse(index, out int i))
+            {
+                CurrentPageIndex = i;
+            }
+        }
 
         public void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
 
