@@ -18,7 +18,36 @@ namespace MaterialFlow
         private async void CreateProject_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             var dialog = new Views.CreateProjectWindow();
-            await dialog.ShowDialog(this);
+            var result = await dialog.ShowDialog<bool>(this);
+            
+            if (result == true)
+            {
+                var projectViewModel = dialog.ViewModel;
+                
+                // Створюємо новий проєкт на основі введених даних
+                var newProject = new MaterialFlow.Models.VideoProject
+                {
+                    Name = projectViewModel.ProjectName,
+                    SourceFilePath = projectViewModel.SourceFilePath,
+                    CreatedAt = System.DateTime.UtcNow
+                };
+
+                // Додаємо його в список проєктів на головному екрані
+                _viewModel.Projects.Insert(0, newProject);
+
+                // Створюємо пресет на основі вибраних налаштувань
+                var preset = new MaterialFlow.Models.Preset
+                {
+                    Name = projectViewModel.SelectedPlatform,
+                    Resolution = projectViewModel.SelectedResolution,
+                    // Parse bitrate if it's a number, otherwise default
+                    Bitrate = int.TryParse(projectViewModel.SelectedBitrate, out int b) ? b : 5000,
+                    Codec = "libx264"
+                };
+
+                // Запускаємо конвертацію (асинхронно у фоні), передаємо SavePath як шлях для експорту
+                _ = _viewModel.StartConversionAsync(newProject, preset, projectViewModel.SavePath);
+            }
         }
 
         private void ToggleSidebar_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

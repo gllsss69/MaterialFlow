@@ -17,6 +17,13 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     private string _selectedBitrate = "Auto";
     private string _selectedFormat = ".mp4";
     private bool _useWatermark = true;
+    private string _errorMessage = string.Empty;
+
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set { _errorMessage = value; OnPropertyChanged(); }
+    }
 
     public string ProjectName
     {
@@ -95,6 +102,20 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         "3840x2160"
     };
 
+    public ObservableCollection<string> Bitrates { get; } = new()
+    {
+        "Auto",
+        "5 Mbps",
+        "10 Mbps"
+    };
+
+    public ObservableCollection<string> Formats { get; } = new()
+    {
+        ".mp4",
+        ".mkv",
+        ".avi"
+    };
+
     private void UpdateDefaultSettings()
     {
         switch (SelectedPlatform)
@@ -113,6 +134,48 @@ public class CreateProjectViewModel : INotifyPropertyChanged
                 SelectedResolution = "1920x1080";
                 break;
         }
+    }
+
+    public bool Validate()
+    {
+        if (string.IsNullOrWhiteSpace(ProjectName))
+        {
+            ErrorMessage = "Project name cannot be empty.";
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(SourceFilePath))
+        {
+            ErrorMessage = "Please select a source video file.";
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(SavePath))
+        {
+            ErrorMessage = "Please select an export destination.";
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(SelectedPlatform))
+        {
+            ErrorMessage = "Please select a platform.";
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(SelectedResolution))
+        {
+            ErrorMessage = "Please select a resolution.";
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(SelectedBitrate))
+        {
+            ErrorMessage = "Please select a bitrate.";
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(SelectedFormat))
+        {
+            ErrorMessage = "Please select a video format.";
+            return false;
+        }
+
+        ErrorMessage = string.Empty;
+        return true;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

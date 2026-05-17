@@ -11,6 +11,7 @@ namespace MaterialFlow.Views;
 public partial class CreateProjectWindow : Window
 {
     private CreateProjectViewModel _viewModel;
+    public CreateProjectViewModel ViewModel => _viewModel;
 
     public CreateProjectWindow()
     {
@@ -63,12 +64,15 @@ public partial class CreateProjectWindow : Window
 
     private void Cancel_Click(object? sender, RoutedEventArgs e)
     {
-        Close();
+        Close(false);
     }
 
     private void Create_Click(object? sender, RoutedEventArgs e)
     {
-        // Data is already in _viewModel thanks to bindings
-        Close(true);
+        if (_viewModel.Validate())
+        {
+            // Data is already in _viewModel thanks to bindings
+            Close(true);
+        }
     }
 }
