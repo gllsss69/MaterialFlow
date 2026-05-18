@@ -10,6 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://MaterialFlow/Resources/Styles/Colors.axaml"/>
                 <ResourceInclude Source="avares://MaterialFlow/Resources/Styles/Components.axaml"/>
+                <ResourceInclude Source="avares://MaterialFlow/Resources/Langs/en.axaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

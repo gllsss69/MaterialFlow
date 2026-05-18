@@ -8,18 +8,26 @@ using MaterialFlow.Models;
 
 namespace MaterialFlow.Services;
 
+/// <summary>
+/// Сервіс для взаємодії з медіапроцесором FFmpeg для конвертування відео та генерації мініатюр.
+/// </summary>
 public class FFmpegService
 {
     private readonly string _ffmpegPath;
 
+    /// <summary>
+    /// Ініціалізує новий екземпляр класу <see cref="FFmpegService"/> із зазначенням шляху до виконуваного файлу FFmpeg.
+    /// </summary>
+    /// <param name="ffmpegPath">Шлях до виконуваного файлу FFmpeg.</param>
     public FFmpegService(string ffmpegPath)
     {
         _ffmpegPath = ffmpegPath;
     }
 
     /// <summary>
-    /// Перевіряє, чи доступний виконуваний файл FFmpeg
+    /// Перевіряє, чи доступний виконуваний файл FFmpeg у системі.
     /// </summary>
+    /// <returns>Значення true, якщо FFmpeg доступний; інакше false.</returns>
     public bool IsFFmpegAvailable()
     {
         if (_ffmpegPath == "ffmpeg" || _ffmpegPath == "ffmpeg.exe")
@@ -29,8 +37,9 @@ public class FFmpegService
     }
 
     /// <summary>
-    /// Отримує версію FFmpeg для перевірки працездатності
+    /// Асинхронно отримує версію FFmpeg для перевірки працездатності медіапроцесора.
     /// </summary>
+    /// <returns>Рядок із версією FFmpeg або повідомленням про помилку.</returns>
     public async Task<string> GetFFmpegVersionAsync()
     {
         if (!IsFFmpegAvailable())
@@ -63,8 +72,10 @@ public class FFmpegService
     }
 
     /// <summary>
-    /// Отримує тривалість відеофайлу
+    /// Асинхронно отримує загальну тривалість відеофайлу за допомогою запиту метаданих FFmpeg.
     /// </summary>
+    /// <param name="filePath">Шлях до медіафайлу.</param>
+    /// <returns>Об'єкт TimeSpan, що містить тривалість відеофайлу.</returns>
     public async Task<TimeSpan> GetVideoDurationAsync(string filePath)
     {
         if (!IsFFmpegAvailable() || !File.Exists(filePath))
@@ -106,8 +117,14 @@ public class FFmpegService
     }
 
     /// <summary>
-    /// Конвертує відео відповідно до пресету та оновлює статус завдання
+    /// Асинхронно конвертує відео відповідно до обраного пресету, повідомляє про прогрес та оновлює статус завдання.
     /// </summary>
+    /// <param name="project">Модель відеопроєкту.</param>
+    /// <param name="preset">Обраний пресет конфігурації рендерингу.</param>
+    /// <param name="job">Об'єкт завдання конвертації для запису стану та прогресу.</param>
+    /// <param name="progress">Об'єкт для повідомлення про зміну прогресу.</param>
+    /// <param name="cancellationToken">Токен скасування асинхронної операції.</param>
+    /// <returns>Значення true, якщо конвертація завершилась успішно; інакше false.</returns>
     public async Task<bool> ConvertVideoAsync(VideoProject project, Preset preset, ConversionJob job, IProgress<double> progress = null, CancellationToken cancellationToken = default)
     {
         if (!IsFFmpegAvailable())
@@ -248,5 +265,48 @@ public class FFmpegService
             job.ErrorMessage = $"Error during conversion: {ex.Message}";
             return false;
         }
+    }
+
+    /// <summary>
+    /// Асинхронно генерує зображення-обкладинку (мініатюру) для відео у вказаному часовому зміщенні.
+    /// </summary>
+    /// <param name="videoPath">Шлях до відеофайлу.</param>
+    /// <param name="outputImagePath">Шлях для збереження створеного ескізу.</param>
+    /// <param name="timeOffset">Часове зміщення кадру для мініатюри (наприклад, "00:00:01.000").</param>
+    /// <returns>Шлях до згенерованого зображення, або пустий рядок у разі помилки.</returns>
+    public async Task<string> GenerateThumbnailAsync(string videoPath, string outputImagePath, string timeOffset = "00:00:01.000")
+    {
+        if (!IsFFmpegAvailable() || !File.Exists(videoPath))
+            return string.Empty;
+
+        try
+        {
+            var args = $"-y -ss {timeOffset} -i \"{videoPath}\" -vframes 1 -q:v 2 \"{outputImagePath}\"";
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = _ffmpegPath,
+                Arguments = args,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using var process = Process.Start(startInfo);
+            if (process == null) return string.Empty;
+
+            await process.WaitForExitAsync();
+
+            if (process.ExitCode == 0 && File.Exists(outputImagePath))
+            {
+                return outputImagePath;
+            }
+        }
+        catch
+        {
+            // Ignore errors, return empty string
+        }
+
+        return string.Empty;
     }
 }

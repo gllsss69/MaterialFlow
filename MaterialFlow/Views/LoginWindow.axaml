@@ -21,7 +21,7 @@
         <vm:MessageColorConverter x:Key="MessageColorConverter"/>
     </Window.Resources>
 
-    <Border CornerRadius="32" Background="#F3EDF7" Padding="32" Margin="20" BoxShadow="0 8 32 0 #20000000">
+    <Border CornerRadius="32" Background="{DynamicResource SurfaceVariantBrush}" Padding="32" Margin="20" BoxShadow="0 8 32 0 #20000000">
         <Border.Styles>
             <Style Selector="Border">
                 <Style.Animations>
@@ -44,9 +44,9 @@
         <StackPanel Spacing="24">
             <!-- Header with Close Button -->
             <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="32" FontWeight="Normal" Foreground="#1D1B20"/>
+                <TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="32" FontWeight="Normal" Foreground="{DynamicResource OnSurfaceBrush}"/>
                 <Button Grid.Column="1" Classes="Flat" Width="40" Height="40" Padding="0" Click="Close_Click">
-                    <material:MaterialIcon Kind="Close" Width="24" Height="24" Foreground="#49454F"/>
+                    <material:MaterialIcon Kind="Close" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
                 </Button>
             </Grid>
 
@@ -56,7 +56,7 @@
                     CornerRadius="12" Padding="16,12">
                 <StackPanel Orientation="Horizontal" Spacing="12">
                     <material:MaterialIcon Kind="AlertCircleOutline" Width="20" Height="20" 
-                                           Foreground="{Binding Message, Converter={StaticResource MessageColorConverter}}"/>
+                                            Foreground="{Binding Message, Converter={StaticResource MessageColorConverter}}"/>
                     <TextBlock Text="{Binding Message}" 
                                Foreground="{Binding Message, Converter={StaticResource MessageColorConverter}}" 
                                FontSize="14" FontWeight="Medium"
@@ -69,14 +69,14 @@
                 <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
                          p1:TextFieldAssist.Label="Login"
                          Classes="outline"
-                         Background="#F3EDF7"
+                         Background="{DynamicResource SurfaceVariantBrush}"
                          UseFloatingPlaceholder="True"
                          Text="{Binding Login}"/>
 
                 <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
                          p1:TextFieldAssist.Label="Full Name"
                          Classes="outline"
-                         Background="#F3EDF7"
+                         Background="{DynamicResource SurfaceVariantBrush}"
                          UseFloatingPlaceholder="True"
                          IsVisible="{Binding IsRegisterMode}"
                          Text="{Binding FullName}"/>
@@ -84,7 +84,7 @@
                 <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
                          p1:TextFieldAssist.Label="Password"
                          Classes="outline"
-                         Background="#F3EDF7"
+                         Background="{DynamicResource SurfaceVariantBrush}"
                          UseFloatingPlaceholder="True"
                          PasswordChar="*"
                          Text="{Binding Password}"/>
@@ -94,8 +94,8 @@
             <StackPanel Spacing="12" Margin="0,8,0,0">
                 <Button Classes="Capsule PrimaryCapsule" 
                         Theme="{StaticResource MaterialFlatButton}"
-                        Background="#6750A4"
-                        Foreground="White"
+                        Background="{DynamicResource PrimaryBrush}"
+                        Foreground="{DynamicResource OnPrimaryBrush}"
                         Height="56" 
                         HorizontalAlignment="Stretch"
                         Click="Auth_Click"
@@ -104,7 +104,7 @@
                 </Button>
 
                 <Button Theme="{StaticResource MaterialFlatButton}"
-                        Foreground="#6750A4"
+                        Foreground="{DynamicResource PrimaryBrush}"
                         HorizontalAlignment="Center"
                         Click="SwitchMode_Click"
                         Padding="16,8">

@@ -11,38 +11,38 @@
 
     <Grid RowDefinitions="Auto,*" Margin="32">
         <!-- Centered Settings Header -->
-        <Border Grid.Row="0" HorizontalAlignment="Center" Background="#F3EDF7" CornerRadius="32" Padding="48,16" Margin="0,0,0,48">
-            <TextBlock Text="Settings" FontSize="32" FontWeight="Normal" Foreground="#1D1B20"/>
+        <Border Grid.Row="0" HorizontalAlignment="Center" Background="{DynamicResource SurfaceVariantBrush}" CornerRadius="32" Padding="48,16" Margin="0,0,0,48">
+            <TextBlock Text="{DynamicResource HeaderSettings}" FontSize="32" FontWeight="Normal" Foreground="{DynamicResource OnSurfaceBrush}"/>
         </Border>
 
         <ScrollViewer Grid.Row="1">
             <StackPanel Spacing="32" MaxWidth="600" HorizontalAlignment="Left">
                 <!-- Language -->
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Language" Foreground="#6750A4" FontWeight="Bold" FontSize="16"/>
+                    <TextBlock Text="{DynamicResource HeaderLanguage}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="16"/>
                     <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
                               Width="400"
-                              assists:ComboBoxAssist.Label="Select Language"
+                              assists:ComboBoxAssist.Label="{DynamicResource LabelSelectLanguage}"
                               ItemsSource="{Binding Languages}"
                               SelectedItem="{Binding SelectedLanguage}"/>
                 </StackPanel>
 
                 <!-- Theme -->
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Theme" Foreground="#6750A4" FontWeight="Bold" FontSize="16"/>
+                    <TextBlock Text="{DynamicResource HeaderTheme}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="16"/>
                     <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
                               Width="400"
-                              assists:ComboBoxAssist.Label="Select Theme"
+                              assists:ComboBoxAssist.Label="{DynamicResource LabelSelectTheme}"
                               ItemsSource="{Binding Themes}"
                               SelectedItem="{Binding SelectedTheme}"/>
                 </StackPanel>
 
                 <!-- Save Path -->
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Default Save Path" Foreground="#6750A4" FontWeight="Bold" FontSize="16"/>
+                    <TextBlock Text="{DynamicResource HeaderSavePath}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="16"/>
                     <Grid ColumnDefinitions="*,Auto" Width="550">
                         <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
-                                 assists:TextFieldAssist.Label="Path for drafts"
+                                 assists:TextFieldAssist.Label="{DynamicResource LabelPathForProjects}"
                                  Classes="outline"
                                  Background="Transparent"
                                  UseFloatingPlaceholder="True"
@@ -54,7 +54,7 @@
                                 Margin="8,4,0,0"
                                 Padding="0"
                                 Click="SelectDefaultPath_Click">
-                            <material:MaterialIcon Kind="FolderEdit" Width="24" Height="24" Foreground="#6750A4"/>
+                            <material:MaterialIcon Kind="FolderEdit" Width="24" Height="24" Foreground="{DynamicResource PrimaryBrush}"/>
                         </Button>
                     </Grid>
                 </StackPanel>

@@ -1,0 +1,61 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=netstandard">
+    <!-- Sidebar / Navigation -->
+    <sys:String x:Key="NavHome">Головна</sys:String>
+    <sys:String x:Key="NavSettings">Налаштування</sys:String>
+    <sys:String x:Key="LabelLogin">Увійти</sys:String>
+    <sys:String x:Key="LabelLogout">Вийти</sys:String>
+    <sys:String x:Key="LabelGuest">Гість</sys:String>
+
+    <!-- Home Page Toolbar -->
+    <sys:String x:Key="BtnCreateProject">Створити проєкт</sys:String>
+    <sys:String x:Key="LabelSearchPlaceholder">Пошук проєктів...</sys:String>
+    <sys:String x:Key="LabelAllProjects">Усі проєкти</sys:String>
+    <sys:String x:Key="LabelRecent">Нещодавні</sys:String>
+    <sys:String x:Key="LabelFavorites">Обрані</sys:String>
+    
+    <!-- Project Card Menu -->
+    <sys:String x:Key="LabelRename">Перейменувати</sys:String>
+    <sys:String x:Key="LabelProperties">Властивості</sys:String>
+    <sys:String x:Key="LabelDelete">Видалити</sys:String>
+
+    <!-- Settings Page -->
+    <sys:String x:Key="HeaderSettings">Налаштування</sys:String>
+    <sys:String x:Key="HeaderLanguage">Мова</sys:String>
+    <sys:String x:Key="LabelSelectLanguage">Оберіть мову</sys:String>
+    <sys:String x:Key="HeaderTheme">Тема</sys:String>
+    <sys:String x:Key="LabelSelectTheme">Оберіть тему</sys:String>
+    <sys:String x:Key="HeaderSavePath">Шлях збереження проєктів</sys:String>
+    <sys:String x:Key="LabelPathForProjects">Шлях до проєктів</sys:String>
+    <sys:String x:Key="LabelSavePathPlaceholder">Оберіть папку призначення...</sys:String>
+
+    <!-- Create Project Window -->
+    <sys:String x:Key="HeaderCreateProject">Створити проєкт</sys:String>
+    <sys:String x:Key="LabelProjectName">Назва проєкту</sys:String>
+    <sys:String x:Key="LabelSelectVideoFile">Оберіть відео файл</sys:String>
+    <sys:String x:Key="LabelExportTo">Експортувати до</sys:String>
+    <sys:String x:Key="HeaderPlatform">Платформа</sys:String>
+    <sys:String x:Key="HeaderResolution">Роздільна здатність</sys:String>
+    <sys:String x:Key="HeaderBitrate">Бітрейт</sys:String>
+    <sys:String x:Key="HeaderFormat">Формат</sys:String>
+    <sys:String x:Key="HeaderWatermark">Водяний знак</sys:String>
+    <sys:String x:Key="BtnCancel">Скасувати</sys:String>
+    <sys:String x:Key="BtnCreate">Створити</sys:String>
+
+    <!-- Rename Project Window -->
+    <sys:String x:Key="HeaderRenameProject">Перейменувати проєкт</sys:String>
+    <sys:String x:Key="LabelNewName">Нова назва</sys:String>
+    <sys:String x:Key="BtnSave">Зберегти</sys:String>
+
+    <!-- Properties Window -->
+    <sys:String x:Key="HeaderProperties">Властивості</sys:String>
+    <sys:String x:Key="LabelName">Назва</sys:String>
+    <sys:String x:Key="LabelResolution">Роздільна здатність</sys:String>
+    <sys:String x:Key="LabelBitrate">Бітрейт</sys:String>
+    <sys:String x:Key="LabelFormat">Формат</sys:String>
+    <sys:String x:Key="LabelFPS">Кадри/с</sys:String>
+    <sys:String x:Key="LabelSize">Розмір</sys:String>
+    <sys:String x:Key="LabelPath">Шлях</sys:String>
+    <sys:String x:Key="BtnBack">Назад</sys:String>
+</ResourceDictionary>

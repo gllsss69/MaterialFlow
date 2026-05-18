@@ -20,6 +20,24 @@
             <SolidColorBrush x:Key="OnSurfaceBrush" Color="#1D1B20"/>
             <SolidColorBrush x:Key="OnSurfaceVariantBrush" Color="#49454F"/>
         </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <!-- Backgrounds & Surfaces -->
+            <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#121016"/>
+            <SolidColorBrush x:Key="SurfaceBrush" Color="#1C1A22"/>
+            <SolidColorBrush x:Key="SurfaceVariantBrush" Color="#272430"/>
+            <SolidColorBrush x:Key="SurfaceContainerHighestBrush" Color="#332F42"/>
+            
+            <!-- Primary & Secondary -->
+            <SolidColorBrush x:Key="PrimaryBrush" Color="#D0BCFF"/>
+            <SolidColorBrush x:Key="OnPrimaryBrush" Color="#381E72"/>
+            <SolidColorBrush x:Key="SecondaryContainerBrush" Color="#4A4458"/>
+            <SolidColorBrush x:Key="OnSecondaryContainerBrush" Color="#EADDFF"/>
+            
+            <!-- Outlines -->
+            <SolidColorBrush x:Key="OutlineVariantBrush" Color="#49454F"/>
+            <SolidColorBrush x:Key="OnSurfaceBrush" Color="#E6E1E5"/>
+            <SolidColorBrush x:Key="OnSurfaceVariantBrush" Color="#CAC4D0"/>
+        </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
 </ResourceDictionary>

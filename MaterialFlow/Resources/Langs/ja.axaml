@@ -1,0 +1,61 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=netstandard">
+    <!-- Sidebar / Navigation -->
+    <sys:String x:Key="NavHome">ホーム</sys:String>
+    <sys:String x:Key="NavSettings">設定</sys:String>
+    <sys:String x:Key="LabelLogin">ログイン</sys:String>
+    <sys:String x:Key="LabelLogout">ログアウト</sys:String>
+    <sys:String x:Key="LabelGuest">ゲスト</sys:String>
+
+    <!-- Home Page Toolbar -->
+    <sys:String x:Key="BtnCreateProject">プロジェクト作成</sys:String>
+    <sys:String x:Key="LabelSearchPlaceholder">プロジェクトを検索...</sys:String>
+    <sys:String x:Key="LabelAllProjects">すべてのプロジェクト</sys:String>
+    <sys:String x:Key="LabelRecent">最近使用した項目</sys:String>
+    <sys:String x:Key="LabelFavorites">お気に入り</sys:String>
+    
+    <!-- Project Card Menu -->
+    <sys:String x:Key="LabelRename">名前の変更</sys:String>
+    <sys:String x:Key="LabelProperties">プロパティ</sys:String>
+    <sys:String x:Key="LabelDelete">削除</sys:String>
+
+    <!-- Settings Page -->
+    <sys:String x:Key="HeaderSettings">設定</sys:String>
+    <sys:String x:Key="HeaderLanguage">言語</sys:String>
+    <sys:String x:Key="LabelSelectLanguage">言語の選択</sys:String>
+    <sys:String x:Key="HeaderTheme">テーマ</sys:String>
+    <sys:String x:Key="LabelSelectTheme">テーマの選択</sys:String>
+    <sys:String x:Key="HeaderSavePath">プロジェクトの保存先パス</sys:String>
+    <sys:String x:Key="LabelPathForProjects">プロジェクトのパス</sys:String>
+    <sys:String x:Key="LabelSavePathPlaceholder">保存先フォルダを選択...</sys:String>
+
+    <!-- Create Project Window -->
+    <sys:String x:Key="HeaderCreateProject">プロジェクト作成</sys:String>
+    <sys:String x:Key="LabelProjectName">プロジェクト名</sys:String>
+    <sys:String x:Key="LabelSelectVideoFile">動画ファイルの選択</sys:String>
+    <sys:String x:Key="LabelExportTo">エクスポート先</sys:String>
+    <sys:String x:Key="HeaderPlatform">プラットフォーム</sys:String>
+    <sys:String x:Key="HeaderResolution">解像度</sys:String>
+    <sys:String x:Key="HeaderBitrate">ビットレート</sys:String>
+    <sys:String x:Key="HeaderFormat">フォーマット</sys:String>
+    <sys:String x:Key="HeaderWatermark">ウォーターマーク</sys:String>
+    <sys:String x:Key="BtnCancel">キャンセル</sys:String>
+    <sys:String x:Key="BtnCreate">作成</sys:String>
+
+    <!-- Rename Project Window -->
+    <sys:String x:Key="HeaderRenameProject">プロジェクト名の変更</sys:String>
+    <sys:String x:Key="LabelNewName">新しい名前</sys:String>
+    <sys:String x:Key="BtnSave">保存</sys:String>
+
+    <!-- Properties Window -->
+    <sys:String x:Key="HeaderProperties">プロパティ</sys:String>
+    <sys:String x:Key="LabelName">名前</sys:String>
+    <sys:String x:Key="LabelResolution">解像度</sys:String>
+    <sys:String x:Key="LabelBitrate">ビットレート</sys:String>
+    <sys:String x:Key="LabelFormat">フォーマット</sys:String>
+    <sys:String x:Key="LabelFPS">FPS</sys:String>
+    <sys:String x:Key="LabelSize">サイズ</sys:String>
+    <sys:String x:Key="LabelPath">パス</sys:String>
+    <sys:String x:Key="BtnBack">戻る</sys:String>
+</ResourceDictionary>

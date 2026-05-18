@@ -1,0 +1,61 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=netstandard">
+    <!-- Sidebar / Navigation -->
+    <sys:String x:Key="NavHome">Główna</sys:String>
+    <sys:String x:Key="NavSettings">Ustawienia</sys:String>
+    <sys:String x:Key="LabelLogin">Zaloguj się</sys:String>
+    <sys:String x:Key="LabelLogout">Wyloguj się</sys:String>
+    <sys:String x:Key="LabelGuest">Gość</sys:String>
+
+    <!-- Home Page Toolbar -->
+    <sys:String x:Key="BtnCreateProject">Utwórz projekt</sys:String>
+    <sys:String x:Key="LabelSearchPlaceholder">Szukaj projektów...</sys:String>
+    <sys:String x:Key="LabelAllProjects">Wszystkie projekty</sys:String>
+    <sys:String x:Key="LabelRecent">Ostatnie</sys:String>
+    <sys:String x:Key="LabelFavorites">Ulubione</sys:String>
+    
+    <!-- Project Card Menu -->
+    <sys:String x:Key="LabelRename">Zmień nazwę</sys:String>
+    <sys:String x:Key="LabelProperties">Właściwości</sys:String>
+    <sys:String x:Key="LabelDelete">Usuń</sys:String>
+
+    <!-- Settings Page -->
+    <sys:String x:Key="HeaderSettings">Ustawienia</sys:String>
+    <sys:String x:Key="HeaderLanguage">Język</sys:String>
+    <sys:String x:Key="LabelSelectLanguage">Wybierz język</sys:String>
+    <sys:String x:Key="HeaderTheme">Motyw</sys:String>
+    <sys:String x:Key="LabelSelectTheme">Wybierz motyw</sys:String>
+    <sys:String x:Key="HeaderSavePath">Ścieżka zapisu projektów</sys:String>
+    <sys:String x:Key="LabelPathForProjects">Ścieżka do projektów</sys:String>
+    <sys:String x:Key="LabelSavePathPlaceholder">Wybierz folder docelowy...</sys:String>
+
+    <!-- Create Project Window -->
+    <sys:String x:Key="HeaderCreateProject">Utwórz projekt</sys:String>
+    <sys:String x:Key="LabelProjectName">Nazwa projektu</sys:String>
+    <sys:String x:Key="LabelSelectVideoFile">Wybierz plik wideo</sys:String>
+    <sys:String x:Key="LabelExportTo">Eksportuj do</sys:String>
+    <sys:String x:Key="HeaderPlatform">Platforma</sys:String>
+    <sys:String x:Key="HeaderResolution">Rozdzielczość</sys:String>
+    <sys:String x:Key="HeaderBitrate">Bitrate</sys:String>
+    <sys:String x:Key="HeaderFormat">Format</sys:String>
+    <sys:String x:Key="HeaderWatermark">Znak wodny</sys:String>
+    <sys:String x:Key="BtnCancel">Anuluj</sys:String>
+    <sys:String x:Key="BtnCreate">Utwórz</sys:String>
+
+    <!-- Rename Project Window -->
+    <sys:String x:Key="HeaderRenameProject">Zmień nazwę projektu</sys:String>
+    <sys:String x:Key="LabelNewName">Nowa nazwa</sys:String>
+    <sys:String x:Key="BtnSave">Zapisz</sys:String>
+
+    <!-- Properties Window -->
+    <sys:String x:Key="HeaderProperties">Właściwości</sys:String>
+    <sys:String x:Key="LabelName">Nazwa</sys:String>
+    <sys:String x:Key="LabelResolution">Rozdzielczość</sys:String>
+    <sys:String x:Key="LabelBitrate">Bitrate</sys:String>
+    <sys:String x:Key="LabelFormat">Format</sys:String>
+    <sys:String x:Key="LabelFPS">FPS</sys:String>
+    <sys:String x:Key="LabelSize">Rozmiar</sys:String>
+    <sys:String x:Key="LabelPath">Ścieżka</sys:String>
+    <sys:String x:Key="BtnBack">Wstecz</sys:String>
+</ResourceDictionary>

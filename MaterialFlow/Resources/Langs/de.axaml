@@ -1,0 +1,61 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=netstandard">
+    <!-- Sidebar / Navigation -->
+    <sys:String x:Key="NavHome">Startseite</sys:String>
+    <sys:String x:Key="NavSettings">Einstellungen</sys:String>
+    <sys:String x:Key="LabelLogin">Anmelden</sys:String>
+    <sys:String x:Key="LabelLogout">Abmelden</sys:String>
+    <sys:String x:Key="LabelGuest">Gast</sys:String>
+
+    <!-- Home Page Toolbar -->
+    <sys:String x:Key="BtnCreateProject">Projekt erstellen</sys:String>
+    <sys:String x:Key="LabelSearchPlaceholder">Projekte suchen...</sys:String>
+    <sys:String x:Key="LabelAllProjects">Alle Projekte</sys:String>
+    <sys:String x:Key="LabelRecent">Zuletzt verwendet</sys:String>
+    <sys:String x:Key="LabelFavorites">Favoriten</sys:String>
+    
+    <!-- Project Card Menu -->
+    <sys:String x:Key="LabelRename">Umbenennen</sys:String>
+    <sys:String x:Key="LabelProperties">Eigenschaften</sys:String>
+    <sys:String x:Key="LabelDelete">Löschen</sys:String>
+
+    <!-- Settings Page -->
+    <sys:String x:Key="HeaderSettings">Einstellungen</sys:String>
+    <sys:String x:Key="HeaderLanguage">Sprache</sys:String>
+    <sys:String x:Key="LabelSelectLanguage">Sprache auswählen</sys:String>
+    <sys:String x:Key="HeaderTheme">Design</sys:String>
+    <sys:String x:Key="LabelSelectTheme">Design auswählen</sys:String>
+    <sys:String x:Key="HeaderSavePath">Speicherpfad für Projekte</sys:String>
+    <sys:String x:Key="LabelPathForProjects">Pfad für Projekte</sys:String>
+    <sys:String x:Key="LabelSavePathPlaceholder">Zielordner auswählen...</sys:String>
+
+    <!-- Create Project Window -->
+    <sys:String x:Key="HeaderCreateProject">Projekt erstellen</sys:String>
+    <sys:String x:Key="LabelProjectName">Projektname</sys:String>
+    <sys:String x:Key="LabelSelectVideoFile">Videodatei auswählen</sys:String>
+    <sys:String x:Key="LabelExportTo">Exportieren nach</sys:String>
+    <sys:String x:Key="HeaderPlatform">Plattform</sys:String>
+    <sys:String x:Key="HeaderResolution">Auflösung</sys:String>
+    <sys:String x:Key="HeaderBitrate">Bitrate</sys:String>
+    <sys:String x:Key="HeaderFormat">Format</sys:String>
+    <sys:String x:Key="HeaderWatermark">Wasserzeichen</sys:String>
+    <sys:String x:Key="BtnCancel">Abbrechen</sys:String>
+    <sys:String x:Key="BtnCreate">Erstellen</sys:String>
+
+    <!-- Rename Project Window -->
+    <sys:String x:Key="HeaderRenameProject">Projekt umbenennen</sys:String>
+    <sys:String x:Key="LabelNewName">Neuer Name</sys:String>
+    <sys:String x:Key="BtnSave">Speichern</sys:String>
+
+    <!-- Properties Window -->
+    <sys:String x:Key="HeaderProperties">Eigenschaften</sys:String>
+    <sys:String x:Key="LabelName">Name</sys:String>
+    <sys:String x:Key="LabelResolution">Auflösung</sys:String>
+    <sys:String x:Key="LabelBitrate">Bitrate</sys:String>
+    <sys:String x:Key="LabelFormat">Format</sys:String>
+    <sys:String x:Key="LabelFPS">FPS</sys:String>
+    <sys:String x:Key="LabelSize">Größe</sys:String>
+    <sys:String x:Key="LabelPath">Pfad</sys:String>
+    <sys:String x:Key="BtnBack">Zurück</sys:String>
+</ResourceDictionary>

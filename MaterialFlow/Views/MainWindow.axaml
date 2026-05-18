@@ -12,11 +12,12 @@
         x:Class="MaterialFlow.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="MaterialFlow"
-        Background="#E2D9F3"
+        Background="{DynamicResource WindowBackgroundBrush}"
         MinWidth="900" MinHeight="600">
 
     <Window.Resources>
         <conv:EqualityToBoolConverter x:Key="EqualityConverter"/>
+        <conv:PathToBitmapConverter x:Key="PathToBitmapConverter"/>
     </Window.Resources>
 
     <Window.Styles>
@@ -33,20 +34,22 @@
 
         <!-- Dark Purple Button (Primary) -->
         <Style Selector="Button.PrimaryCapsule">
-            <Setter Property="Background" Value="#6750A4"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
         </Style>
         <Style Selector="Button.PrimaryCapsule:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#5B4692"/>
+            <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+            <Setter Property="Opacity" Value="0.9"/>
         </Style>
 
         <!-- Light Purple Button (Secondary) -->
         <Style Selector="Button.SecondaryCapsule">
-            <Setter Property="Background" Value="#EADDFF"/>
-            <Setter Property="Foreground" Value="#21005D"/>
+            <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
         </Style>
         <Style Selector="Button.SecondaryCapsule:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#DCCBFF"/>
+            <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+            <Setter Property="Opacity" Value="0.9"/>
         </Style>
 
         <!-- Sidebar Item Style -->
@@ -56,7 +59,7 @@
             <Setter Property="Padding" Value="24,0"/>
             <Setter Property="CornerRadius" Value="28"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#21005D"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Name="PART_RootBorder" 
@@ -71,11 +74,12 @@
             </Setter>
         </Style>
         <Style Selector="ListBoxItem.SidebarItem:selected">
-            <Setter Property="Background" Value="#EADDFF"/>
+            <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style Selector="ListBoxItem.SidebarItem:pointerover">
-            <Setter Property="Background" Value="#F3EDF7"/>
+            <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
         </Style>
 
         <!-- Tab Chip Style -->
@@ -84,8 +88,8 @@
             <Setter Property="Padding" Value="16,0"/>
             <Setter Property="Margin" Value="0,0,8,0"/>
             <Setter Property="CornerRadius" Value="18"/>
-            <Setter Property="Background" Value="#F3EDF7"/>
-            <Setter Property="Foreground" Value="#49454F"/>
+            <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariantBrush}"/>
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Name="PART_RootBorder" 
@@ -101,14 +105,15 @@
             </Setter>
         </Style>
         <Style Selector="ListBoxItem.TabChip:selected">
-            <Setter Property="Background" Value="#EADDFF"/>
-            <Setter Property="Foreground" Value="#21005D"/>
+            <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
 
         <!-- Search Box Style -->
         <Style Selector="TextBox.SearchCapsule">
-            <Setter Property="Background" Value="#F3EDF7"/>
+            <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="CornerRadius" Value="24"/>
             <Setter Property="Height" Value="48"/>
@@ -133,6 +138,27 @@
                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                 </ControlTemplate>
             </Setter>
+        </Style>
+        <!-- MenuFlyout Styles -->
+        <Style Selector="MenuFlyoutPresenter">
+            <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="0,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        
+        <Style Selector="MenuItem">
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+        
+        <Style Selector="MenuItem:pointerover /template/ Border#PART_LayoutRoot">
+            <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+        </Style>
+        
+        <Style Selector="MenuItem:pointerover">
+            <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
         </Style>
     </Window.Styles>
 
@@ -175,65 +201,61 @@
                 </StackPanel>
 
                 <!-- Navigation List -->
-                <ListBox Grid.Row="1" Background="Transparent" BorderThickness="0" Margin="0,16,0,0">
-                    <ListBoxItem Padding="0" Background="Transparent" BorderThickness="0" HorizontalAlignment="Center" FocusAdorner="{x:Null}">
-                        <Button Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
-                                Command="{Binding SetPageIndex}" CommandParameter="0">
-                            <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" 
-                                    Classes.active="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=0}"
-                                    HorizontalAlignment="Center" ClipToBounds="True">
-                                <Border.Styles>
-                                    <Style Selector="Border.active">
-                                        <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
-                                    </Style>
-                                    <Style Selector="Border:not(.active)">
-                                        <Setter Property="Background" Value="Transparent"/>
-                                    </Style>
-                                </Border.Styles>
-                                <Border.Transitions>
-                                    <Transitions>
-                                        <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
-                                    </Transitions>
-                                </Border.Transitions>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
-                                    <material:MaterialIcon Kind="HomeOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                    <TextBlock Text="Home" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
-                                </StackPanel>
-                            </Border>
-                        </Button>
-                    </ListBoxItem>
-                </ListBox>
+                <StackPanel Grid.Row="1" Margin="0,16,0,0">
+                    <Button Theme="{StaticResource MaterialFlatButton}" CornerRadius="28" Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
+                            Command="{Binding SetPageIndex}" CommandParameter="0"
+                            HorizontalAlignment="Center">
+                        <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" 
+                                Classes.active="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=0}"
+                                HorizontalAlignment="Center" ClipToBounds="True">
+                            <Border.Styles>
+                                <Style Selector="Border.active">
+                                    <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+                                </Style>
+                                <Style Selector="Border:not(.active)">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </Border.Styles>
+                            <Border.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                                </Transitions>
+                            </Border.Transitions>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+                                <material:MaterialIcon Kind="HomeOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="{DynamicResource NavHome}" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                            </StackPanel>
+                        </Border>
+                    </Button>
+                </StackPanel>
 
                 <!-- Bottom Actions -->
                 <StackPanel Grid.Row="2" Margin="0,0,0,32" Spacing="8">
-                    <ListBox Background="Transparent" BorderThickness="0" Margin="0,0,0,8">
-                        <ListBoxItem Padding="0" Background="Transparent" BorderThickness="0" HorizontalAlignment="Center" FocusAdorner="{x:Null}">
-                            <Button Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
-                                    Command="{Binding SetPageIndex}" CommandParameter="1">
-                                <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" 
-                                        Classes.active="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=1}"
-                                        HorizontalAlignment="Center" ClipToBounds="True">
-                                    <Border.Styles>
-                                        <Style Selector="Border.active">
-                                            <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
-                                        </Style>
-                                        <Style Selector="Border:not(.active)">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                        </Style>
-                                    </Border.Styles>
-                                    <Border.Transitions>
-                                        <Transitions>
-                                            <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
-                                        </Transitions>
-                                    </Border.Transitions>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
-                                        <material:MaterialIcon Kind="SettingsOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                        <TextBlock Text="Settings" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
-                                    </StackPanel>
-                                </Border>
-                            </Button>
-                        </ListBoxItem>
-                    </ListBox>
+                    <Button Theme="{StaticResource MaterialFlatButton}" CornerRadius="28" Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
+                            Command="{Binding SetPageIndex}" CommandParameter="1"
+                            HorizontalAlignment="Center">
+                        <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" 
+                                Classes.active="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=1}"
+                                HorizontalAlignment="Center" ClipToBounds="True">
+                            <Border.Styles>
+                                <Style Selector="Border.active">
+                                    <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+                                </Style>
+                                <Style Selector="Border:not(.active)">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </Border.Styles>
+                            <Border.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                                </Transitions>
+                            </Border.Transitions>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+                                <material:MaterialIcon Kind="SettingsOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="{DynamicResource NavSettings}" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                            </StackPanel>
+                        </Border>
+                    </Button>
                     
                     <Separator Margin="0,0,0,8" Background="{DynamicResource SurfaceVariantBrush}" Height="1"
                                Width="{Binding DividerWidth}" HorizontalAlignment="Center">
@@ -253,7 +275,7 @@
                         </Button.Transitions>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12">
                             <material:MaterialIcon Kind="LogoutVariant" Width="24" Height="24" Foreground="White"/>
-                            <TextBlock Text="Login" VerticalAlignment="Center" Foreground="White" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                            <TextBlock Text="{DynamicResource LabelLogin}" VerticalAlignment="Center" Foreground="White" IsVisible="{Binding !IsSidebarCollapsed}"/>
                         </StackPanel>
                     </Button>
 
@@ -275,7 +297,7 @@
                         <Button Theme="{StaticResource MaterialFlatButton}" Foreground="#6750A4" HorizontalAlignment="Center" Width="{Binding ItemWidth}" Click="Logout_Click" FocusAdorner="{x:Null}" Padding="0">
                              <StackPanel Orientation="Horizontal" Spacing="12">
                                 <material:MaterialIcon Kind="Logout" Width="24" Height="24"/>
-                                <TextBlock Text="Logout" VerticalAlignment="Center" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                                <TextBlock Text="{DynamicResource LabelLogout}" VerticalAlignment="Center" IsVisible="{Binding !IsSidebarCollapsed}"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -294,7 +316,7 @@
                     <Button Classes="Capsule PrimaryCapsule" Height="56" Padding="32,0" Click="CreateProject_Click">
                         <StackPanel Orientation="Horizontal" Spacing="12">
                             <material:MaterialIcon Kind="Plus" Width="24" Height="24"/>
-                            <TextBlock Text="Create Project" VerticalAlignment="Center" FontSize="16"/>
+                            <TextBlock Text="{DynamicResource BtnCreateProject}" VerticalAlignment="Center" FontSize="16"/>
                         </StackPanel>
                     </Button>
 
@@ -302,7 +324,7 @@
                              Width="400"
                              Height="56"
                              CornerRadius="28"
-                             PlaceholderText="Search projects..."
+                             PlaceholderText="{DynamicResource LabelSearchPlaceholder}"
                              Background="{DynamicResource SurfaceVariantBrush}"
                              BorderThickness="0"
                              VerticalContentAlignment="Center"
@@ -323,9 +345,9 @@
                 <!-- Filter Tabs -->
                 <ListBox Grid.Row="1" Background="Transparent" BorderThickness="0" Margin="24,0,24,24" SelectedIndex="0">
                     <ListBox.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></ListBox.ItemsPanel>
-                    <ListBoxItem Classes="TabChip"><TextBlock Text="All Projects"/></ListBoxItem>
-                    <ListBoxItem Classes="TabChip"><TextBlock Text="Recent"/></ListBoxItem>
-                    <ListBoxItem Classes="TabChip"><TextBlock Text="Favorites"/></ListBoxItem>
+                    <ListBoxItem Classes="TabChip"><TextBlock Text="{DynamicResource LabelAllProjects}"/></ListBoxItem>
+                    <ListBoxItem Classes="TabChip"><TextBlock Text="{DynamicResource LabelRecent}"/></ListBoxItem>
+                    <ListBoxItem Classes="TabChip"><TextBlock Text="{DynamicResource LabelFavorites}"/></ListBoxItem>
                 </ListBox>
                 <!-- Projects Grid -->
                 <Border Grid.Row="2" Margin="24,0,24,24" Padding="0" CornerRadius="24" Background="Transparent" ClipToBounds="True">
@@ -341,7 +363,11 @@
                                         <Grid RowDefinitions="140,Auto">
                                             <!-- Top (Thumbnail) Area -->
                                             <Panel Grid.Row="0">
-                                                <material:MaterialIcon Kind="FolderOutline" Width="48" Height="48" Opacity="0.6" Foreground="{DynamicResource PrimaryBrush}"/>
+                                                <material:MaterialIcon Kind="FolderOutline" Width="48" Height="48" Opacity="0.6" Foreground="{DynamicResource PrimaryBrush}"
+                                                                      IsVisible="{Binding ThumbnailPath, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
+                                                <Image Source="{Binding ThumbnailPath, Converter={StaticResource PathToBitmapConverter}}"
+                                                       Stretch="UniformToFill"
+                                                       IsVisible="{Binding ThumbnailPath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
                                             </Panel>
                                             
                                             <!-- Bottom (Details) Area -->
@@ -361,6 +387,25 @@
                                                         </controls:Card>
                                                         
                                                         <Button Background="Transparent" Width="32" Height="32" Padding="0" CornerRadius="10">
+                                                            <Button.Flyout>
+                                                                <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                                                    <MenuItem Header="{DynamicResource LabelRename}" Click="RenameProject_Click">
+                                                                        <MenuItem.Icon>
+                                                                            <material:MaterialIcon Kind="PencilOutline" />
+                                                                        </MenuItem.Icon>
+                                                                    </MenuItem>
+                                                                    <MenuItem Header="{DynamicResource LabelProperties}" Click="PropertiesProject_Click">
+                                                                        <MenuItem.Icon>
+                                                                            <material:MaterialIcon Kind="InformationOutline" />
+                                                                        </MenuItem.Icon>
+                                                                    </MenuItem>
+                                                                    <MenuItem Header="{DynamicResource LabelDelete}" Foreground="Red" Click="DeleteProject_Click">
+                                                                        <MenuItem.Icon>
+                                                                            <material:MaterialIcon Kind="TrashCanOutline" Foreground="Red" />
+                                                                        </MenuItem.Icon>
+                                                                    </MenuItem>
+                                                                </MenuFlyout>
+                                                            </Button.Flyout>
                                                             <material:MaterialIcon Kind="DotsVertical" Width="20" Height="20" Opacity="0.6" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
                                                         </Button>
                                                     </StackPanel>

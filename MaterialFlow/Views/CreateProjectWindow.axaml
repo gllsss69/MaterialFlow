@@ -6,7 +6,7 @@
         xmlns:conv="using:MaterialFlow.Converters"
         x:Class="MaterialFlow.Views.CreateProjectWindow"
         x:DataType="vm:CreateProjectViewModel"
-        Title="Create Project"
+        Title="{DynamicResource HeaderCreateProject}"
         Width="550"
         SizeToContent="Height"
         CanResize="False"
@@ -24,23 +24,23 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Name="PART_RootBorder" 
-                            Background="White" 
+                            Background="{DynamicResource SurfaceBrush}" 
                             CornerRadius="20" 
                             Padding="16,8" 
                             Margin="0,0,8,8">
                         <TextBlock Name="PART_Text" 
                                    Text="{TemplateBinding Content}" 
-                                   Foreground="#1D1B20" 
+                                   Foreground="{DynamicResource OnSurfaceBrush}" 
                                    FontWeight="SemiBold"/>
                     </Border>
                 </ControlTemplate>
             </Setter>
         </Style>
         <Style Selector="RadioButton.Chip:checked /template/ Border#PART_RootBorder">
-            <Setter Property="Background" Value="#EADDFF"/>
+            <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
         </Style>
         <Style Selector="RadioButton.Chip:checked /template/ TextBlock#PART_Text">
-            <Setter Property="Foreground" Value="#21005D"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
         </Style>
         
         <Style Selector="ComboBox.dense">
@@ -50,7 +50,7 @@
         </Style>
     </Window.Styles>
 
-    <Border CornerRadius="32" Background="#F3EDF7" Padding="32" Margin="10" BoxShadow="0 8 32 0 #20000000">
+    <Border CornerRadius="32" Background="{DynamicResource SurfaceVariantBrush}" Padding="32" Margin="10" BoxShadow="0 8 32 0 #20000000">
         <Border.Styles>
             <Style Selector="Border">
                 <Style.Animations>
@@ -70,14 +70,14 @@
             </Style>
         </Border.Styles>
         <Grid RowDefinitions="Auto,Auto,Auto">
-            <TextBlock Grid.Row="0" Text="Create Project" FontSize="32" FontWeight="Normal" Foreground="#1D1B20" Margin="0,0,0,16"/>
+            <TextBlock Grid.Row="0" Text="{DynamicResource HeaderCreateProject}" FontSize="32" FontWeight="Normal" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,16"/>
 
             <StackPanel Grid.Row="1" Spacing="16">
                 <!-- Name Input -->
                 <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
-                         p1:TextFieldAssist.Label="Project Name"
+                         p1:TextFieldAssist.Label="{DynamicResource LabelProjectName}"
                          Classes="outline"
-                         Background="#F3EDF7"
+                         Background="{DynamicResource SurfaceVariantBrush}"
                          UseFloatingPlaceholder="True"
                          Text="{Binding ProjectName}"/>
 
@@ -89,11 +89,11 @@
                             HorizontalAlignment="Stretch"
                             IsVisible="{Binding !IsSourceFileSelected}"
                             Click="SelectSourceFile_Click"
-                            BorderBrush="#6750A4"
+                            BorderBrush="{DynamicResource PrimaryBrush}"
                             CornerRadius="28">
                         <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
-                            <material:MaterialIcon Kind="FileVideoOutline" Width="24" Height="24" Foreground="#6750A4"/>
-                            <TextBlock Text="Select Video File" VerticalAlignment="Center" Foreground="#6750A4" FontWeight="Bold"/>
+                            <material:MaterialIcon Kind="FileVideoOutline" Width="24" Height="24" Foreground="{DynamicResource PrimaryBrush}"/>
+                            <TextBlock Text="{DynamicResource LabelSelectVideoFile}" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold"/>
                         </StackPanel>
                     </Button>
                     
@@ -101,17 +101,17 @@
                     <Border Height="56" 
                             CornerRadius="28" 
                             BorderThickness="1" 
-                            BorderBrush="#6750A4"
-                            Background="#EADDFF"
+                            BorderBrush="{DynamicResource PrimaryBrush}"
+                            Background="{DynamicResource SecondaryContainerBrush}"
                             Padding="16,0"
                             IsVisible="{Binding IsSourceFileSelected}">
                         <Grid ColumnDefinitions="Auto,*,Auto">
-                            <material:MaterialIcon Kind="FileCheck" Width="24" Height="24" Foreground="#21005D"/>
+                            <material:MaterialIcon Kind="FileCheck" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
                             <TextBlock Grid.Column="1" 
                                        Text="{Binding SourceFileName}" 
                                        VerticalAlignment="Center" 
                                        Margin="12,0"
-                                       Foreground="#21005D"
+                                       Foreground="{DynamicResource OnSecondaryContainerBrush}"
                                        FontWeight="Medium"
                                        TextTrimming="CharacterEllipsis"/>
                             <Button Grid.Column="2" 
@@ -120,7 +120,7 @@
                                     Padding="0"
                                     Click="SelectSourceFile_Click"
                                     ToolTip.Tip="Change file">
-                                <material:MaterialIcon Kind="SwapHorizontal" Width="20" Height="20" Foreground="#21005D"/>
+                                <material:MaterialIcon Kind="SwapHorizontal" Width="20" Height="20" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
                             </Button>
                         </Grid>
                     </Border>
@@ -130,12 +130,12 @@
                 <Grid ColumnDefinitions="*,Auto">
                     <TextBox Name="PathTextBox"
                              Theme="{StaticResource MaterialOutlineTextBox}"
-                             p1:TextFieldAssist.Label="Export to"
+                             p1:TextFieldAssist.Label="{DynamicResource LabelExportTo}"
                              Classes="outline"
-                             Background="#F3EDF7"
+                             Background="{DynamicResource SurfaceVariantBrush}"
                              UseFloatingPlaceholder="True"
                              IsReadOnly="True"
-                             PlaceholderText="Select destination folder..."
+                             PlaceholderText="{DynamicResource LabelSavePathPlaceholder}"
                              Text="{Binding SavePath}"/>
                     <Button Grid.Column="1" 
                             Classes="Flat" 
@@ -143,13 +143,13 @@
                             Margin="8,4,0,0"
                             Padding="0"
                             Click="SelectPath_Click">
-                        <material:MaterialIcon Kind="FolderOpen" Width="24" Height="24" Foreground="#6750A4"/>
+                        <material:MaterialIcon Kind="FolderOpen" Width="24" Height="24" Foreground="{DynamicResource PrimaryBrush}"/>
                     </Button>
                 </Grid>
 
                 <!-- Platform Selection -->
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Platform" Foreground="#6750A4" FontWeight="Bold" FontSize="14"/>
+                    <TextBlock Text="{DynamicResource HeaderPlatform}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="14"/>
                     <WrapPanel>
                         <RadioButton Content="YouTube" Classes="Chip" GroupName="Platform"
                                      IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=YouTube}"/>
@@ -164,34 +164,34 @@
                     </WrapPanel>
                 </StackPanel>
 
-                <!-- Settings -->
+                 <!-- Settings -->
                 <StackPanel Spacing="16">
                     <ComboBox Name="ResolutionComboBox"
                               Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="Resolution" 
+                              p1:ComboBoxAssist.Label="{DynamicResource HeaderResolution}" 
                               Classes="dense"
-                              Foreground="#6750A4"
+                              Foreground="{DynamicResource PrimaryBrush}"
                               ItemsSource="{Binding Resolutions}"
                               SelectedItem="{Binding SelectedResolution}"/>
 
                     <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="Bitrate" 
+                              p1:ComboBoxAssist.Label="{DynamicResource HeaderBitrate}" 
                               Classes="dense"
-                              Foreground="#6750A4"
+                              Foreground="{DynamicResource PrimaryBrush}"
                               ItemsSource="{Binding Bitrates}"
                               SelectedItem="{Binding SelectedBitrate}"/>
 
                     <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="Format" 
+                              p1:ComboBoxAssist.Label="{DynamicResource HeaderFormat}" 
                               Classes="dense"
-                              Foreground="#6750A4"
+                              Foreground="{DynamicResource PrimaryBrush}"
                               ItemsSource="{Binding Formats}"
                               SelectedItem="{Binding SelectedFormat}"/>
                 </StackPanel>
 
                 <!-- Watermark -->
                 <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,8,0,0">
-                    <TextBlock Text="Watermark" VerticalAlignment="Center" Foreground="#6750A4" FontWeight="Bold" FontSize="14"/>
+                    <TextBlock Text="{DynamicResource HeaderWatermark}" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="14"/>
                     <CheckBox IsChecked="{Binding UseWatermark}" Theme="{StaticResource MaterialCheckBox}"/>
                 </StackPanel>
             </StackPanel>
@@ -208,8 +208,8 @@
                            IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
                            
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="24">
-                    <Button Content="Cancel" Classes="Flat" Foreground="#6750A4" FontWeight="Bold" Click="Cancel_Click" FontSize="16"/>
-                    <Button Content="Create" Classes="Flat" Foreground="#6750A4" FontWeight="Bold" Click="Create_Click" FontSize="16"/>
+                    <Button Content="{DynamicResource BtnCancel}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Cancel_Click" FontSize="16"/>
+                    <Button Content="{DynamicResource BtnCreate}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Create_Click" FontSize="16"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

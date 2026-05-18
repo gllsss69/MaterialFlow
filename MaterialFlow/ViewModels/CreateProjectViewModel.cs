@@ -5,6 +5,10 @@ using System.Linq;
 
 namespace MaterialFlow.ViewModels;
 
+/// <summary>
+/// Модель подання для створення нового відеопроєкту.
+/// Керує параметрами конфігурації проєкту, вибором джерельного файлу та валідацією полів.
+/// </summary>
 public class CreateProjectViewModel : INotifyPropertyChanged
 {
     private string _selectedPlatform = "YouTube";
@@ -19,42 +23,64 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     private bool _useWatermark = true;
     private string _errorMessage = string.Empty;
 
+    /// <summary>
+    /// Текст повідомлення про помилку валідації полів форми.
+    /// </summary>
     public string ErrorMessage
     {
         get => _errorMessage;
         set { _errorMessage = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Назва створюваного проєкту.
+    /// </summary>
     public string ProjectName
     {
         get => _projectName;
         set { _projectName = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Шлях збереження (експорту) майбутнього проєкту.
+    /// </summary>
     public string SavePath
     {
         get => _savePath;
         set { _savePath = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Повний файловий шлях до джерельного відеофайлу.
+    /// </summary>
     public string SourceFilePath
     {
         get => _sourceFilePath;
         set { _sourceFilePath = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Ім'я файлу джерельного відео (без повної адреси папки).
+    /// </summary>
     public string SourceFileName
     {
         get => _sourceFileName;
         set { _sourceFileName = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Вказує, чи було успішно вибрано джерельний відеофайл.
+    /// </summary>
     public bool IsSourceFileSelected
     {
         get => _isSourceFileSelected;
         set { _isSourceFileSelected = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Цільова платформа для публікації відео (YouTube, TikTok, Facebook тощо).
+    /// Автоматично підбирає рекомендовані налаштування роздільної здатності.
+    /// </summary>
     public string SelectedPlatform
     {
         get => _selectedPlatform;
@@ -69,30 +95,45 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Очікувана роздільна здатність вихідного файлу.
+    /// </summary>
     public string SelectedResolution
     {
         get => _selectedResolution;
         set { _selectedResolution = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Очікуваний бітрейт вихідного відео файлу.
+    /// </summary>
     public string SelectedBitrate
     {
         get => _selectedBitrate;
         set { _selectedBitrate = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Формат медіафайлу (наприклад, .mp4, .mkv).
+    /// </summary>
     public string SelectedFormat
     {
         get => _selectedFormat;
         set { _selectedFormat = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Вказує, чи потрібно накладати водяний знак під час рендерингу.
+    /// </summary>
     public bool UseWatermark
     {
         get => _useWatermark;
         set { _useWatermark = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Колекція доступних варіантів роздільної здатності відео.
+    /// </summary>
     public ObservableCollection<string> Resolutions { get; } = new()
     {
         "1920x1080",
@@ -102,6 +143,9 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         "3840x2160"
     };
 
+    /// <summary>
+    /// Колекція доступних варіантів бітрейту відео.
+    /// </summary>
     public ObservableCollection<string> Bitrates { get; } = new()
     {
         "Auto",
@@ -109,6 +153,9 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         "10 Mbps"
     };
 
+    /// <summary>
+    /// Колекція підтримуваних вихідних контейнерів/форматів відео.
+    /// </summary>
     public ObservableCollection<string> Formats { get; } = new()
     {
         ".mp4",
@@ -116,6 +163,9 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         ".avi"
     };
 
+    /// <summary>
+    /// Оновлює рекомендовані параметри за замовчуванням при перемиканні платформи.
+    /// </summary>
     private void UpdateDefaultSettings()
     {
         switch (SelectedPlatform)
@@ -136,6 +186,10 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Перевіряє коректність заповнення форми створення проєкту.
+    /// </summary>
+    /// <returns>Значення true, якщо всі поля валідні; інакше false з описом у властивості ErrorMessage.</returns>
     public bool Validate()
     {
         if (string.IsNullOrWhiteSpace(ProjectName))
@@ -179,6 +233,11 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    /// <summary>
+    /// Викликає подію зміни значення властивості для оновлення елементів інтерфейсу.
+    /// </summary>
+    /// <param name="propertyName">Ім'я властивості, що змінилась.</param>
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

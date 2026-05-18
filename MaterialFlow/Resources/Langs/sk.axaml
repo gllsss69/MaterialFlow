@@ -1,0 +1,61 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=netstandard">
+    <!-- Sidebar / Navigation -->
+    <sys:String x:Key="NavHome">Domov</sys:String>
+    <sys:String x:Key="NavSettings">Nastavenia</sys:String>
+    <sys:String x:Key="LabelLogin">Prihlásiť sa</sys:String>
+    <sys:String x:Key="LabelLogout">Odhlásiť sa</sys:String>
+    <sys:String x:Key="LabelGuest">Hosť</sys:String>
+
+    <!-- Home Page Toolbar -->
+    <sys:String x:Key="BtnCreateProject">Vytvoriť projekt</sys:String>
+    <sys:String x:Key="LabelSearchPlaceholder">Hľadať projekty...</sys:String>
+    <sys:String x:Key="LabelAllProjects">Všetky projekty</sys:String>
+    <sys:String x:Key="LabelRecent">Nedávne</sys:String>
+    <sys:String x:Key="LabelFavorites">Obľúbené</sys:String>
+    
+    <!-- Project Card Menu -->
+    <sys:String x:Key="LabelRename">Premenovať</sys:String>
+    <sys:String x:Key="LabelProperties">Vlastnosti</sys:String>
+    <sys:String x:Key="LabelDelete">Vymazať</sys:String>
+
+    <!-- Settings Page -->
+    <sys:String x:Key="HeaderSettings">Nastavenia</sys:String>
+    <sys:String x:Key="HeaderLanguage">Jazyk</sys:String>
+    <sys:String x:Key="LabelSelectLanguage">Vyberte jazyk</sys:String>
+    <sys:String x:Key="HeaderTheme">Téma</sys:String>
+    <sys:String x:Key="LabelSelectTheme">Vyberte tému</sys:String>
+    <sys:String x:Key="HeaderSavePath">Cesta na ukladanie projektov</sys:String>
+    <sys:String x:Key="LabelPathForProjects">Cesta k projektom</sys:String>
+    <sys:String x:Key="LabelSavePathPlaceholder">Vyberte cieľový priečinok...</sys:String>
+
+    <!-- Create Project Window -->
+    <sys:String x:Key="HeaderCreateProject">Vytvoriť projekt</sys:String>
+    <sys:String x:Key="LabelProjectName">Názov projektu</sys:String>
+    <sys:String x:Key="LabelSelectVideoFile">Vyberte video súbor</sys:String>
+    <sys:String x:Key="LabelExportTo">Exportovať do</sys:String>
+    <sys:String x:Key="HeaderPlatform">Platforma</sys:String>
+    <sys:String x:Key="HeaderResolution">Rozlíšenie</sys:String>
+    <sys:String x:Key="HeaderBitrate">Bitrate</sys:String>
+    <sys:String x:Key="HeaderFormat">Formát</sys:String>
+    <sys:String x:Key="HeaderWatermark">Vodoznak</sys:String>
+    <sys:String x:Key="BtnCancel">Zrušiť</sys:String>
+    <sys:String x:Key="BtnCreate">Vytvoriť</sys:String>
+
+    <!-- Rename Project Window -->
+    <sys:String x:Key="HeaderRenameProject">Premenovať projekt</sys:String>
+    <sys:String x:Key="LabelNewName">Nový názov</sys:String>
+    <sys:String x:Key="BtnSave">Uložiť</sys:String>
+
+    <!-- Properties Window -->
+    <sys:String x:Key="HeaderProperties">Vlastnosti</sys:String>
+    <sys:String x:Key="LabelName">Názov</sys:String>
+    <sys:String x:Key="LabelResolution">Rozlíšenie</sys:String>
+    <sys:String x:Key="LabelBitrate">Bitrate</sys:String>
+    <sys:String x:Key="LabelFormat">Formát</sys:String>
+    <sys:String x:Key="LabelFPS">Snímky/s</sys:String>
+    <sys:String x:Key="LabelSize">Veľkosť</sys:String>
+    <sys:String x:Key="LabelPath">Cesta</sys:String>
+    <sys:String x:Key="BtnBack">Späť</sys:String>
+</ResourceDictionary>

@@ -29,6 +29,10 @@ namespace MaterialFlow
                 {
                     Name = projectViewModel.ProjectName,
                     SourceFilePath = projectViewModel.SourceFilePath,
+                    Resolution = projectViewModel.SelectedResolution,
+                    Bitrate = projectViewModel.SelectedBitrate == "Auto" ? "5000 kbps" : projectViewModel.SelectedBitrate,
+                    Format = projectViewModel.SelectedFormat.TrimStart('.'),
+                    FPS = "60 fps", // Default for exported projects
                     CreatedAt = System.DateTime.UtcNow
                 };
 
@@ -84,6 +88,64 @@ namespace MaterialFlow
             if (folders.Count > 0)
             {
                 _viewModel.DefaultSavePath = folders[0].Path.LocalPath;
+            }
+        }
+
+        private async void RenameProject_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem && menuItem.DataContext is Models.VideoProject project)
+            {
+                var dialog = new Views.RenameWindow(project.Name);
+                var newName = await dialog.ShowDialog<string>(this);
+                if (!string.IsNullOrWhiteSpace(newName) && newName != project.Name)
+                {
+                    var oldSafeName = string.Join("_", project.Name.Split(System.IO.Path.GetInvalidFileNameChars()));
+                    var oldDir = System.IO.Path.Combine(_viewModel.DefaultSavePath, oldSafeName);
+                    
+                    project.Name = newName;
+                    
+                    var newSafeName = string.Join("_", project.Name.Split(System.IO.Path.GetInvalidFileNameChars()));
+                    var newDir = System.IO.Path.Combine(_viewModel.DefaultSavePath, newSafeName);
+
+                    if (System.IO.Directory.Exists(oldDir) && !System.IO.Directory.Exists(newDir))
+                    {
+                        try
+                        {
+                            System.IO.Directory.Move(oldDir, newDir);
+                        }
+                        catch { }
+                    }
+
+                    _viewModel.UpdateProject(project);
+                }
+            }
+        }
+
+        private async void PropertiesProject_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem && menuItem.DataContext is Models.VideoProject project)
+            {
+                var dialog = new Views.PropertiesWindow(project);
+                await dialog.ShowDialog(this);
+            }
+        }
+
+        private void DeleteProject_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem && menuItem.DataContext is Models.VideoProject project)
+            {
+                _viewModel.Projects.Remove(project);
+                // Also remove directory
+                var safeProjectName = string.Join("_", project.Name.Split(System.IO.Path.GetInvalidFileNameChars()));
+                var projectDir = System.IO.Path.Combine(_viewModel.DefaultSavePath, safeProjectName);
+                if (System.IO.Directory.Exists(projectDir))
+                {
+                    try
+                    {
+                        System.IO.Directory.Delete(projectDir, true);
+                    }
+                    catch { }
+                }
             }
         }
     }
