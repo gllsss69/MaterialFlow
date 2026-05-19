@@ -58,4 +58,15 @@
     <sys:String x:Key="LabelSize">Velikost</sys:String>
     <sys:String x:Key="LabelPath">Cesta</sys:String>
     <sys:String x:Key="BtnBack">Zpět</sys:String>
+
+    <!-- Login Window -->
+    <sys:String x:Key="LoginTitleLogin">Přihlásit se</sys:String>
+    <sys:String x:Key="LoginTitleRegister">Vytvořit účet</sys:String>
+    <sys:String x:Key="LoginLabelLogin">Přihlášení</sys:String>
+    <sys:String x:Key="LoginLabelFullName">Celé jméno</sys:String>
+    <sys:String x:Key="LoginLabelPassword">Heslo</sys:String>
+    <sys:String x:Key="LoginBtnLogin">Přihlásit se</sys:String>
+    <sys:String x:Key="LoginBtnRegister">Registrovat</sys:String>
+    <sys:String x:Key="LoginSwitchToRegister">Nemáte účet? Zaregistrujte se</sys:String>
+    <sys:String x:Key="LoginSwitchToLogin">Již máte účet? Přihlaste se</sys:String>
 </ResourceDictionary>

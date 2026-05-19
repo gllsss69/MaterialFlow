@@ -58,4 +58,15 @@
     <sys:String x:Key="LabelSize">サイズ</sys:String>
     <sys:String x:Key="LabelPath">パス</sys:String>
     <sys:String x:Key="BtnBack">戻る</sys:String>
+
+    <!-- Login Window -->
+    <sys:String x:Key="LoginTitleLogin">ログイン</sys:String>
+    <sys:String x:Key="LoginTitleRegister">アカウント作成</sys:String>
+    <sys:String x:Key="LoginLabelLogin">ログイン名</sys:String>
+    <sys:String x:Key="LoginLabelFullName">氏名</sys:String>
+    <sys:String x:Key="LoginLabelPassword">パスワード</sys:String>
+    <sys:String x:Key="LoginBtnLogin">ログイン</sys:String>
+    <sys:String x:Key="LoginBtnRegister">登録</sys:String>
+    <sys:String x:Key="LoginSwitchToRegister">アカウントをお持ちでないですか？登録</sys:String>
+    <sys:String x:Key="LoginSwitchToLogin">アカウントをお持ちですか？ログイン</sys:String>
 </ResourceDictionary>

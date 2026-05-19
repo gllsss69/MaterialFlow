@@ -58,4 +58,15 @@
     <sys:String x:Key="LabelSize">Розмір</sys:String>
     <sys:String x:Key="LabelPath">Шлях</sys:String>
     <sys:String x:Key="BtnBack">Назад</sys:String>
+
+    <!-- Login Window -->
+    <sys:String x:Key="LoginTitleLogin">Увійти</sys:String>
+    <sys:String x:Key="LoginTitleRegister">Створити акаунт</sys:String>
+    <sys:String x:Key="LoginLabelLogin">Логін</sys:String>
+    <sys:String x:Key="LoginLabelFullName">Повне ім'я</sys:String>
+    <sys:String x:Key="LoginLabelPassword">Пароль</sys:String>
+    <sys:String x:Key="LoginBtnLogin">Увійти</sys:String>
+    <sys:String x:Key="LoginBtnRegister">Зареєструватися</sys:String>
+    <sys:String x:Key="LoginSwitchToRegister">Немає акаунта? Зареєструватися</sys:String>
+    <sys:String x:Key="LoginSwitchToLogin">Вже є акаунт? Увійти</sys:String>
 </ResourceDictionary>

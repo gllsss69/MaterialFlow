@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Avalonia;
 using MaterialFlow.Services;
 
 namespace MaterialFlow.ViewModels;
@@ -52,9 +53,17 @@ public class LoginViewModel : INotifyPropertyChanged
     }
 
     public bool IsLoginMode => !IsRegisterMode;
-    public string Title => IsRegisterMode ? "Create Account" : "Login";
-    public string ButtonText => IsRegisterMode ? "Register" : "Login";
-    public string SwitchText => IsRegisterMode ? "Already have an account? Login" : "Don't have an account? Register";
+    public string Title => Res(IsRegisterMode ? "LoginTitleRegister" : "LoginTitleLogin", IsRegisterMode ? "Create Account" : "Login");
+    public string ButtonText => Res(IsRegisterMode ? "LoginBtnRegister" : "LoginBtnLogin", IsRegisterMode ? "Register" : "Login");
+    public string SwitchText => Res(IsRegisterMode ? "LoginSwitchToLogin" : "LoginSwitchToRegister",
+        IsRegisterMode ? "Already have an account? Login" : "Don't have an account? Register");
+
+    private static string Res(string key, string fallback)
+    {
+        if (Application.Current?.Resources.TryGetResource(key, null, out var value) == true && value is string s)
+            return s;
+        return fallback;
+    }
 
     public bool Authenticate()
     {

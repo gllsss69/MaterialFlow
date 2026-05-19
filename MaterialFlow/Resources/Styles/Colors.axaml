@@ -20,6 +20,7 @@
             <SolidColorBrush x:Key="OnSurfaceBrush" Color="#1D1B20"/>
             <SolidColorBrush x:Key="OnSurfaceVariantBrush" Color="#49454F"/>
         </ResourceDictionary>
+
         <ResourceDictionary x:Key="Dark">
             <!-- Backgrounds & Surfaces -->
             <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#121016"/>
@@ -30,8 +31,8 @@
             <!-- Primary & Secondary -->
             <SolidColorBrush x:Key="PrimaryBrush" Color="#D0BCFF"/>
             <SolidColorBrush x:Key="OnPrimaryBrush" Color="#381E72"/>
-            <SolidColorBrush x:Key="SecondaryContainerBrush" Color="#4A4458"/>
-            <SolidColorBrush x:Key="OnSecondaryContainerBrush" Color="#EADDFF"/>
+            <SolidColorBrush x:Key="SecondaryContainerBrush" Color="#EADDFF"/>
+            <SolidColorBrush x:Key="OnSecondaryContainerBrush" Color="#ddffe2ff"/>
             
             <!-- Outlines -->
             <SolidColorBrush x:Key="OutlineVariantBrush" Color="#49454F"/>

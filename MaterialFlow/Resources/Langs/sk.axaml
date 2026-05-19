@@ -58,4 +58,15 @@
     <sys:String x:Key="LabelSize">Veľkosť</sys:String>
     <sys:String x:Key="LabelPath">Cesta</sys:String>
     <sys:String x:Key="BtnBack">Späť</sys:String>
+
+    <!-- Login Window -->
+    <sys:String x:Key="LoginTitleLogin">Prihlásiť sa</sys:String>
+    <sys:String x:Key="LoginTitleRegister">Vytvoriť účet</sys:String>
+    <sys:String x:Key="LoginLabelLogin">Prihlasovacie meno</sys:String>
+    <sys:String x:Key="LoginLabelFullName">Celé meno</sys:String>
+    <sys:String x:Key="LoginLabelPassword">Heslo</sys:String>
+    <sys:String x:Key="LoginBtnLogin">Prihlásiť sa</sys:String>
+    <sys:String x:Key="LoginBtnRegister">Registrovať</sys:String>
+    <sys:String x:Key="LoginSwitchToRegister">Nemáte účet? Zaregistrujte sa</sys:String>
+    <sys:String x:Key="LoginSwitchToLogin">Už máte účet? Prihláste sa</sys:String>
 </ResourceDictionary>

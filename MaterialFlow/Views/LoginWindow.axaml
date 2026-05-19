@@ -67,14 +67,14 @@
             <!-- Inputs -->
             <StackPanel Spacing="16">
                 <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
-                         p1:TextFieldAssist.Label="Login"
+                         p1:TextFieldAssist.Label="{DynamicResource LoginLabelLogin}"
                          Classes="outline"
                          Background="{DynamicResource SurfaceVariantBrush}"
                          UseFloatingPlaceholder="True"
                          Text="{Binding Login}"/>
 
                 <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
-                         p1:TextFieldAssist.Label="Full Name"
+                         p1:TextFieldAssist.Label="{DynamicResource LoginLabelFullName}"
                          Classes="outline"
                          Background="{DynamicResource SurfaceVariantBrush}"
                          UseFloatingPlaceholder="True"
@@ -82,7 +82,7 @@
                          Text="{Binding FullName}"/>
 
                 <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
-                         p1:TextFieldAssist.Label="Password"
+                         p1:TextFieldAssist.Label="{DynamicResource LoginLabelPassword}"
                          Classes="outline"
                          Background="{DynamicResource SurfaceVariantBrush}"
                          UseFloatingPlaceholder="True"

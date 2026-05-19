@@ -58,4 +58,15 @@
     <sys:String x:Key="LabelSize">Rozmiar</sys:String>
     <sys:String x:Key="LabelPath">Ścieżka</sys:String>
     <sys:String x:Key="BtnBack">Wstecz</sys:String>
+
+    <!-- Login Window -->
+    <sys:String x:Key="LoginTitleLogin">Zaloguj się</sys:String>
+    <sys:String x:Key="LoginTitleRegister">Utwórz konto</sys:String>
+    <sys:String x:Key="LoginLabelLogin">Login</sys:String>
+    <sys:String x:Key="LoginLabelFullName">Imię i nazwisko</sys:String>
+    <sys:String x:Key="LoginLabelPassword">Hasło</sys:String>
+    <sys:String x:Key="LoginBtnLogin">Zaloguj się</sys:String>
+    <sys:String x:Key="LoginBtnRegister">Zarejestruj się</sys:String>
+    <sys:String x:Key="LoginSwitchToRegister">Nie masz konta? Zarejestruj się</sys:String>
+    <sys:String x:Key="LoginSwitchToLogin">Masz już konto? Zaloguj się</sys:String>
 </ResourceDictionary>
