@@ -16,7 +16,7 @@
     </Application.Resources>
 
     <Application.Styles>
-        <themes:MaterialTheme BaseTheme="Light" PrimaryColor="Purple" SecondaryColor="Indigo" />
+        <themes:MaterialTheme BaseTheme="Inherit" PrimaryColor="Purple" SecondaryColor="Indigo" />
         <materialIcons:MaterialIconStyles />
     </Application.Styles>
 

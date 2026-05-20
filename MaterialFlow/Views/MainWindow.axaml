@@ -274,8 +274,8 @@
                             </Transitions>
                         </Button.Transitions>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12">
-                            <material:MaterialIcon Kind="LogoutVariant" Width="24" Height="24" Foreground="White"/>
-                            <TextBlock Text="{DynamicResource LabelLogin}" VerticalAlignment="Center" Foreground="White" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                            <material:MaterialIcon Kind="LogoutVariant" Width="24" Height="24" Foreground="{DynamicResource OnPrimaryBrush}"/>
+                            <TextBlock Text="{DynamicResource LabelLogin}" VerticalAlignment="Center" Foreground="{DynamicResource OnPrimaryBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
                         </StackPanel>
                     </Button>
 

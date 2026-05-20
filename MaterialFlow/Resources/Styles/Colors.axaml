@@ -23,21 +23,21 @@
 
         <ResourceDictionary x:Key="Dark">
             <!-- Backgrounds & Surfaces -->
-            <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#121016"/>
-            <SolidColorBrush x:Key="SurfaceBrush" Color="#1C1A22"/>
-            <SolidColorBrush x:Key="SurfaceVariantBrush" Color="#272430"/>
-            <SolidColorBrush x:Key="SurfaceContainerHighestBrush" Color="#332F42"/>
+            <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#0F0E13"/>
+            <SolidColorBrush x:Key="SurfaceBrush" Color="#16141F"/>
+            <SolidColorBrush x:Key="SurfaceVariantBrush" Color="#211E2B"/>
+            <SolidColorBrush x:Key="SurfaceContainerHighestBrush" Color="#2E2A3E"/>
             
             <!-- Primary & Secondary -->
             <SolidColorBrush x:Key="PrimaryBrush" Color="#D0BCFF"/>
-            <SolidColorBrush x:Key="OnPrimaryBrush" Color="#381E72"/>
-            <SolidColorBrush x:Key="SecondaryContainerBrush" Color="#381E72"/>
-            <SolidColorBrush x:Key="OnSecondaryContainerBrush" Color="#EADDFF"/>
+            <SolidColorBrush x:Key="OnPrimaryBrush" Color="#2C005E"/>
+            <SolidColorBrush x:Key="SecondaryContainerBrush" Color="#3B2D54"/>
+            <SolidColorBrush x:Key="OnSecondaryContainerBrush" Color="#EADAFF"/>
             
             <!-- Outlines -->
-            <SolidColorBrush x:Key="OutlineVariantBrush" Color="#49454F"/>
-            <SolidColorBrush x:Key="OnSurfaceBrush" Color="#E6E1E5"/>
-            <SolidColorBrush x:Key="OnSurfaceVariantBrush" Color="#CAC4D0"/>
+            <SolidColorBrush x:Key="OutlineVariantBrush" Color="#383547"/>
+            <SolidColorBrush x:Key="OnSurfaceBrush" Color="#F3EFFF"/>
+            <SolidColorBrush x:Key="OnSurfaceVariantBrush" Color="#A59EBA"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

@@ -165,6 +165,31 @@ namespace MaterialFlow.ViewModels;
                 {
                     Avalonia.Application.Current.RequestedThemeVariant = Avalonia.Styling.ThemeVariant.Default;
                 }
+                                var materialTheme = Avalonia.Application.Current.Styles.OfType<Material.Styles.Themes.MaterialTheme>().FirstOrDefault();
+                if (materialTheme != null)
+                {
+                    var prop = materialTheme.GetType().GetProperty("BaseTheme");
+                    if (prop != null)
+                    {
+                        var propType = prop.PropertyType;
+                        try
+                        {
+                            if (theme == "Dark")
+                            {
+                                prop.SetValue(materialTheme, Enum.Parse(propType, "Dark"));
+                            }
+                            else if (theme == "Light")
+                            {
+                                prop.SetValue(materialTheme, Enum.Parse(propType, "Light"));
+                            }
+                            else
+                            {
+                                prop.SetValue(materialTheme, Enum.Parse(propType, "Inherit"));
+                            }
+                        }
+                        catch { }
+                    }
+                }
             }
         }
 
