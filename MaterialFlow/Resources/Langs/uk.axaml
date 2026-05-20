@@ -69,4 +69,13 @@
     <sys:String x:Key="LoginBtnRegister">Зареєструватися</sys:String>
     <sys:String x:Key="LoginSwitchToRegister">Немає акаунта? Зареєструватися</sys:String>
     <sys:String x:Key="LoginSwitchToLogin">Вже є акаунт? Увійти</sys:String>
+
+    <!-- Sorting & Favorites -->
+    <sys:String x:Key="SortByNameAsc">Назва (А-Я)</sys:String>
+    <sys:String x:Key="SortByNameDesc">Назва (Я-А)</sys:String>
+    <sys:String x:Key="SortByDateDesc">Спочатку нові</sys:String>
+    <sys:String x:Key="SortByDateAsc">Спочатку старі</sys:String>
+    <sys:String x:Key="LabelSortBy">Сортування</sys:String>
+    <sys:String x:Key="LabelAddToFavorites">Додати до обраних</sys:String>
+    <sys:String x:Key="LabelRemoveFromFavorites">Вилучити з обраних</sys:String>
 </ResourceDictionary>

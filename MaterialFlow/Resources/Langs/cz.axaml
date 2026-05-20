@@ -69,4 +69,13 @@
     <sys:String x:Key="LoginBtnRegister">Registrovat</sys:String>
     <sys:String x:Key="LoginSwitchToRegister">Nemáte účet? Zaregistrujte se</sys:String>
     <sys:String x:Key="LoginSwitchToLogin">Již máte účet? Přihlaste se</sys:String>
+
+    <!-- Sorting & Favorites -->
+    <sys:String x:Key="SortByNameAsc">Název (A-Z)</sys:String>
+    <sys:String x:Key="SortByNameDesc">Název (Z-A)</sys:String>
+    <sys:String x:Key="SortByDateDesc">Nejnovější</sys:String>
+    <sys:String x:Key="SortByDateAsc">Nejstarší</sys:String>
+    <sys:String x:Key="LabelSortBy">Třídit</sys:String>
+    <sys:String x:Key="LabelAddToFavorites">Přidat do oblíbených</sys:String>
+    <sys:String x:Key="LabelRemoveFromFavorites">Odebrat z oblíbených</sys:String>
 </ResourceDictionary>

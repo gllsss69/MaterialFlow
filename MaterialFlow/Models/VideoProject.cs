@@ -112,6 +112,17 @@ public class VideoProject : INotifyPropertyChanged
         set { _isProcessing = value; OnPropertyChanged(); }
     }
 
+    private bool _isFavorite;
+
+    /// <summary>
+    /// Визначає, чи є проєкт обраним/улюбленим.
+    /// </summary>
+    public bool IsFavorite
+    {
+        get => _isFavorite;
+        set { _isFavorite = value; OnPropertyChanged(); }
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>

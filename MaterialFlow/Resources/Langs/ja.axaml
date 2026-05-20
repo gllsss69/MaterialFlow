@@ -69,4 +69,13 @@
     <sys:String x:Key="LoginBtnRegister">登録</sys:String>
     <sys:String x:Key="LoginSwitchToRegister">アカウントをお持ちでないですか？登録</sys:String>
     <sys:String x:Key="LoginSwitchToLogin">アカウントをお持ちですか？ログイン</sys:String>
+
+    <!-- Sorting & Favorites -->
+    <sys:String x:Key="SortByNameAsc">名前 (A-Z)</sys:String>
+    <sys:String x:Key="SortByNameDesc">名前 (Z-A)</sys:String>
+    <sys:String x:Key="SortByDateDesc">新しい順</sys:String>
+    <sys:String x:Key="SortByDateAsc">古い順</sys:String>
+    <sys:String x:Key="LabelSortBy">並べ替え</sys:String>
+    <sys:String x:Key="LabelAddToFavorites">お気に入りに追加</sys:String>
+    <sys:String x:Key="LabelRemoveFromFavorites">お気に入りから削除</sys:String>
 </ResourceDictionary>

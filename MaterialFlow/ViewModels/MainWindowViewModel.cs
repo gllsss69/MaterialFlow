@@ -1,9 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Avalonia.Layout;
 using Avalonia.Layout;
 using System.Threading.Tasks;
 using System.IO;
@@ -82,6 +82,8 @@ namespace MaterialFlow.ViewModels;
                 _selectedLanguage = value; 
                 OnPropertyChanged(); 
                 ApplyLanguage(value);
+                OnPropertyChanged(nameof(SelectedSortText));
+                OnPropertyChanged(nameof(FilteredProjects));
                 SaveSettings();
             }
         }
@@ -260,6 +262,122 @@ namespace MaterialFlow.ViewModels;
 
         public void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
 
+        private string _searchText = string.Empty;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FilteredProjects));
+            }
+        }
+
+        private int _selectedFilterIndex = 0;
+        public int SelectedFilterIndex
+        {
+            get => _selectedFilterIndex;
+            set
+            {
+                _selectedFilterIndex = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FilteredProjects));
+            }
+        }
+
+        private string _selectedSortOption = "DateDesc";
+        public string SelectedSortOption
+        {
+            get => _selectedSortOption;
+            set
+            {
+                _selectedSortOption = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedSortText));
+                OnPropertyChanged(nameof(FilteredProjects));
+            }
+        }
+
+        public string SelectedSortText
+        {
+            get
+            {
+                string key = _selectedSortOption switch
+                {
+                    "NameAsc" => "SortByNameAsc",
+                    "NameDesc" => "SortByNameDesc",
+                    "DateAsc" => "SortByDateAsc",
+                    "DateDesc" or _ => "SortByDateDesc",
+                };
+
+                if (Avalonia.Application.Current != null && 
+                    Avalonia.Application.Current.Resources.TryGetResource(key, null, out object? val) && 
+                    val is string localizedString)
+                {
+                    return localizedString;
+                }
+
+                return _selectedSortOption switch
+                {
+                    "NameAsc" => "Name (A-Z)",
+                    "NameDesc" => "Name (Z-A)",
+                    "DateAsc" => "Oldest First",
+                    "DateDesc" or _ => "Newest First",
+                };
+            }
+        }
+
+        public IEnumerable<VideoProject> FilteredProjects
+        {
+            get
+            {
+                IEnumerable<VideoProject> result = Projects;
+
+                // Apply filtering based on selected tab
+                if (_selectedFilterIndex == 1) // Recent: e.g. created in last 7 days
+                {
+                    var limit = DateTime.UtcNow.AddDays(-7);
+                    result = result.Where(p => p.CreatedAt >= limit);
+                }
+                else if (_selectedFilterIndex == 2) // Favorites
+                {
+                    result = result.Where(p => p.IsFavorite);
+                }
+
+                // Apply search text filtering
+                if (!string.IsNullOrWhiteSpace(_searchText))
+                {
+                    result = result.Where(p => p.Name.Contains(_searchText, StringComparison.OrdinalIgnoreCase));
+                }
+
+                // Apply sorting
+                result = _selectedSortOption switch
+                {
+                    "NameAsc" => result.OrderBy(p => p.Name),
+                    "NameDesc" => result.OrderByDescending(p => p.Name),
+                    "DateAsc" => result.OrderBy(p => p.CreatedAt),
+                    "DateDesc" or _ => result.OrderByDescending(p => p.CreatedAt),
+                };
+
+                return result.ToList();
+            }
+        }
+
+        public void SetSortOption(string option)
+        {
+            if (string.IsNullOrEmpty(option)) return;
+            SelectedSortOption = option;
+        }
+
+        public void ToggleFavorite(VideoProject project)
+        {
+            if (project == null) return;
+            project.IsFavorite = !project.IsFavorite;
+            UpdateProject(project);
+            OnPropertyChanged(nameof(FilteredProjects));
+        }
+
         public ObservableCollection<VideoProject> Projects { get; set; } = new();
         public ObservableCollection<ConversionJob> ConversionJobs { get; set; } = new();
 
@@ -275,6 +393,8 @@ namespace MaterialFlow.ViewModels;
         LoadProjects();
         ApplyTheme(_selectedTheme);
         ApplyLanguage(_selectedLanguage);
+
+        Projects.CollectionChanged += (s, e) => OnPropertyChanged(nameof(FilteredProjects));
     }
 
     private void LoadProjects()
@@ -433,8 +553,7 @@ namespace MaterialFlow.ViewModels;
         }
         catch { }
         
-        // Notify property changed if needed, but since it's observable, name update in view should trigger it.
-        // OnPropertyChanged(nameof(Projects));
+        OnPropertyChanged(nameof(FilteredProjects));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

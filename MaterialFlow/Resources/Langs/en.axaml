@@ -69,4 +69,13 @@
     <sys:String x:Key="LoginBtnRegister">Register</sys:String>
     <sys:String x:Key="LoginSwitchToRegister">Don't have an account? Register</sys:String>
     <sys:String x:Key="LoginSwitchToLogin">Already have an account? Login</sys:String>
+
+    <!-- Sorting & Favorites -->
+    <sys:String x:Key="SortByNameAsc">Name (A-Z)</sys:String>
+    <sys:String x:Key="SortByNameDesc">Name (Z-A)</sys:String>
+    <sys:String x:Key="SortByDateDesc">Newest First</sys:String>
+    <sys:String x:Key="SortByDateAsc">Oldest First</sys:String>
+    <sys:String x:Key="LabelSortBy">Sort</sys:String>
+    <sys:String x:Key="LabelAddToFavorites">Add to Favorites</sys:String>
+    <sys:String x:Key="LabelRemoveFromFavorites">Remove from Favorites</sys:String>
 </ResourceDictionary>
