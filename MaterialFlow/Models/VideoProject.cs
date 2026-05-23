@@ -53,9 +53,19 @@ public class VideoProject : INotifyPropertyChanged
     public string FPS { get; set; } = "60 fps";
 
     /// <summary>
+    /// Кодек відео (наприклад, "libx264").
+    /// </summary>
+    public string Codec { get; set; } = "libx264";
+
+    /// <summary>
     /// Опис проєкту.
     /// </summary>
     public string Description { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Вказує, чи потрібно накладати водяний знак під час рендерингу.
+    /// </summary>
+    public bool UseWatermark { get; set; } = true;
 
     private string _thumbnailPath = string.Empty;
 

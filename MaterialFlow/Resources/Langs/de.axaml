@@ -38,7 +38,9 @@
     <sys:String x:Key="HeaderPlatform">Plattform</sys:String>
     <sys:String x:Key="HeaderResolution">Auflösung</sys:String>
     <sys:String x:Key="HeaderBitrate">Bitrate</sys:String>
+    <sys:String x:Key="HeaderFPS">FPS</sys:String>
     <sys:String x:Key="HeaderFormat">Format</sys:String>
+    <sys:String x:Key="HeaderCodec">Codec</sys:String>
     <sys:String x:Key="HeaderWatermark">Wasserzeichen</sys:String>
     <sys:String x:Key="BtnCancel">Abbrechen</sys:String>
     <sys:String x:Key="BtnCreate">Erstellen</sys:String>
@@ -54,6 +56,7 @@
     <sys:String x:Key="LabelResolution">Auflösung</sys:String>
     <sys:String x:Key="LabelBitrate">Bitrate</sys:String>
     <sys:String x:Key="LabelFormat">Format</sys:String>
+    <sys:String x:Key="LabelCodec">Codec</sys:String>
     <sys:String x:Key="LabelFPS">FPS</sys:String>
     <sys:String x:Key="LabelSize">Größe</sys:String>
     <sys:String x:Key="LabelPath">Pfad</sys:String>

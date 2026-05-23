@@ -165,8 +165,9 @@
                 </StackPanel>
 
                  <!-- Settings -->
-                <StackPanel Spacing="16">
+                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*">
                     <ComboBox Name="ResolutionComboBox"
+                              Grid.Row="0" Grid.Column="0" Margin="0,0,8,16"
                               Theme="{StaticResource MaterialOutlineComboBox}" 
                               p1:ComboBoxAssist.Label="{DynamicResource HeaderResolution}" 
                               Classes="dense"
@@ -174,20 +175,38 @@
                               ItemsSource="{Binding Resolutions}"
                               SelectedItem="{Binding SelectedResolution}"/>
 
-                    <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,16"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
                               p1:ComboBoxAssist.Label="{DynamicResource HeaderBitrate}" 
                               Classes="dense"
                               Foreground="{DynamicResource PrimaryBrush}"
                               ItemsSource="{Binding Bitrates}"
                               SelectedItem="{Binding SelectedBitrate}"/>
 
-                    <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                    <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,8,16"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="{DynamicResource HeaderFPS}" 
+                              Classes="dense"
+                              Foreground="{DynamicResource PrimaryBrush}"
+                              ItemsSource="{Binding FPSs}"
+                              SelectedItem="{Binding SelectedFPS}"/>
+
+                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,16"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
                               p1:ComboBoxAssist.Label="{DynamicResource HeaderFormat}" 
                               Classes="dense"
                               Foreground="{DynamicResource PrimaryBrush}"
                               ItemsSource="{Binding Formats}"
                               SelectedItem="{Binding SelectedFormat}"/>
-                </StackPanel>
+
+                    <ComboBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="{DynamicResource HeaderCodec}" 
+                              Classes="dense"
+                              Foreground="{DynamicResource PrimaryBrush}"
+                              ItemsSource="{Binding Codecs}"
+                              SelectedItem="{Binding SelectedCodec}"/>
+                </Grid>
 
                 <!-- Watermark -->
                 <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,8,0,0">

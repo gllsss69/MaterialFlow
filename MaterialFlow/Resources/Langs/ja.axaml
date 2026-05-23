@@ -38,7 +38,9 @@
     <sys:String x:Key="HeaderPlatform">プラットフォーム</sys:String>
     <sys:String x:Key="HeaderResolution">解像度</sys:String>
     <sys:String x:Key="HeaderBitrate">ビットレート</sys:String>
+    <sys:String x:Key="HeaderFPS">FPS</sys:String>
     <sys:String x:Key="HeaderFormat">フォーマット</sys:String>
+    <sys:String x:Key="HeaderCodec">コーデック</sys:String>
     <sys:String x:Key="HeaderWatermark">ウォーターマーク</sys:String>
     <sys:String x:Key="BtnCancel">キャンセル</sys:String>
     <sys:String x:Key="BtnCreate">作成</sys:String>
@@ -54,6 +56,7 @@
     <sys:String x:Key="LabelResolution">解像度</sys:String>
     <sys:String x:Key="LabelBitrate">ビットレート</sys:String>
     <sys:String x:Key="LabelFormat">フォーマット</sys:String>
+    <sys:String x:Key="LabelCodec">コーデック</sys:String>
     <sys:String x:Key="LabelFPS">FPS</sys:String>
     <sys:String x:Key="LabelSize">サイズ</sys:String>
     <sys:String x:Key="LabelPath">パス</sys:String>

@@ -38,7 +38,9 @@
     <sys:String x:Key="HeaderPlatform">Platforma</sys:String>
     <sys:String x:Key="HeaderResolution">Rozlíšenie</sys:String>
     <sys:String x:Key="HeaderBitrate">Bitrate</sys:String>
+    <sys:String x:Key="HeaderFPS">FPS</sys:String>
     <sys:String x:Key="HeaderFormat">Formát</sys:String>
+    <sys:String x:Key="HeaderCodec">Kodek</sys:String>
     <sys:String x:Key="HeaderWatermark">Vodoznak</sys:String>
     <sys:String x:Key="BtnCancel">Zrušiť</sys:String>
     <sys:String x:Key="BtnCreate">Vytvoriť</sys:String>
@@ -54,6 +56,7 @@
     <sys:String x:Key="LabelResolution">Rozlíšenie</sys:String>
     <sys:String x:Key="LabelBitrate">Bitrate</sys:String>
     <sys:String x:Key="LabelFormat">Formát</sys:String>
+    <sys:String x:Key="LabelCodec">Kodek</sys:String>
     <sys:String x:Key="LabelFPS">Snímky/s</sys:String>
     <sys:String x:Key="LabelSize">Veľkosť</sys:String>
     <sys:String x:Key="LabelPath">Cesta</sys:String>

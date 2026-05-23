@@ -30,6 +30,7 @@ namespace MaterialFlow.Views
         public string Resolution => !string.IsNullOrEmpty(_project.Resolution) ? _project.Resolution : "Unknown";
         public string Bitrate => !string.IsNullOrEmpty(_project.Bitrate) ? _project.Bitrate : "Unknown";
         public string Format => !string.IsNullOrEmpty(_project.Format) ? _project.Format : (!string.IsNullOrEmpty(_project.ExportFilePath) || !string.IsNullOrEmpty(_project.SourceFilePath) ? System.IO.Path.GetExtension(!string.IsNullOrEmpty(_project.ExportFilePath) ? _project.ExportFilePath : _project.SourceFilePath)?.TrimStart('.') ?? "Unknown" : "Unknown");
+        public string Codec => !string.IsNullOrEmpty(_project.Codec) ? _project.Codec : "Unknown";
         public string FPS => !string.IsNullOrEmpty(_project.FPS) ? _project.FPS : "Unknown";
         public string Size
         {

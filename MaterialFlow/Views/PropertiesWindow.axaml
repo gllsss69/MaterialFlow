@@ -47,6 +47,13 @@
                 </Grid>
                 <Grid ColumnDefinitions="Auto,*">
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource LabelCodec}" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                        <TextBlock Text=": " FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" Text="{Binding Codec}" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" TextWrapping="Wrap"/>
+                </Grid>
+                <Grid ColumnDefinitions="Auto,*">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <TextBlock Text="{DynamicResource LabelFPS}" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
                         <TextBlock Text=": " FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
                     </StackPanel>

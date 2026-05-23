@@ -24,6 +24,29 @@ namespace MaterialFlow
             {
                 var projectViewModel = dialog.ViewModel;
                 
+                int parsedBitrate = 5000;
+                if (projectViewModel.SelectedBitrate != "Auto")
+                {
+                    var bitRateStr = projectViewModel.SelectedBitrate.Replace(" Mbps", "").Replace(" kbps", "");
+                    if (int.TryParse(bitRateStr, out int b))
+                    {
+                        parsedBitrate = projectViewModel.SelectedBitrate.Contains("Mbps") ? b * 1000 : b;
+                    }
+                }
+
+                int parsedFps = 30;
+                var fpsStr = projectViewModel.SelectedFPS.Replace(" fps", "");
+                if (int.TryParse(fpsStr, out int f))
+                {
+                    parsedFps = f;
+                }
+
+                string selectedCodec = projectViewModel.SelectedCodec;
+                if (selectedCodec == "Auto")
+                {
+                    selectedCodec = projectViewModel.SelectedFormat.TrimStart('.').Equals("avi", System.StringComparison.OrdinalIgnoreCase) ? "mpeg4" : "libx264";
+                }
+
                 // Створюємо новий проєкт на основі введених даних
                 var newProject = new MaterialFlow.Models.VideoProject
                 {
@@ -32,7 +55,9 @@ namespace MaterialFlow
                     Resolution = projectViewModel.SelectedResolution,
                     Bitrate = projectViewModel.SelectedBitrate == "Auto" ? "5000 kbps" : projectViewModel.SelectedBitrate,
                     Format = projectViewModel.SelectedFormat.TrimStart('.'),
-                    FPS = "60 fps", // Default for exported projects
+                    FPS = projectViewModel.SelectedFPS,
+                    Codec = selectedCodec,
+                    UseWatermark = projectViewModel.UseWatermark,
                     CreatedAt = System.DateTime.UtcNow
                 };
 
@@ -44,9 +69,9 @@ namespace MaterialFlow
                 {
                     Name = projectViewModel.SelectedPlatform,
                     Resolution = projectViewModel.SelectedResolution,
-                    // Parse bitrate if it's a number, otherwise default
-                    Bitrate = int.TryParse(projectViewModel.SelectedBitrate, out int b) ? b : 5000,
-                    Codec = "libx264"
+                    Bitrate = parsedBitrate,
+                    FrameRate = parsedFps,
+                    Codec = selectedCodec
                 };
 
                 // Запускаємо конвертацію (асинхронно у фоні), передаємо SavePath як шлях для експорту
@@ -143,6 +168,26 @@ namespace MaterialFlow
                     try
                     {
                         System.IO.Directory.Delete(projectDir, true);
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        private void OpenVideo_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.DataContext is Models.VideoProject project)
+            {
+                var filePath = project.ExportFilePath;
+                if (!string.IsNullOrEmpty(filePath) && System.IO.File.Exists(filePath))
+                {
+                    try
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = filePath,
+                            UseShellExecute = true // Opens with default video player
+                        });
                     }
                     catch { }
                 }

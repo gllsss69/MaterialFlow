@@ -19,7 +19,9 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     private string _sourceFileName = string.Empty;
     private bool _isSourceFileSelected = false;
     private string _selectedBitrate = "Auto";
+    private string _selectedFPS = "30 fps";
     private string _selectedFormat = ".mp4";
+    private string _selectedCodec = "Auto";
     private bool _useWatermark = true;
     private string _errorMessage = string.Empty;
 
@@ -114,12 +116,30 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
+    /// Очікувана частота кадрів вихідного відео файлу.
+    /// </summary>
+    public string SelectedFPS
+    {
+        get => _selectedFPS;
+        set { _selectedFPS = value; OnPropertyChanged(); }
+    }
+
+    /// <summary>
     /// Формат медіафайлу (наприклад, .mp4, .mkv).
     /// </summary>
     public string SelectedFormat
     {
         get => _selectedFormat;
         set { _selectedFormat = value; OnPropertyChanged(); }
+    }
+
+    /// <summary>
+    /// Очікуваний відеокодек.
+    /// </summary>
+    public string SelectedCodec
+    {
+        get => _selectedCodec;
+        set { _selectedCodec = value; OnPropertyChanged(); }
     }
 
     /// <summary>
@@ -149,8 +169,27 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     public ObservableCollection<string> Bitrates { get; } = new()
     {
         "Auto",
+        "2 Mbps",
         "5 Mbps",
-        "10 Mbps"
+        "8 Mbps",
+        "10 Mbps",
+        "15 Mbps",
+        "20 Mbps",
+        "30 Mbps",
+        "50 Mbps"
+    };
+
+    /// <summary>
+    /// Колекція доступних варіантів FPS.
+    /// </summary>
+    public ObservableCollection<string> FPSs { get; } = new()
+    {
+        "24 fps",
+        "25 fps",
+        "30 fps",
+        "50 fps",
+        "60 fps",
+        "120 fps"
     };
 
     /// <summary>
@@ -161,6 +200,18 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         ".mp4",
         ".mkv",
         ".avi"
+    };
+
+    /// <summary>
+    /// Колекція доступних варіантів кодеків відео.
+    /// </summary>
+    public ObservableCollection<string> Codecs { get; } = new()
+    {
+        "Auto",
+        "libx264",
+        "libx265",
+        "mpeg4",
+        "libvpx-vp9"
     };
 
     /// <summary>
@@ -222,9 +273,19 @@ public class CreateProjectViewModel : INotifyPropertyChanged
             ErrorMessage = "Please select a bitrate.";
             return false;
         }
+        if (string.IsNullOrWhiteSpace(SelectedFPS))
+        {
+            ErrorMessage = "Please select a frame rate (FPS).";
+            return false;
+        }
         if (string.IsNullOrWhiteSpace(SelectedFormat))
         {
             ErrorMessage = "Please select a video format.";
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(SelectedCodec))
+        {
+            ErrorMessage = "Please select a codec.";
             return false;
         }
 

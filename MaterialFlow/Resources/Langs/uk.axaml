@@ -38,7 +38,9 @@
     <sys:String x:Key="HeaderPlatform">Платформа</sys:String>
     <sys:String x:Key="HeaderResolution">Роздільна здатність</sys:String>
     <sys:String x:Key="HeaderBitrate">Бітрейт</sys:String>
+    <sys:String x:Key="HeaderFPS">Кадри/с</sys:String>
     <sys:String x:Key="HeaderFormat">Формат</sys:String>
+    <sys:String x:Key="HeaderCodec">Кодек</sys:String>
     <sys:String x:Key="HeaderWatermark">Водяний знак</sys:String>
     <sys:String x:Key="BtnCancel">Скасувати</sys:String>
     <sys:String x:Key="BtnCreate">Створити</sys:String>
@@ -54,6 +56,7 @@
     <sys:String x:Key="LabelResolution">Роздільна здатність</sys:String>
     <sys:String x:Key="LabelBitrate">Бітрейт</sys:String>
     <sys:String x:Key="LabelFormat">Формат</sys:String>
+    <sys:String x:Key="LabelCodec">Кодек</sys:String>
     <sys:String x:Key="LabelFPS">Кадри/с</sys:String>
     <sys:String x:Key="LabelSize">Розмір</sys:String>
     <sys:String x:Key="LabelPath">Шлях</sys:String>

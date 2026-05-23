@@ -153,12 +153,41 @@ public class FFmpegService
 
         try
         {
+            // Визначаємо шлях до файлу водяного знаку
+            var watermarkPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "logo.png");
+            bool applyWatermark = project.UseWatermark && File.Exists(watermarkPath);
+
             // Build arguments
-            // Example: -i input.mp4 -s 1920x1080 -b:v 5000k -c:v libx264 -r 30 -b:a 128k output.mp4
-            var args = $"-y -i \"{project.SourceFilePath}\" ";
-            
-            if (!string.IsNullOrWhiteSpace(preset.Resolution))
-                args += $"-s {preset.Resolution} ";
+            var args = "-y ";
+
+            if (applyWatermark)
+                args += $"-i \"{project.SourceFilePath}\" -i \"{watermarkPath}\" ";
+            else
+                args += $"-i \"{project.SourceFilePath}\" ";
+
+            if (applyWatermark)
+            {
+
+                string scaleWatermark = "[1:v]scale=150:-1[wm];";
+                string overlayParams = "overlay=main_w-overlay_w-20:main_h-overlay_h-20[outv]";
+                // filter_complex: масштабування + накладання водяного знаку в правому нижньому куті
+                string filterComplex;
+                if (!string.IsNullOrWhiteSpace(preset.Resolution))
+                {
+                    var dims = preset.Resolution.Replace("x", ":");
+                    filterComplex = $"{scaleWatermark}[0:v]scale={dims}[scaled];[scaled][wm]{overlayParams}";
+                }
+                else
+                {
+                    filterComplex = $"{scaleWatermark}[0:v][wm]{overlayParams}";
+                }
+                args += $"-filter_complex \"{filterComplex}\" -map \"[outv]\" -map 0:a? ";
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(preset.Resolution))
+                    args += $"-s {preset.Resolution} ";
+            }
             
             if (preset.Bitrate > 0)
                 args += $"-b:v {preset.Bitrate}k ";
@@ -207,7 +236,7 @@ public class FFmpegService
                     break;
                 }
 
-                string line = await process.StandardError.ReadLineAsync();
+                string? line = await process.StandardError.ReadLineAsync();
                 if (line != null && duration.TotalSeconds > 0)
                 {
                     // Look for time=00:00:00.00
@@ -295,6 +324,7 @@ public class FFmpegService
             using var process = Process.Start(startInfo);
             if (process == null) return string.Empty;
 
+            _ = await process.StandardError.ReadToEndAsync();
             await process.WaitForExitAsync();
 
             if (process.ExitCode == 0 && File.Exists(outputImagePath))

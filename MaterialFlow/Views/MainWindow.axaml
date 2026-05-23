@@ -160,6 +160,11 @@
         <Style Selector="MenuItem:pointerover">
             <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
         </Style>
+
+        <!-- Play overlay hover effect -->
+        <Style Selector="Button:pointerover Panel#PlayOverlay">
+            <Setter Property="Opacity" Value="1"/>
+        </Style>
     </Window.Styles>
 
     <Grid ColumnDefinitions="Auto,*" Margin="24">
@@ -180,12 +185,7 @@
                 <StackPanel Grid.Row="0" Margin="0,32,0,0" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Spacing="16" HorizontalAlignment="Center">
                         <Button Theme="{StaticResource MaterialFlatButton}" Padding="0" Click="ToggleSidebar_Click" Background="Transparent" BorderThickness="0" FocusAdorner="{x:Null}">
-                            <Border Width="56" Height="56" CornerRadius="16" Background="{DynamicResource PrimaryBrush}">
-                                <Panel>
-                                    <TextBlock Text="MF" Foreground="White" FontWeight="Bold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               IsVisible="{Binding IsSidebarCollapsed}"/>
-                                </Panel>
-                            </Border>
+                            <Image Source="avares://MaterialFlow/Resources/logo.png" Width="80" Height="80"/>
                         </Button>
                         <TextBlock Text="MaterialFlow" FontWeight="Black" FontSize="20" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}"
                                    IsVisible="{Binding !IsSidebarCollapsed}"/>
@@ -400,23 +400,53 @@
                                     <Border Width="280" Margin="0,0,20,20" CornerRadius="24" ClipToBounds="True" Background="{DynamicResource SurfaceContainerHighestBrush}">
                                         <Grid RowDefinitions="140,Auto">
                                             <!-- Top (Thumbnail) Area -->
-                                            <Panel Grid.Row="0">
-                                                <material:MaterialIcon Kind="FolderOutline" Width="48" Height="48" Opacity="0.6" Foreground="{DynamicResource PrimaryBrush}"
-                                                                      IsVisible="{Binding ThumbnailPath, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
-                                                <Image Source="{Binding ThumbnailPath, Converter={StaticResource PathToBitmapConverter}}"
-                                                       Stretch="UniformToFill"
-                                                       IsVisible="{Binding ThumbnailPath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-                                            </Panel>
+                                            <Button Grid.Row="0" Padding="0" BorderThickness="0" Background="Transparent"
+                                                    Click="OpenVideo_Click" Cursor="Hand"
+                                                    IsEnabled="{Binding ExportFilePath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                                 <Panel>
+                                                     <Border Background="{DynamicResource SecondaryContainerBrush}"
+                                                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                             IsVisible="{Binding ThumbnailPath, Converter={x:Static StringConverters.IsNullOrEmpty}}">
+                                                         <Image Source="avares://MaterialFlow/Resources/logo.png"
+                                                                Width="60" Height="60"
+                                                                Stretch="Uniform"
+                                                                RenderOptions.BitmapInterpolationMode="HighQuality"
+                                                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                     </Border>
+                                                    <Image Source="{Binding ThumbnailPath, Converter={StaticResource PathToBitmapConverter}}"
+                                                           Stretch="UniformToFill"
+                                                           IsVisible="{Binding ThumbnailPath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                                                    <!-- Play Overlay (fades in on hover via Window.Styles) -->
+                                                    <Panel Name="PlayOverlay"
+                                                           Opacity="0"
+                                                           IsVisible="{Binding ExportFilePath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                                        <Panel.Transitions>
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity" Duration="0:0:0.15"/>
+                                                            </Transitions>
+                                                        </Panel.Transitions>
+                                                        <Border Background="#88000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                                        <Border Width="52" Height="52" CornerRadius="26"
+                                                                Background="{DynamicResource PrimaryBrush}"
+                                                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                BoxShadow="0 4 16 0 #44000000">
+                                                            <material:MaterialIcon Kind="Play" Width="28" Height="28" Foreground="White" Margin="4,0,0,0"/>
+                                                        </Border>
+                                                    </Panel>
+                                                </Panel>
+                                            </Button>
                                             
                                             <!-- Bottom (Details) Area -->
                                             <Border Grid.Row="1" Background="{DynamicResource SurfaceVariantBrush}" Padding="16" CornerRadius="0,0,24,24">
                                                 <Grid ColumnDefinitions="*,Auto">
                                                     <StackPanel VerticalAlignment="Center">
-                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,2,0,0">
-                                                            <TextBlock Text="{Binding CreatedAt, StringFormat=\{0:dd.MM.yyyy\}}" Opacity="0.6" FontSize="12" VerticalAlignment="Center"/>
-                                                            <TextBlock Text="{Binding StatusText}" Opacity="0.8" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center"/>
-                                                        </StackPanel>
+                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSecondaryContainerBrush}" TextTrimming="CharacterEllipsis"/>
+                                                        <Panel Margin="0,2,0,0">
+                                                            <TextBlock Text="{Binding CreatedAt, StringFormat=\{0:dd.MM.yyyy\}}" Opacity="0.6" FontSize="12" VerticalAlignment="Center"
+                                                                       IsVisible="{Binding StatusText, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
+                                                            <TextBlock Text="{Binding StatusText}" Opacity="0.8" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center"
+                                                                       IsVisible="{Binding StatusText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" TextTrimming="CharacterEllipsis"/>
+                                                        </Panel>
                                                     </StackPanel>
                                                     
                                                     <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">

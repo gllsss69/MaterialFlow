@@ -495,11 +495,12 @@ namespace MaterialFlow.ViewModels;
             exportPath = projectDir;
         }
 
+        var formatExtension = string.IsNullOrWhiteSpace(project.Format) ? "mp4" : project.Format.TrimStart('.');
         var job = new ConversionJob
         {
             ProjectId = project.Id,
             PresetId = preset.Id,
-            OutputPath = Path.Combine(exportPath, $"{project.Name}_{preset.Name}.mp4")
+            OutputPath = Path.Combine(exportPath, $"{project.Name}_{preset.Name}.{formatExtension}")
         };
 
         project.ExportFilePath = job.OutputPath;
@@ -548,7 +549,7 @@ namespace MaterialFlow.ViewModels;
         else
         {
             project.IsProcessing = false;
-            project.StatusText = "Error"; // Persists on failure
+            project.StatusText = $"Error: {job.ErrorMessage}"; // Persists on failure
         }
 
         // Перезаписуємо project.json з оновленим статусом
