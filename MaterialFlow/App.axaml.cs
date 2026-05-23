@@ -23,6 +23,9 @@ namespace MaterialFlow
         /// </summary>
         public override void OnFrameworkInitializationCompleted()
         {
+            // Load essential app data
+            System.Threading.Tasks.Task.Run(async () => await Services.DataService.Instance.LoadAllDataAsync()).Wait();
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow();

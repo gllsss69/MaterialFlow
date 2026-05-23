@@ -201,7 +201,7 @@
                 </StackPanel>
 
                 <!-- Navigation List -->
-                <StackPanel Grid.Row="1" Margin="0,16,0,0">
+                <StackPanel Grid.Row="1" Margin="0,16,0,0" Spacing="8">
                     <Button Theme="{StaticResource MaterialFlatButton}" CornerRadius="28" Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
                             Command="{Binding SetPageIndex}" CommandParameter="0"
                             HorizontalAlignment="Center">
@@ -224,6 +224,32 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
                                 <material:MaterialIcon Kind="HomeOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
                                 <TextBlock Text="{DynamicResource NavHome}" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                            </StackPanel>
+                        </Border>
+                    </Button>
+
+                    <Button Theme="{StaticResource MaterialFlatButton}" CornerRadius="28" Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
+                            Command="{Binding SetPageIndex}" CommandParameter="2"
+                            HorizontalAlignment="Center">
+                        <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" 
+                                Classes.active="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=2}"
+                                HorizontalAlignment="Center" ClipToBounds="True">
+                            <Border.Styles>
+                                <Style Selector="Border.active">
+                                    <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+                                </Style>
+                                <Style Selector="Border:not(.active)">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </Border.Styles>
+                            <Border.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                                </Transitions>
+                            </Border.Transitions>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+                                <material:MaterialIcon Kind="Tune" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="Presets" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
                             </StackPanel>
                         </Border>
                     </Button>
@@ -556,6 +582,11 @@
 
             <!-- Settings Page -->
             <views:SettingsView IsVisible="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=1}"/>
+
+            <!-- Presets Page -->
+            <Panel IsVisible="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=2}">
+                <views:PresetsView />
+            </Panel>
         </Panel>
     </Border>
 </Grid>

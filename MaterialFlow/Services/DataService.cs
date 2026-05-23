@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace MaterialFlow.Services;
 
 public class DataService
 {
+    public static DataService Instance { get; } = new DataService();
+
     private readonly string _dataFolderPath = "Data";
     
     // Шляхи до файлів згідно з ТЗ
@@ -24,7 +27,7 @@ public class DataService
     public List<Preset> Presets { get; private set; } = new();
     public List<ConversionJob> Jobs { get; private set; } = new();
 
-    public DataService()
+    private DataService()
     {
         _usersPath = Path.Combine(_dataFolderPath, "users.json");
         _projectsPath = Path.Combine(_dataFolderPath, "projects.json");
@@ -81,5 +84,32 @@ public class DataService
         Platforms = await LoadListAsync<Platform>(_platformsPath);
         Presets = await LoadListAsync<Preset>(_presetsPath);
         Jobs = await LoadListAsync<ConversionJob>(_jobsPath);
+
+        if (Platforms.Count == 0)
+        {
+            InitializeDefaultPlatforms();
+            await SavePlatformsAsync();
+        }
+        else
+        {
+            // Ensure "Other" platform exists for backward compatibility
+            if (!Platforms.Any(p => p.Name.Equals("Other", StringComparison.OrdinalIgnoreCase)))
+            {
+                Platforms.Add(new Platform { Name = "Other", DefaultResolution = "1920x1080", DefaultAspectRatio = "16:9" });
+                await SavePlatformsAsync();
+            }
+        }
     }
+
+    private void InitializeDefaultPlatforms()
+    {
+        Platforms.Add(new Platform { Name = "YouTube", DefaultResolution = "1920x1080", DefaultAspectRatio = "16:9" });
+        Platforms.Add(new Platform { Name = "TikTok", DefaultResolution = "720x1280", DefaultAspectRatio = "9:16" });
+        Platforms.Add(new Platform { Name = "Instagram", DefaultResolution = "1080x1080", DefaultAspectRatio = "1:1" });
+        Platforms.Add(new Platform { Name = "Facebook", DefaultResolution = "1080x1080", DefaultAspectRatio = "1:1" });
+        Platforms.Add(new Platform { Name = "Other", DefaultResolution = "1920x1080", DefaultAspectRatio = "16:9" });
+    }
+
+    public async Task SavePresetsAsync() => await SaveListAsync(_presetsPath, Presets);
+    public async Task SavePlatformsAsync() => await SaveListAsync(_platformsPath, Platforms);
 }

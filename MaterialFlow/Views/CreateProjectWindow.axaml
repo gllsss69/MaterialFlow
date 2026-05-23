@@ -7,7 +7,7 @@
         x:Class="MaterialFlow.Views.CreateProjectWindow"
         x:DataType="vm:CreateProjectViewModel"
         Title="{DynamicResource HeaderCreateProject}"
-        Width="550"
+        Width="640"
         SizeToContent="Height"
         CanResize="False"
         WindowStartupLocation="CenterOwner"
@@ -150,7 +150,7 @@
                 <!-- Platform Selection -->
                 <StackPanel Spacing="12">
                     <TextBlock Text="{DynamicResource HeaderPlatform}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="14"/>
-                    <WrapPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
                         <RadioButton Content="YouTube" Classes="Chip" GroupName="Platform"
                                      IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=YouTube}"/>
                         <RadioButton Content="TikTok" Classes="Chip" GroupName="Platform"
@@ -161,8 +161,26 @@
                                      IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Instagram}"/>
                         <RadioButton Content="Other" Classes="Chip" GroupName="Platform"
                                      IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Other}"/>
-                    </WrapPanel>
+                        <RadioButton Content="None" Classes="Chip" GroupName="Platform"
+                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=None}"/>
+                    </StackPanel>
                 </StackPanel>
+
+                <!-- Preset Selection -->
+                <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                          p1:ComboBoxAssist.Label="Select Preset" 
+                          Classes="dense"
+                          Foreground="{DynamicResource PrimaryBrush}"
+                          ItemsSource="{Binding AvailablePresets}"
+                          SelectedItem="{Binding SelectedPreset}"
+                          IsVisible="{Binding IsPresetSelectionVisible}"
+                          HorizontalAlignment="Stretch">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                  <!-- Settings -->
                 <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*">
@@ -173,7 +191,8 @@
                               Classes="dense"
                               Foreground="{DynamicResource PrimaryBrush}"
                               ItemsSource="{Binding Resolutions}"
-                              SelectedItem="{Binding SelectedResolution}"/>
+                              SelectedItem="{Binding SelectedResolution}"
+                              IsEnabled="{Binding !IsPresetSelectionVisible}"/>
 
                     <ComboBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,16"
                               Theme="{StaticResource MaterialOutlineComboBox}" 
@@ -181,7 +200,8 @@
                               Classes="dense"
                               Foreground="{DynamicResource PrimaryBrush}"
                               ItemsSource="{Binding Bitrates}"
-                              SelectedItem="{Binding SelectedBitrate}"/>
+                              SelectedItem="{Binding SelectedBitrate}"
+                              IsEnabled="{Binding !IsPresetSelectionVisible}"/>
 
                     <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,8,16"
                               Theme="{StaticResource MaterialOutlineComboBox}" 
@@ -189,23 +209,25 @@
                               Classes="dense"
                               Foreground="{DynamicResource PrimaryBrush}"
                               ItemsSource="{Binding FPSs}"
-                              SelectedItem="{Binding SelectedFPS}"/>
+                              SelectedItem="{Binding SelectedFPS}"
+                              IsEnabled="{Binding !IsPresetSelectionVisible}"/>
 
                     <ComboBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,16"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="{DynamicResource HeaderCodec}" 
+                              Classes="dense"
+                              Foreground="{DynamicResource PrimaryBrush}"
+                              ItemsSource="{Binding Codecs}"
+                              SelectedItem="{Binding SelectedCodec}"
+                              IsEnabled="{Binding !IsPresetSelectionVisible}"/>
+
+                    <ComboBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                               Theme="{StaticResource MaterialOutlineComboBox}" 
                               p1:ComboBoxAssist.Label="{DynamicResource HeaderFormat}" 
                               Classes="dense"
                               Foreground="{DynamicResource PrimaryBrush}"
                               ItemsSource="{Binding Formats}"
                               SelectedItem="{Binding SelectedFormat}"/>
-
-                    <ComboBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                              Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="{DynamicResource HeaderCodec}" 
-                              Classes="dense"
-                              Foreground="{DynamicResource PrimaryBrush}"
-                              ItemsSource="{Binding Codecs}"
-                              SelectedItem="{Binding SelectedCodec}"/>
                 </Grid>
 
                 <!-- Watermark -->

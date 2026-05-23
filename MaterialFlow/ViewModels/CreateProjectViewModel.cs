@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using MaterialFlow.Models;
+using MaterialFlow.Services;
 
 namespace MaterialFlow.ViewModels;
 
@@ -24,6 +26,34 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     private string _selectedCodec = "Auto";
     private bool _useWatermark = true;
     private string _errorMessage = string.Empty;
+    private Preset? _selectedPreset;
+
+    public CreateProjectViewModel()
+    {
+        UpdateDefaultSettings();
+    }
+
+    public ObservableCollection<Preset> AvailablePresets { get; } = new();
+
+    public Preset? SelectedPreset
+    {
+        get => _selectedPreset;
+        set
+        {
+            if (_selectedPreset != value)
+            {
+                _selectedPreset = value;
+                OnPropertyChanged();
+                if (_selectedPreset != null)
+                {
+                    SelectedResolution = _selectedPreset.Resolution;
+                    SelectedBitrate = (_selectedPreset.Bitrate / 1000) + " Mbps";
+                    SelectedFPS = _selectedPreset.FrameRate + " fps";
+                    SelectedCodec = _selectedPreset.Codec;
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Текст повідомлення про помилку валідації полів форми.
@@ -92,10 +122,13 @@ public class CreateProjectViewModel : INotifyPropertyChanged
             {
                 _selectedPlatform = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsPresetSelectionVisible));
                 UpdateDefaultSettings();
             }
         }
     }
+
+    public bool IsPresetSelectionVisible => !string.Equals(SelectedPlatform, "None", System.StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Очікувана роздільна здатність вихідного файлу.
@@ -219,21 +252,15 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     /// </summary>
     private void UpdateDefaultSettings()
     {
-        switch (SelectedPlatform)
+        // Update presets for selected platform
+        AvailablePresets.Clear();
+        var platform = DataService.Instance.Platforms.FirstOrDefault(p => p.Name.Equals(SelectedPlatform, System.StringComparison.OrdinalIgnoreCase));
+        if (platform != null)
         {
-            case "YouTube":
-                SelectedResolution = "1920x1080";
-                break;
-            case "TikTok":
-                SelectedResolution = "720x1280";
-                break;
-            case "Facebook":
-            case "Instagram":
-                SelectedResolution = "1080x1080";
-                break;
-            default:
-                SelectedResolution = "1920x1080";
-                break;
+            foreach (var preset in DataService.Instance.Presets.Where(pr => pr.PlatformId == platform.Id))
+            {
+                AvailablePresets.Add(preset);
+            }
         }
     }
 

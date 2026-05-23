@@ -1,0 +1,91 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="using:Material.Icons.Avalonia"
+             xmlns:p1="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:vm="using:MaterialFlow.ViewModels"
+             xmlns:models="using:MaterialFlow.Models"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+             x:Class="MaterialFlow.Views.PresetsView"
+             x:DataType="vm:PresetsViewModel">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Top Toolbar -->
+        <Grid Grid.Row="0" Margin="24,24,24,16" ColumnDefinitions="Auto,*,Auto">
+            <Button Classes="Capsule PrimaryCapsule" Height="56" Padding="32,0" Click="CreatePreset_Click">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <material:MaterialIcon Kind="Plus" Width="24" Height="24"/>
+                    <TextBlock Text="Create Preset" VerticalAlignment="Center" FontSize="16"/>
+                </StackPanel>
+            </Button>
+
+            <TextBox Grid.Column="2" 
+                      Width="400"
+                      Height="56"
+                      CornerRadius="28"
+                      Text="{Binding SearchText, Mode=TwoWay}"
+                      PlaceholderText="Search Presets..."
+                      Background="{DynamicResource SurfaceVariantBrush}"
+                      BorderThickness="0"
+                      VerticalContentAlignment="Center"
+                      Padding="16,0">
+                <TextBox.InnerLeftContent>
+                    <material:MaterialIcon Kind="Magnify" Width="24" Height="24" Margin="20,0,12,0" Opacity="0.5"/>
+                </TextBox.InnerLeftContent>
+                <TextBox.Styles>
+                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                        <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
+                    </Style>
+                </TextBox.Styles>
+            </TextBox>
+        </Grid>
+
+        <!-- Presets Grid -->
+        <Border Grid.Row="1" Margin="24,0,24,24" Padding="0" CornerRadius="24" Background="Transparent" ClipToBounds="True">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
+                          VerticalScrollBarVisibility="Auto" 
+                          Theme="{StaticResource MaterialModernScrollViewer}"
+                          Padding="24">
+                <ItemsControl ItemsSource="{Binding FilteredPresets}">
+                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:Preset">
+                            <Border Width="280" Margin="0,0,20,20" CornerRadius="24" ClipToBounds="True" Background="{DynamicResource SurfaceContainerHighestBrush}">
+                                <StackPanel Margin="24" Spacing="16">
+                                    <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis"/>
+                                    
+                                    <!-- Details -->
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="0,8,0,8">
+                                        <!-- Code-behind binds these manually or we use relative source if we need platform name. Actually DataService holds platforms, but for simplicity we can just show Resolution/Bitrate/etc. -->
+                                        <material:MaterialIcon Grid.Row="0" Grid.Column="0" Kind="Monitor" Width="16" Height="16" Margin="0,0,8,4" Foreground="{DynamicResource PrimaryBrush}"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Resolution}" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4"/>
+                                        
+                                        <material:MaterialIcon Grid.Row="1" Grid.Column="0" Kind="Speedometer" Width="16" Height="16" Margin="0,0,8,4" Foreground="{DynamicResource PrimaryBrush}"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Bitrate, StringFormat='{}{0} kbps'}" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4"/>
+                                        
+                                        <material:MaterialIcon Grid.Row="2" Grid.Column="0" Kind="AnimationPlay" Width="16" Height="16" Margin="0,0,8,4" Foreground="{DynamicResource PrimaryBrush}"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding FrameRate, StringFormat='{}{0} fps'}" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4"/>
+                                        
+                                        <material:MaterialIcon Grid.Row="3" Grid.Column="0" Kind="CodeBraces" Width="16" Height="16" Margin="0,0,8,4" Foreground="{DynamicResource PrimaryBrush}"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Codec}" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4"/>
+                                    </Grid>
+
+                                    <!-- Actions -->
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Button Grid.Column="0" Content="Edit" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" 
+                                                Click="EditPreset_Click" Tag="{Binding}" HorizontalAlignment="Stretch" Margin="0,0,4,0"/>
+                                        <Button Grid.Column="1" Content="Delete" Classes="Flat" Foreground="#B3261E" 
+                                                Click="DeletePreset_Click" Tag="{Binding}" HorizontalAlignment="Stretch" Margin="4,0,0,0"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>
