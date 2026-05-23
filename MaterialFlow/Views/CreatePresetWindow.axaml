@@ -71,7 +71,7 @@
                 <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
                     <ComboBox Grid.Row="0" Grid.Column="0" Margin="0,0,8,16"
                               Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="Resolution (e.g. 1920x1080)" 
+                              p1:ComboBoxAssist.Label="Resolution" 
                               Classes="dense"
                               ItemsSource="{Binding Resolutions}"
                               SelectedItem="{Binding Resolution}"/>

@@ -123,12 +123,14 @@ public class CreateProjectViewModel : INotifyPropertyChanged
                 _selectedPlatform = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsPresetSelectionVisible));
+                OnPropertyChanged(nameof(IsManualSettingsEnabled));
                 UpdateDefaultSettings();
             }
         }
     }
 
     public bool IsPresetSelectionVisible => !string.Equals(SelectedPlatform, "None", System.StringComparison.OrdinalIgnoreCase);
+    public bool IsManualSettingsEnabled => string.Equals(SelectedPlatform, "None", System.StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Очікувана роздільна здатність вихідного файлу.

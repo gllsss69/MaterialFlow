@@ -184,43 +184,80 @@
 
                  <!-- Settings -->
                 <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*">
-                    <ComboBox Name="ResolutionComboBox"
-                              Grid.Row="0" Grid.Column="0" Margin="0,0,8,16"
-                              Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="{DynamicResource HeaderResolution}" 
-                              Classes="dense"
-                              Foreground="{DynamicResource PrimaryBrush}"
-                              ItemsSource="{Binding Resolutions}"
-                              SelectedItem="{Binding SelectedResolution}"
-                              IsEnabled="{Binding !IsPresetSelectionVisible}"/>
+                    <!-- Resolution -->
+                    <Panel Grid.Row="0" Grid.Column="0" Margin="0,0,8,16">
+                        <ComboBox Name="ResolutionComboBox"
+                                  Theme="{StaticResource MaterialOutlineComboBox}" 
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderResolution}" 
+                                  Classes="dense"
+                                  Foreground="{DynamicResource PrimaryBrush}"
+                                  ItemsSource="{Binding Resolutions}"
+                                  SelectedItem="{Binding SelectedResolution}"
+                                  IsVisible="{Binding IsManualSettingsEnabled}"/>
+                        <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                                 p1:TextFieldAssist.Label="{DynamicResource HeaderResolution}"
+                                 Classes="outline dense"
+                                 UseFloatingPlaceholder="True"
+                                 Text="{Binding SelectedResolution}"
+                                 IsEnabled="False"
+                                 IsVisible="{Binding IsPresetSelectionVisible}"/>
+                    </Panel>
 
-                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,16"
-                              Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="{DynamicResource HeaderBitrate}" 
-                              Classes="dense"
-                              Foreground="{DynamicResource PrimaryBrush}"
-                              ItemsSource="{Binding Bitrates}"
-                              SelectedItem="{Binding SelectedBitrate}"
-                              IsEnabled="{Binding !IsPresetSelectionVisible}"/>
+                    <!-- Bitrate -->
+                    <Panel Grid.Row="0" Grid.Column="1" Margin="8,0,0,16">
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderBitrate}" 
+                                  Classes="dense"
+                                  Foreground="{DynamicResource PrimaryBrush}"
+                                  ItemsSource="{Binding Bitrates}"
+                                  SelectedItem="{Binding SelectedBitrate}"
+                                  IsVisible="{Binding IsManualSettingsEnabled}"/>
+                        <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                                 p1:TextFieldAssist.Label="{DynamicResource HeaderBitrate}"
+                                 Classes="outline dense"
+                                 UseFloatingPlaceholder="True"
+                                 Text="{Binding SelectedBitrate}"
+                                 IsEnabled="False"
+                                 IsVisible="{Binding IsPresetSelectionVisible}"/>
+                    </Panel>
 
-                    <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,8,16"
-                              Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="{DynamicResource HeaderFPS}" 
-                              Classes="dense"
-                              Foreground="{DynamicResource PrimaryBrush}"
-                              ItemsSource="{Binding FPSs}"
-                              SelectedItem="{Binding SelectedFPS}"
-                              IsEnabled="{Binding !IsPresetSelectionVisible}"/>
+                    <!-- FPS -->
+                    <Panel Grid.Row="1" Grid.Column="0" Margin="0,0,8,16">
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderFPS}" 
+                                  Classes="dense"
+                                  Foreground="{DynamicResource PrimaryBrush}"
+                                  ItemsSource="{Binding FPSs}"
+                                  SelectedItem="{Binding SelectedFPS}"
+                                  IsVisible="{Binding IsManualSettingsEnabled}"/>
+                        <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                                 p1:TextFieldAssist.Label="{DynamicResource HeaderFPS}"
+                                 Classes="outline dense"
+                                 UseFloatingPlaceholder="True"
+                                 Text="{Binding SelectedFPS}"
+                                 IsEnabled="False"
+                                 IsVisible="{Binding IsPresetSelectionVisible}"/>
+                    </Panel>
 
-                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,16"
-                              Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="{DynamicResource HeaderCodec}" 
-                              Classes="dense"
-                              Foreground="{DynamicResource PrimaryBrush}"
-                              ItemsSource="{Binding Codecs}"
-                              SelectedItem="{Binding SelectedCodec}"
-                              IsEnabled="{Binding !IsPresetSelectionVisible}"/>
+                    <!-- Codec -->
+                    <Panel Grid.Row="1" Grid.Column="1" Margin="8,0,0,16">
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderCodec}" 
+                                  Classes="dense"
+                                  Foreground="{DynamicResource PrimaryBrush}"
+                                  ItemsSource="{Binding Codecs}"
+                                  SelectedItem="{Binding SelectedCodec}"
+                                  IsVisible="{Binding IsManualSettingsEnabled}"/>
+                        <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                                 p1:TextFieldAssist.Label="{DynamicResource HeaderCodec}"
+                                 Classes="outline dense"
+                                 UseFloatingPlaceholder="True"
+                                 Text="{Binding SelectedCodec}"
+                                 IsEnabled="False"
+                                 IsVisible="{Binding IsPresetSelectionVisible}"/>
+                    </Panel>
 
+                    <!-- Format (always editable) -->
                     <ComboBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                               Theme="{StaticResource MaterialOutlineComboBox}" 
                               p1:ComboBoxAssist.Label="{DynamicResource HeaderFormat}" 
