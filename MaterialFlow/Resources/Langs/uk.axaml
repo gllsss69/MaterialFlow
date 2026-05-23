@@ -81,4 +81,10 @@
     <sys:String x:Key="LabelSortBy">Сортування</sys:String>
     <sys:String x:Key="LabelAddToFavorites">Додати до обраних</sys:String>
     <sys:String x:Key="LabelRemoveFromFavorites">Вилучити з обраних</sys:String>
+    <!-- Pagination -->
+    <sys:String x:Key="LabelItemsPerPage">Елементів на сторінці:</sys:String>
+    <sys:String x:Key="LabelPrevious">Попередня</sys:String>
+    <sys:String x:Key="LabelNext">Наступна</sys:String>
+    <sys:String x:Key="LabelPage">Сторінка</sys:String>
+    <sys:String x:Key="LabelOf">з</sys:String>
 </ResourceDictionary>

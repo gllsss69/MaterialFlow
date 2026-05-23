@@ -81,4 +81,10 @@
     <sys:String x:Key="LabelSortBy">並べ替え</sys:String>
     <sys:String x:Key="LabelAddToFavorites">お気に入りに追加</sys:String>
     <sys:String x:Key="LabelRemoveFromFavorites">お気に入りから削除</sys:String>
+    <!-- Pagination -->
+    <sys:String x:Key="LabelItemsPerPage">Items per page:</sys:String>
+    <sys:String x:Key="LabelPrevious">Previous</sys:String>
+    <sys:String x:Key="LabelNext">Next</sys:String>
+    <sys:String x:Key="LabelPage">Page</sys:String>
+    <sys:String x:Key="LabelOf">of</sys:String>
 </ResourceDictionary>

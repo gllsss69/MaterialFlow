@@ -309,7 +309,7 @@
         <Border Grid.Column="1" CornerRadius="32" Background="{DynamicResource SurfaceBrush}" BoxShadow="0 4 20 0 #15000000" ClipToBounds="True">
             <Panel>
                 <!-- Home Page -->
-                <Grid RowDefinitions="Auto,Auto,*" IsVisible="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=0}">
+                <Grid RowDefinitions="Auto,Auto,*,Auto" IsVisible="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=0}">
                 
                 <!-- Top Toolbar -->
                 <Grid Grid.Row="0" Margin="24,24,24,16" ColumnDefinitions="Auto,*,Auto">
@@ -503,6 +503,54 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
+                </Border>
+
+                <!-- Pagination Controls -->
+                <Border Grid.Row="3" Margin="24,0,24,24" Padding="16,8" CornerRadius="24" Background="{DynamicResource SurfaceVariantBrush}">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock Text="{DynamicResource LabelItemsPerPage}" VerticalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariantBrush}" />
+                            <Button Classes="SecondaryCapsule" Height="36" Padding="16,0" CornerRadius="18" VerticalAlignment="Center">
+                                <Button.Flyout>
+                                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                        <MenuItem Header="20" Command="{Binding SetPageSize}" CommandParameter="20" />
+                                        <MenuItem Header="50" Command="{Binding SetPageSize}" CommandParameter="50" />
+                                        <MenuItem Header="100" Command="{Binding SetPageSize}" CommandParameter="100" />
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{Binding PageSize}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                                    <material:MaterialIcon Kind="ChevronDown" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                            <Button Classes="SecondaryCapsule" Height="36" Padding="16,0" CornerRadius="18" 
+                                    Command="{Binding PreviousPage}" 
+                                    IsEnabled="{Binding CurrentPage, Converter={x:Static ObjectConverters.NotEqual}, ConverterParameter=1}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <material:MaterialIcon Kind="ChevronLeft" Width="18" Height="18" />
+                                    <TextBlock Text="{DynamicResource LabelPrevious}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                            
+                            <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                                <TextBlock Text="{DynamicResource LabelPage}" Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                                <TextBlock Text="{Binding CurrentPage}" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"/>
+                                <TextBlock Text="{DynamicResource LabelOf}" Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                                <TextBlock Text="{Binding TotalPages}" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"/>
+                            </StackPanel>
+
+                            <Button Classes="SecondaryCapsule" Height="36" Padding="16,0" CornerRadius="18" 
+                                    Command="{Binding NextPage}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{DynamicResource LabelNext}" VerticalAlignment="Center" />
+                                    <material:MaterialIcon Kind="ChevronRight" Width="18" Height="18" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </Grid>
 

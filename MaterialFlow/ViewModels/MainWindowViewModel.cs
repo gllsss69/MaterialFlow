@@ -324,6 +324,67 @@ namespace MaterialFlow.ViewModels;
             }
         }
 
+        private int _pageSize = 20;
+        public int PageSize
+        {
+            get => _pageSize;
+            set
+            {
+                if (_pageSize != value)
+                {
+                    _pageSize = value;
+                    CurrentPage = 1; // Reset to first page when size changes
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(TotalPages));
+                    OnPropertyChanged(nameof(FilteredProjects));
+                }
+            }
+        }
+
+        public ObservableCollection<int> PageSizes { get; } = new() { 20, 50, 100 };
+
+        private int _currentPage = 1;
+        public int CurrentPage
+        {
+            get => _currentPage;
+            set
+            {
+                if (_currentPage != value)
+                {
+                    _currentPage = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(FilteredProjects));
+                }
+            }
+        }
+
+        private int _totalItemsCount = 0;
+        public int TotalPages => Math.Max(1, (int)Math.Ceiling((double)_totalItemsCount / PageSize));
+
+        public void NextPage()
+        {
+            if (CurrentPage < TotalPages)
+            {
+                CurrentPage++;
+            }
+        }
+
+        public void PreviousPage()
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+            }
+        }
+
+        public void SetPageSize(string sizeStr)
+        {
+            if (int.TryParse(sizeStr, out int size))
+            {
+                PageSize = size;
+            }
+        }
+
         public string SelectedSortText
         {
             get
@@ -385,7 +446,19 @@ namespace MaterialFlow.ViewModels;
                     "DateDesc" or _ => result.OrderByDescending(p => p.CreatedAt),
                 };
 
-                return result.ToList();
+                int count = result.Count();
+                if (_totalItemsCount != count)
+                {
+                    _totalItemsCount = count;
+                    OnPropertyChanged(nameof(TotalPages));
+                    if (_currentPage > TotalPages && TotalPages > 0)
+                    {
+                        _currentPage = TotalPages;
+                        OnPropertyChanged(nameof(CurrentPage));
+                    }
+                }
+
+                return result.Skip((_currentPage - 1) * _pageSize).Take(_pageSize).ToList();
             }
         }
 
