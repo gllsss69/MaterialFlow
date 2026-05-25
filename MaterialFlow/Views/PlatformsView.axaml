@@ -1,0 +1,101 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="using:Material.Icons.Avalonia"
+             xmlns:p1="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:vm="using:MaterialFlow.ViewModels"
+             xmlns:models="using:MaterialFlow.Models"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+             x:Class="MaterialFlow.Views.PlatformsView"
+             x:DataType="vm:PlatformsViewModel">
+    <UserControl.DataContext>
+        <vm:PlatformsViewModel/>
+    </UserControl.DataContext>
+
+    <Panel x:CompileBindings="False">
+        <Border Background="#AA000000" IsVisible="{Binding $parent[Window].DataContext.IsEditor}" ZIndex="1" CornerRadius="24" Margin="24,24,24,24">
+            <TextBlock Text="To edit platforms, login as Admin." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="White" FontWeight="Bold"/>
+        </Border>
+
+        <Grid RowDefinitions="Auto,*" IsEnabled="{Binding $parent[Window].DataContext.IsAdmin}">
+            <!-- Top Toolbar -->
+            <Grid Grid.Row="0" Margin="24,24,24,16" ColumnDefinitions="Auto,*,Auto">
+                <Button Classes="Capsule PrimaryCapsule" Height="56" Padding="32,0" Click="CreatePlatform_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <material:MaterialIcon Kind="Plus" Width="24" Height="24"/>
+                        <TextBlock Text="Create Platform" VerticalAlignment="Center" FontSize="16"/>
+                    </StackPanel>
+                </Button>
+
+                <TextBox Grid.Column="2" 
+                          Width="400"
+                          Height="56"
+                          CornerRadius="28"
+                          Text="{Binding SearchText, Mode=TwoWay}"
+                          PlaceholderText="Search Platforms..."
+                          Background="{DynamicResource SurfaceVariantBrush}"
+                          BorderThickness="0"
+                          VerticalContentAlignment="Center"
+                          Padding="16,0">
+                    <TextBox.InnerLeftContent>
+                        <material:MaterialIcon Kind="Magnify" Width="24" Height="24" Margin="20,0,12,0" Opacity="0.5"/>
+                    </TextBox.InnerLeftContent>
+                    <TextBox.Styles>
+                        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter Property="Background" Value="{DynamicResource SurfaceVariantBrush}"/>
+                        </Style>
+                    </TextBox.Styles>
+                </TextBox>
+            </Grid>
+
+            <!-- Platforms Grid -->
+            <Border Grid.Row="1" Margin="24,0,24,24" Padding="0" CornerRadius="24" Background="Transparent" ClipToBounds="True">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
+                              VerticalScrollBarVisibility="Auto" 
+                              Theme="{StaticResource MaterialModernScrollViewer}">
+                    <ItemsControl ItemsSource="{Binding FilteredPlatforms}" Margin="24">
+                        <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:Platform">
+                                <Border Width="280" Margin="0,0,20,20" CornerRadius="24" ClipToBounds="True" Background="{DynamicResource SurfaceContainerHighestBrush}">
+                                    <StackPanel Margin="24" Spacing="16">
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <material:MaterialIcon Kind="{Binding IconKind}" Width="32" Height="32" Foreground="{DynamicResource PrimaryBrush}"/>
+                                            <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        
+                                        <!-- Details -->
+                                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,8,0,8">
+                                            <material:MaterialIcon Grid.Row="0" Grid.Column="0" Kind="Monitor" Width="16" Height="16" Margin="0,0,8,4" Foreground="{DynamicResource PrimaryBrush}"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DefaultResolution}" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4"/>
+                                            
+                                            <material:MaterialIcon Grid.Row="1" Grid.Column="0" Kind="Speedometer" Width="16" Height="16" Margin="0,0,8,4" Foreground="{DynamicResource PrimaryBrush}"/>
+                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DefaultBitrate, StringFormat='{}{0} kbps'}" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4"/>
+                                            
+                                            <material:MaterialIcon Grid.Row="2" Grid.Column="0" Kind="TimerOutline" Width="16" Height="16" Margin="0,0,8,4" Foreground="{DynamicResource PrimaryBrush}"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding DefaultFPS, StringFormat='{}{0} fps'}" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4"/>
+
+                                            <material:MaterialIcon Grid.Row="3" Grid.Column="0" Kind="CodeBraces" Width="16" Height="16" Margin="0,0,8,4" Foreground="{DynamicResource PrimaryBrush}"/>
+                                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DefaultCodec}" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4"/>
+                                        </Grid>
+
+                                        <!-- Actions -->
+                                        <Grid ColumnDefinitions="*,*">
+                                            <Button Grid.Column="0" Content="Edit" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" 
+                                                    Click="EditPlatform_Click" Tag="{Binding}" HorizontalAlignment="Stretch" Margin="0,0,4,0"/>
+                                            <Button Grid.Column="1" Content="Delete" Classes="Flat" Foreground="#B3261E" 
+                                                    Click="DeletePlatform_Click" Tag="{Binding}" HorizontalAlignment="Stretch" Margin="4,0,0,0"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Panel>
+</UserControl>

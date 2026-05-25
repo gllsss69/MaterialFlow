@@ -58,6 +58,7 @@ namespace MaterialFlow
                     FPS = projectViewModel.SelectedFPS,
                     Codec = selectedCodec,
                     UseWatermark = projectViewModel.UseWatermark,
+                    Platform = projectViewModel.SelectedPlatform?.Name ?? "None",
                     CreatedAt = System.DateTime.UtcNow
                 };
 
@@ -67,7 +68,7 @@ namespace MaterialFlow
                 // Створюємо пресет на основі вибраних налаштувань
                 var preset = new MaterialFlow.Models.Preset
                 {
-                    Name = projectViewModel.SelectedPlatform,
+                    Name = projectViewModel.SelectedPlatform?.Name ?? "None",
                     Resolution = projectViewModel.SelectedResolution,
                     Bitrate = parsedBitrate,
                     FrameRate = parsedFps,

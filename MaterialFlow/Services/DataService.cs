@@ -20,12 +20,14 @@ public class DataService
     private readonly string _platformsPath;
     private readonly string _presetsPath;
     private readonly string _jobsPath;
+    private readonly string _outputFilesPath;
 
     public List<User> Users { get; private set; } = new();
     public List<VideoProject> Projects { get; private set; } = new();
     public List<Platform> Platforms { get; private set; } = new();
     public List<Preset> Presets { get; private set; } = new();
     public List<ConversionJob> Jobs { get; private set; } = new();
+    public List<OutputFile> OutputFiles { get; private set; } = new();
 
     private DataService()
     {
@@ -34,6 +36,7 @@ public class DataService
         _platformsPath = Path.Combine(_dataFolderPath, "platforms.json");
         _presetsPath = Path.Combine(_dataFolderPath, "presets.json");
         _jobsPath = Path.Combine(_dataFolderPath, "jobs.json");
+        _outputFilesPath = Path.Combine(_dataFolderPath, "outputfiles.json");
 
         EnsureDataFolderExists();
     }
@@ -84,6 +87,7 @@ public class DataService
         Platforms = await LoadListAsync<Platform>(_platformsPath);
         Presets = await LoadListAsync<Preset>(_presetsPath);
         Jobs = await LoadListAsync<ConversionJob>(_jobsPath);
+        OutputFiles = await LoadListAsync<OutputFile>(_outputFilesPath);
 
         if (Platforms.Count == 0)
         {
@@ -124,4 +128,6 @@ public class DataService
 
     public async Task SavePresetsAsync() => await SaveListAsync(_presetsPath, Presets);
     public async Task SavePlatformsAsync() => await SaveListAsync(_platformsPath, Platforms);
+    public async Task SaveJobsAsync() => await SaveListAsync(_jobsPath, Jobs);
+    public async Task SaveOutputFilesAsync() => await SaveListAsync(_outputFilesPath, OutputFiles);
 }

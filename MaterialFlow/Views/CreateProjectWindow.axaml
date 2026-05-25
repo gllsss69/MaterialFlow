@@ -49,6 +49,10 @@
             <Setter Property="Padding" Value="12,0"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
+        <Style Selector="ComboBox.dense:disabled">
+            <!-- робить комбобокс "сірішим" коли IsEnabled = false -->
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
     </Window.Styles>
 
     <Border CornerRadius="32" Background="{DynamicResource SurfaceVariantBrush}" Padding="32" Margin="10" BoxShadow="0 8 32 0 #20000000">
@@ -151,44 +155,53 @@
                 <!-- Platform Selection -->
                 <StackPanel Spacing="12">
                     <TextBlock Text="{DynamicResource HeaderPlatform}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="14"/>
-                    <WrapPanel Orientation="Horizontal">
-                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=YouTube}">
-                            <StackPanel Orientation="Horizontal" Spacing="4">
-                                <material:MaterialIcon Kind="Youtube" Width="16" Height="16"/>
-                                <TextBlock Text="YouTube"/>
-                            </StackPanel>
-                        </RadioButton>
-                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=TikTok}">
-                            <StackPanel Orientation="Horizontal" Spacing="4">
-                                <material:MaterialIcon Kind="MusicNote" Width="16" Height="16"/>
-                                <TextBlock Text="TikTok"/>
-                            </StackPanel>
-                        </RadioButton>
-                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Facebook}">
-                            <StackPanel Orientation="Horizontal" Spacing="4">
-                                <material:MaterialIcon Kind="Facebook" Width="16" Height="16"/>
-                                <TextBlock Text="Facebook"/>
-                            </StackPanel>
-                        </RadioButton>
-                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Instagram}">
-                            <StackPanel Orientation="Horizontal" Spacing="4">
-                                <material:MaterialIcon Kind="Instagram" Width="16" Height="16"/>
-                                <TextBlock Text="Instagram"/>
-                            </StackPanel>
-                        </RadioButton>
-                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Other}">
-                            <StackPanel Orientation="Horizontal" Spacing="4">
-                                <material:MaterialIcon Kind="Web" Width="16" Height="16"/>
-                                <TextBlock Text="Other"/>
-                            </StackPanel>
-                        </RadioButton>
-                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=None}">
-                            <StackPanel Orientation="Horizontal" Spacing="4">
-                                <material:MaterialIcon Kind="Cancel" Width="16" Height="16"/>
-                                <TextBlock Text="None"/>
-                            </StackPanel>
-                        </RadioButton>
-                    </WrapPanel>
+                    <ListBox ItemsSource="{Binding AvailablePlatforms}" SelectedItem="{Binding SelectedPlatform, Mode=TwoWay}" 
+                             Background="Transparent" BorderThickness="0" Padding="0" MinHeight="0" 
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <material:MaterialIcon Kind="{Binding IconKind}" Width="16" Height="16"/>
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Padding" Value="10,6"/>
+                                <Setter Property="Margin" Value="0,0,5,8"/>
+                                <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
+                                <Setter Property="Template">
+                                    <ControlTemplate>
+                                        <Border Name="PART_RootBorder" 
+                                                Background="{TemplateBinding Background}" 
+                                                CornerRadius="16" 
+                                                Padding="{TemplateBinding Padding}" 
+                                                Margin="{TemplateBinding Margin}">
+                                            <ContentPresenter Name="PART_ContentPresenter" 
+                                                              Content="{TemplateBinding Content}" 
+                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                              TextElement.Foreground="{TemplateBinding Foreground}" 
+                                                              TextElement.FontWeight="Medium"
+                                                              TextElement.FontSize="13"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter>
+                            </Style>
+                            <Style Selector="ListBoxItem:selected /template/ Border#PART_RootBorder">
+                                <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+                            </Style>
+                            <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+                                <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
+                            </Style>
+                        </ListBox.Styles>
+                    </ListBox>
                 </StackPanel>
 
                 <!-- Preset Selection -->
@@ -218,14 +231,8 @@
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding Resolutions}"
                                   SelectedItem="{Binding SelectedResolution}"
-                                  IsVisible="{Binding IsManualSettingsEnabled}"/>
-                        <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
-                                 p1:TextFieldAssist.Label="{DynamicResource HeaderResolution}"
-                                 Classes="outline dense"
-                                 UseFloatingPlaceholder="True"
-                                 Text="{Binding SelectedResolution}"
-                                 IsEnabled="False"
-                                 IsVisible="{Binding IsPresetSelectionVisible}"/>
+                                  IsEnabled="{Binding IsManualSettingsEnabled}"
+                                  HorizontalAlignment="Stretch"/>
                     </Panel>
 
                     <!-- Bitrate -->
@@ -236,32 +243,20 @@
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding Bitrates}"
                                   SelectedItem="{Binding SelectedBitrate}"
-                                  IsVisible="{Binding IsManualSettingsEnabled}"/>
-                        <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
-                                 p1:TextFieldAssist.Label="{DynamicResource HeaderBitrate}"
-                                 Classes="outline dense"
-                                 UseFloatingPlaceholder="True"
-                                 Text="{Binding SelectedBitrate}"
-                                 IsEnabled="False"
-                                 IsVisible="{Binding IsPresetSelectionVisible}"/>
+                                  IsEnabled="{Binding IsManualSettingsEnabled}"
+                                  HorizontalAlignment="Stretch"/>
                     </Panel>
 
                     <!-- FPS -->
                     <Panel Grid.Row="1" Grid.Column="0" Margin="0,0,8,16">
                         <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderFPS}" 
+                                  p1:ComboBoxAssist.Label="FPS" 
                                   Classes="dense"
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding FPSs}"
                                   SelectedItem="{Binding SelectedFPS}"
-                                  IsVisible="{Binding IsManualSettingsEnabled}"/>
-                        <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
-                                 p1:TextFieldAssist.Label="{DynamicResource HeaderFPS}"
-                                 Classes="outline dense"
-                                 UseFloatingPlaceholder="True"
-                                 Text="{Binding SelectedFPS}"
-                                 IsEnabled="False"
-                                 IsVisible="{Binding IsPresetSelectionVisible}"/>
+                                  IsEnabled="{Binding IsManualSettingsEnabled}"
+                                  HorizontalAlignment="Stretch"/>
                     </Panel>
 
                     <!-- Codec -->
@@ -272,14 +267,8 @@
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding Codecs}"
                                   SelectedItem="{Binding SelectedCodec}"
-                                  IsVisible="{Binding IsManualSettingsEnabled}"/>
-                        <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
-                                 p1:TextFieldAssist.Label="{DynamicResource HeaderCodec}"
-                                 Classes="outline dense"
-                                 UseFloatingPlaceholder="True"
-                                 Text="{Binding SelectedCodec}"
-                                 IsEnabled="False"
-                                 IsVisible="{Binding IsPresetSelectionVisible}"/>
+                                  IsEnabled="{Binding IsManualSettingsEnabled}"
+                                  HorizontalAlignment="Stretch"/>
                     </Panel>
 
                     <!-- Format (always editable) -->

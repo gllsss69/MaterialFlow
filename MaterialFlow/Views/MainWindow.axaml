@@ -13,7 +13,7 @@
         x:DataType="vm:MainWindowViewModel"
         Title="MaterialFlow"
         Background="{DynamicResource WindowBackgroundBrush}"
-        MinWidth="1080" MinHeight="700">
+        MinWidth="1200" MinHeight="700">
 
     <Window.Resources>
         <conv:EqualityToBoolConverter x:Key="EqualityConverter"/>
@@ -230,7 +230,7 @@
 
                     <Button Theme="{StaticResource MaterialFlatButton}" CornerRadius="28" Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
                             Command="{Binding SetPageIndex}" CommandParameter="2"
-                            HorizontalAlignment="Center">
+                            HorizontalAlignment="Center" IsVisible="{Binding IsAdmin}">
                         <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" 
                                 Classes.active="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=2}"
                                 HorizontalAlignment="Center" ClipToBounds="True">
@@ -250,6 +250,32 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
                                 <material:MaterialIcon Kind="Tune" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
                                 <TextBlock Text="Presets" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                            </StackPanel>
+                        </Border>
+                    </Button>
+
+                    <Button Theme="{StaticResource MaterialFlatButton}" CornerRadius="28" Background="Transparent" BorderThickness="0" Padding="0" FocusAdorner="{x:Null}"
+                            Command="{Binding SetPageIndex}" CommandParameter="3"
+                            HorizontalAlignment="Center" IsVisible="{Binding IsAdmin}">
+                        <Border Width="{Binding ItemWidth}" Height="{Binding ItemHeight}" CornerRadius="28" 
+                                Classes.active="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=3}"
+                                HorizontalAlignment="Center" ClipToBounds="True">
+                            <Border.Styles>
+                                <Style Selector="Border.active">
+                                    <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+                                </Style>
+                                <Style Selector="Border:not(.active)">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </Border.Styles>
+                            <Border.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Width" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                                </Transitions>
+                            </Border.Transitions>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+                                <material:MaterialIcon Kind="ViewDashboardOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="Platforms" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
                             </StackPanel>
                         </Border>
                     </Button>
@@ -379,39 +405,85 @@
                         <ListBoxItem Classes="TabChip"><TextBlock Text="{DynamicResource LabelFavorites}"/></ListBoxItem>
                     </ListBox>
 
-                    <!-- Sorting Options -->
-                    <Button Grid.Column="1" Classes="SecondaryCapsule" Height="36" Padding="16,0" CornerRadius="18" VerticalAlignment="Center">
-                        <Button.Flyout>
-                            <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                <MenuItem Header="{DynamicResource SortByNameAsc}" Command="{Binding SetSortOption}" CommandParameter="NameAsc">
-                                    <MenuItem.Icon>
-                                        <material:MaterialIcon Kind="SortAlphabeticalAscending" Width="16" Height="16"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="{DynamicResource SortByNameDesc}" Command="{Binding SetSortOption}" CommandParameter="NameDesc">
-                                    <MenuItem.Icon>
-                                        <material:MaterialIcon Kind="SortAlphabeticalDescending" Width="16" Height="16"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="{DynamicResource SortByDateDesc}" Command="{Binding SetSortOption}" CommandParameter="DateDesc">
-                                    <MenuItem.Icon>
-                                        <material:MaterialIcon Kind="SortCalendarDescending" Width="16" Height="16"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="{DynamicResource SortByDateAsc}" Command="{Binding SetSortOption}" CommandParameter="DateAsc">
-                                    <MenuItem.Icon>
-                                        <material:MaterialIcon Kind="SortCalendarAscending" Width="16" Height="16"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </MenuFlyout>
-                        </Button.Flyout>
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <material:MaterialIcon Kind="Sort" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                            <TextBlock Text="{DynamicResource LabelSortBy}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                            <TextBlock Text=":" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                            <TextBlock Text="{Binding SelectedSortText}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
-                        </StackPanel>
-                    </Button>
+                    <!-- Filters & Sorting -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                        
+                        <!-- Status Filter -->
+                        <Button Classes="SecondaryCapsule" Height="48" Padding="16,0" CornerRadius="24" VerticalAlignment="Center">
+                            <Button.Flyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedLeft" ItemsSource="{Binding StatusFilters}">
+                                    <MenuFlyout.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:FilterItem">
+                                            <MenuItem Header="{Binding Name}" Command="{Binding $parent[Window].DataContext.SetStatusFilterCommand}" CommandParameter="{Binding}">
+                                                <MenuItem.Icon>
+                                                    <material:MaterialIcon Kind="{Binding IconKind}" Width="16" Height="16"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </DataTemplate>
+                                    </MenuFlyout.ItemTemplate>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="Status:" Opacity="0.7" VerticalAlignment="Center" FontSize="16"/>
+                                <TextBlock Text="{Binding SelectedStatusFilter.Name}" VerticalAlignment="Center" FontSize="16" FontWeight="Medium" />
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Platform Filter -->
+                        <Button Classes="SecondaryCapsule" Height="48" Padding="16,0" CornerRadius="24" VerticalAlignment="Center">
+                            <Button.Flyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedLeft" ItemsSource="{Binding PlatformFilters}">
+                                    <MenuFlyout.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:FilterItem">
+                                            <MenuItem Header="{Binding Name}" Command="{Binding $parent[Window].DataContext.SetPlatformFilterCommand}" CommandParameter="{Binding}">
+                                                <MenuItem.Icon>
+                                                    <material:MaterialIcon Kind="{Binding IconKind}" Width="16" Height="16"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </DataTemplate>
+                                    </MenuFlyout.ItemTemplate>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="Platform:" Opacity="0.7" VerticalAlignment="Center" FontSize="16"/>
+                                <TextBlock Text="{Binding SelectedPlatformFilter.Name}" VerticalAlignment="Center" FontSize="16" FontWeight="Medium" />
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Sorting Options -->
+                        <Button Classes="SecondaryCapsule" Height="48" Padding="16,0" CornerRadius="24" VerticalAlignment="Center">
+                            <Button.Flyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                    <MenuItem Header="{DynamicResource SortByNameAsc}" Command="{Binding SetSortOption}" CommandParameter="NameAsc">
+                                        <MenuItem.Icon>
+                                            <material:MaterialIcon Kind="SortAlphabeticalAscending" Width="16" Height="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource SortByNameDesc}" Command="{Binding SetSortOption}" CommandParameter="NameDesc">
+                                        <MenuItem.Icon>
+                                            <material:MaterialIcon Kind="SortAlphabeticalDescending" Width="16" Height="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource SortByDateDesc}" Command="{Binding SetSortOption}" CommandParameter="DateDesc">
+                                        <MenuItem.Icon>
+                                            <material:MaterialIcon Kind="SortCalendarDescending" Width="16" Height="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="{DynamicResource SortByDateAsc}" Command="{Binding SetSortOption}" CommandParameter="DateAsc">
+                                        <MenuItem.Icon>
+                                            <material:MaterialIcon Kind="SortCalendarAscending" Width="16" Height="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <material:MaterialIcon Kind="Sort" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="{DynamicResource LabelSortBy}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text=":" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="{Binding SelectedSortText}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                 </Grid>
                 <!-- Projects Grid -->
                 <Border Grid.Row="2" Margin="24,0,24,24" Padding="0" CornerRadius="24" Background="Transparent" ClipToBounds="True">
@@ -585,6 +657,11 @@
             <!-- Presets Page -->
             <Panel IsVisible="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=2}">
                 <views:PresetsView />
+            </Panel>
+
+            <!-- Platforms Page -->
+            <Panel IsVisible="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=3}">
+                <views:PlatformsView />
             </Panel>
         </Panel>
     </Border>

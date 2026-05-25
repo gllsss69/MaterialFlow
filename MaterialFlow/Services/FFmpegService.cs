@@ -14,6 +14,7 @@ namespace MaterialFlow.Services;
 public class FFmpegService
 {
     private readonly string _ffmpegPath;
+    private readonly SemaphoreSlim _conversionQueue = new SemaphoreSlim(1, 1);
 
     /// <summary>
     /// Ініціалізує новий екземпляр класу <see cref="FFmpegService"/> із зазначенням шляху до виконуваного файлу FFmpeg.
@@ -127,20 +128,24 @@ public class FFmpegService
     /// <returns>Значення true, якщо конвертація завершилась успішно; інакше false.</returns>
     public async Task<bool> ConvertVideoAsync(VideoProject project, Preset preset, ConversionJob job, IProgress<double>? progress = null, CancellationToken cancellationToken = default)
     {
-        if (!IsFFmpegAvailable())
+        await _conversionQueue.WaitAsync(cancellationToken);
+        try
         {
-            job.Status = JobStatus.Failed;
-            job.ErrorMessage = "FFmpeg is not available.";
-            return false;
-        }
+            progress?.Report(0);
 
-        if (!File.Exists(project.SourceFilePath))
-        {
-            job.Status = JobStatus.Failed;
-            job.ErrorMessage = "Source file does not exist.";
-            return false;
-        }
+            if (!IsFFmpegAvailable())
+            {
+                job.Status = JobStatus.Failed;
+                job.ErrorMessage = "FFmpeg is not available.";
+                return false;
+            }
 
+            if (!File.Exists(project.SourceFilePath))
+            {
+                job.Status = JobStatus.Failed;
+                job.ErrorMessage = "Source file does not exist.";
+                return false;
+            }
         // Get duration if not already available
         var duration = project.Duration;
         if (duration.TotalSeconds == 0)
@@ -150,9 +155,6 @@ public class FFmpegService
 
         job.Status = JobStatus.Processing;
         job.StartTime = DateTime.UtcNow;
-
-        try
-        {
             // Визначаємо шлях до файлу водяного знаку
             var watermarkPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "logo.png");
             bool applyWatermark = project.UseWatermark && File.Exists(watermarkPath);
@@ -293,7 +295,7 @@ public class FFmpegService
         catch (OperationCanceledException)
         {
             job.Status = JobStatus.Failed;
-            job.ErrorMessage = "Conversion was cancelled.";
+            job.ErrorMessage = "Conversion canceled.";
             return false;
         }
         catch (Exception ex)
@@ -301,6 +303,10 @@ public class FFmpegService
             job.Status = JobStatus.Failed;
             job.ErrorMessage = $"Error during conversion: {ex.Message}";
             return false;
+        }
+        finally
+        {
+            _conversionQueue.Release();
         }
     }
 

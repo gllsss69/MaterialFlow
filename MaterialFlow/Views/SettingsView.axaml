@@ -15,7 +15,9 @@
             <TextBlock Text="{DynamicResource HeaderSettings}" FontSize="32" FontWeight="Normal" Foreground="{DynamicResource OnSurfaceBrush}"/>
         </Border>
 
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" 
+                      VerticalScrollBarVisibility="Auto" 
+                      Theme="{StaticResource MaterialModernScrollViewer}">
             <StackPanel Spacing="32" MaxWidth="600" HorizontalAlignment="Left">
                 <!-- Language -->
                 <StackPanel Spacing="12">
@@ -57,6 +59,12 @@
                             <material:MaterialIcon Kind="FolderEdit" Width="24" Height="24" Foreground="{DynamicResource PrimaryBrush}"/>
                         </Button>
                     </Grid>
+                </StackPanel>
+
+                <!-- Enable Project Logging -->
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Enable logging to file" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="16"/>
+                    <CheckBox IsChecked="{Binding EnableProjectLogging}" Theme="{StaticResource MaterialCheckBox}"/>
                 </StackPanel>
 
                 <!-- About -->

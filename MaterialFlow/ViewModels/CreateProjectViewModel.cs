@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -13,7 +14,6 @@ namespace MaterialFlow.ViewModels;
 /// </summary>
 public class CreateProjectViewModel : INotifyPropertyChanged
 {
-    private string _selectedPlatform = "YouTube";
     private string _selectedResolution = "1920x1080";
     private string _projectName = string.Empty;
     private string _savePath = string.Empty;
@@ -28,8 +28,15 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     private string _errorMessage = string.Empty;
     private Preset? _selectedPreset;
 
+    private ObservableCollection<Platform> _availablePlatforms = new();
+
     public CreateProjectViewModel()
     {
+        // build a stable collection so bindings (SelectedItem) work reliably
+        _availablePlatforms = new ObservableCollection<Platform>(DataService.Instance.Platforms);
+        _availablePlatforms.Add(new Platform { Name = "None", IconKind = "Cancel" });
+
+        _selectedPlatform = _availablePlatforms.FirstOrDefault();
         UpdateDefaultSettings();
     }
 
@@ -44,12 +51,23 @@ public class CreateProjectViewModel : INotifyPropertyChanged
             {
                 _selectedPreset = value;
                 OnPropertyChanged();
+                
                 if (_selectedPreset != null)
                 {
                     SelectedResolution = _selectedPreset.Resolution;
-                    SelectedBitrate = (_selectedPreset.Bitrate / 1000) + " Mbps";
-                    SelectedFPS = _selectedPreset.FrameRate + " fps";
-                    SelectedCodec = _selectedPreset.Codec;
+                    
+                    var bitrateStr = _selectedPreset.Bitrate >= 1000 ? $"{_selectedPreset.Bitrate / 1000} Mbps" : $"{_selectedPreset.Bitrate} kbps";
+                    if (Bitrates.Contains(bitrateStr))
+                        SelectedBitrate = bitrateStr;
+                    else
+                        SelectedBitrate = "Auto";
+                        
+                    var fpsStr = $"{_selectedPreset.FrameRate} fps";
+                    if (FPSs.Contains(fpsStr))
+                        SelectedFPS = fpsStr;
+                        
+                    if (Codecs.Contains(_selectedPreset.Codec))
+                        SelectedCodec = _selectedPreset.Codec;
                 }
             }
         }
@@ -109,11 +127,17 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         set { _isSourceFileSelected = value; OnPropertyChanged(); }
     }
 
+    private Platform? _selectedPlatform;
+
     /// <summary>
-    /// Цільова платформа для публікації відео (YouTube, TikTok, Facebook тощо).
-    /// Автоматично підбирає рекомендовані налаштування роздільної здатності.
+    /// Цільова платформа для публікації відео.
     /// </summary>
-    public string SelectedPlatform
+    public IEnumerable<Platform> AvailablePlatforms => _availablePlatforms;
+
+    /// <summary>
+    /// Назва цільової платформи. "None" означає ручні налаштування.
+    /// </summary>
+    public Platform? SelectedPlatform
     {
         get => _selectedPlatform;
         set
@@ -129,8 +153,8 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         }
     }
 
-    public bool IsPresetSelectionVisible => !string.Equals(SelectedPlatform, "None", System.StringComparison.OrdinalIgnoreCase);
-    public bool IsManualSettingsEnabled => string.Equals(SelectedPlatform, "None", System.StringComparison.OrdinalIgnoreCase);
+    public bool IsPresetSelectionVisible => SelectedPlatform != null && !string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase);
+    public bool IsManualSettingsEnabled => SelectedPlatform == null || string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Очікувана роздільна здатність вихідного файлу.
@@ -265,14 +289,34 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     {
         // Update presets for selected platform
         AvailablePresets.Clear();
-        var platform = DataService.Instance.Platforms.FirstOrDefault(p => p.Name.Equals(SelectedPlatform, System.StringComparison.OrdinalIgnoreCase));
-        if (platform != null)
+        if (SelectedPlatform != null && !string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase))
         {
-            foreach (var preset in DataService.Instance.Presets.Where(pr => pr.PlatformId == platform.Id))
+            // Set values from platform defaults
+            SelectedResolution = SelectedPlatform.DefaultResolution;
+            
+            var bitrateKbps = SelectedPlatform.DefaultBitrate;
+            var bitrateStr = bitrateKbps >= 1000 ? $"{bitrateKbps / 1000} Mbps" : $"{bitrateKbps} kbps";
+            if (Bitrates.Contains(bitrateStr))
+                SelectedBitrate = bitrateStr;
+            else
+                SelectedBitrate = "Auto";
+                
+            var fpsStr = $"{SelectedPlatform.DefaultFPS} fps";
+            if (FPSs.Contains(fpsStr))
+                SelectedFPS = fpsStr;
+                
+            if (Codecs.Contains(SelectedPlatform.DefaultCodec))
+                SelectedCodec = SelectedPlatform.DefaultCodec;
+
+            // Load available presets for this platform
+            foreach (var preset in DataService.Instance.Presets.Where(pr => pr.PlatformId == SelectedPlatform.Id))
             {
                 AvailablePresets.Add(preset);
             }
         }
+        
+        // Don't auto-select preset
+        SelectedPreset = null;
     }
 
     /// <summary>
@@ -296,7 +340,7 @@ public class CreateProjectViewModel : INotifyPropertyChanged
             ErrorMessage = "Please select an export destination.";
             return false;
         }
-        if (string.IsNullOrWhiteSpace(SelectedPlatform))
+        if (SelectedPlatform == null)
         {
             ErrorMessage = "Please select a platform.";
             return false;
@@ -329,6 +373,29 @@ public class CreateProjectViewModel : INotifyPropertyChanged
 
         ErrorMessage = string.Empty;
         return true;
+    }
+
+    private bool _enableProjectLogging;
+    public bool EnableProjectLogging
+    {
+        get => _enableProjectLogging;
+        set { _enableProjectLogging = value; OnPropertyChanged(); }
+    }
+
+    // Call this after project creation
+    public void CreateLogFileIfEnabled()
+    {
+        if (!EnableProjectLogging || string.IsNullOrWhiteSpace(SavePath)) return;
+        try
+        {
+            var logPath = System.IO.Path.Combine(SavePath, "project_log.txt");
+            var logContent = $"Project: {ProjectName}\nCreated: {System.DateTime.Now}\nSource: {SourceFilePath}\n";
+            System.IO.File.WriteAllText(logPath, logContent);
+        }
+        catch
+        {
+            // Optionally handle/log error
+        }
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

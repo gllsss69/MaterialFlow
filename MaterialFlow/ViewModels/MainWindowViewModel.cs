@@ -327,6 +327,60 @@ namespace MaterialFlow.ViewModels;
             }
         }
 
+
+
+        public ObservableCollection<FilterItem> StatusFilters { get; } = new()
+        {
+            new("All", "FilterVariant"),
+            new("Done", "CheckCircle"),
+            new("Error", "AlertCircle"),
+            new("Processing", "ProgressClock")
+        };
+
+        public IEnumerable<FilterItem> PlatformFilters
+        {
+            get
+            {
+                var list = new List<FilterItem> { new("All", "Web") };
+                list.AddRange(DataService.Instance.Platforms.Select(p => new FilterItem(p.Name, p.IconKind)));
+                return list;
+            }
+        }
+
+        private FilterItem _selectedStatusFilter;
+        public FilterItem SelectedStatusFilter
+        {
+            get => _selectedStatusFilter;
+            set
+            {
+                _selectedStatusFilter = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FilteredProjects));
+            }
+        }
+
+        private FilterItem _selectedPlatformFilter;
+        public FilterItem SelectedPlatformFilter
+        {
+            get => _selectedPlatformFilter;
+            set
+            {
+                _selectedPlatformFilter = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FilteredProjects));
+            }
+        }
+
+        public void SetStatusFilterCommand(FilterItem item)
+        {
+            SelectedStatusFilter = item;
+        }
+
+        public void SetPlatformFilterCommand(FilterItem item)
+        {
+            SelectedPlatformFilter = item;
+        }
+
         private string _selectedSortOption = "DateDesc";
         public string SelectedSortOption
         {
@@ -453,6 +507,24 @@ namespace MaterialFlow.ViewModels;
                     result = result.Where(p => p.Name.Contains(_searchText, StringComparison.OrdinalIgnoreCase));
                 }
 
+                // Apply platform filter
+                if (_selectedPlatformFilter?.Name != "All")
+                {
+                    result = result.Where(p => p.Platform != null && p.Platform.Equals(_selectedPlatformFilter.Name, StringComparison.OrdinalIgnoreCase));
+                }
+
+                // Apply status filter
+                if (_selectedStatusFilter?.Name != "All")
+                {
+                    result = _selectedStatusFilter?.Name switch
+                    {
+                        "Done" => result.Where(p => p.Progress >= 100 && string.IsNullOrEmpty(p.StatusText)),
+                        "Error" => result.Where(p => !string.IsNullOrEmpty(p.StatusText) && p.StatusText.StartsWith("Error")),
+                        "Processing" => result.Where(p => p.IsProcessing),
+                        _ => result
+                    };
+                }
+
                 // Apply sorting
                 result = _selectedSortOption switch
                 {
@@ -495,6 +567,18 @@ namespace MaterialFlow.ViewModels;
         public ObservableCollection<VideoProject> Projects { get; set; } = new();
         public ObservableCollection<ConversionJob> ConversionJobs { get; set; } = new();
 
+        private bool _enableProjectLogging;
+        public bool EnableProjectLogging
+        {
+            get => _enableProjectLogging;
+            set
+            {
+                _enableProjectLogging = value;
+                OnPropertyChanged();
+                SaveSettings(); // Optional: persist the setting
+            }
+        }
+
     /// <summary>
     /// Конструктор головної моделі подання MainWindowViewModel.
     /// Ініціалізує сервіси, завантажує збережені налаштування та застосовує мову та тему.
@@ -503,6 +587,10 @@ namespace MaterialFlow.ViewModels;
     {
         // Вкажіть шлях до ffmpeg (для демонстрації припускаємо, що він в PATH або в тій же папці)
         _ffmpegService = new FFmpegService("ffmpeg");
+        
+        _selectedStatusFilter = StatusFilters[0];
+        _selectedPlatformFilter = PlatformFilters.First();
+        
         LoadSettings();
         LoadProjects();
         ApplyTheme(_selectedTheme);
@@ -608,14 +696,14 @@ namespace MaterialFlow.ViewModels;
 
         // Налаштовуємо Progress для оновлення UI
         project.IsProcessing = true;
-        project.StatusText = "Processing...";
+        project.StatusText = "Pending in queue...";
         project.Progress = 0;
 
         var progress = new Progress<double>(p =>
         {
             job.Progress = p;
             project.Progress = p;
-            project.StatusText = $"Processing: {p:F1}%";
+            project.StatusText = p == 0 ? "Processing..." : $"Processing: {p:F1}%";
         });
 
         // Запускаємо конвертацію
@@ -625,6 +713,22 @@ namespace MaterialFlow.ViewModels;
         {
             project.Progress = 100;
             project.StatusText = "Processing: 100.0%";
+            
+            try
+            {
+                var fileInfo = new FileInfo(job.OutputPath);
+                var outputFile = new OutputFile
+                {
+                    JobId = job.Id,
+                    FilePath = job.OutputPath,
+                    Size = fileInfo.Exists ? fileInfo.Length : 0,
+                    CreatedAt = DateTime.UtcNow
+                };
+                
+                DataService.Instance.OutputFiles.Add(outputFile);
+                _ = DataService.Instance.SaveOutputFilesAsync();
+            }
+            catch { }
             // Keep IsProcessing true to show the progress bar
             
             // Fire and forget a 5 second delay to clear the UI
@@ -680,3 +784,5 @@ namespace MaterialFlow.ViewModels;
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
+
+public record FilterItem(string Name, string IconKind);

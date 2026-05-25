@@ -59,6 +59,11 @@ public class VideoProject : INotifyPropertyChanged
     public string FPS { get; set; } = "60 fps";
 
     /// <summary>
+    /// Платформа для публікації (наприклад, "YouTube", "TikTok").
+    /// </summary>
+    public string Platform { get; set; } = string.Empty;
+
+    /// <summary>
     /// Кодек відео (наприклад, "libx264").
     /// </summary>
     public string Codec { get; set; } = "libx264";

@@ -1,0 +1,143 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p1="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+        xmlns:material="using:Material.Icons.Avalonia"
+        xmlns:vm="using:MaterialFlow.ViewModels"
+        x:Class="MaterialFlow.Views.CreatePlatformWindow"
+        x:DataType="vm:CreatePlatformViewModel"
+        Title="{Binding WindowTitle}"
+        Width="460"
+        SizeToContent="Height"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        WindowDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent">
+
+    <Border CornerRadius="32" Background="{DynamicResource SurfaceVariantBrush}" Padding="32" Margin="10" BoxShadow="0 8 32 0 #20000000">
+        <Border.Styles>
+            <Style Selector="Border">
+                <Style.Animations>
+                    <Animation Duration="0:0:0.3" Easing="CubicEaseOut">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="Opacity" Value="0"/>
+                            <Setter Property="ScaleTransform.ScaleX" Value="0.95"/>
+                            <Setter Property="ScaleTransform.ScaleY" Value="0.95"/>
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Setter Property="ScaleTransform.ScaleX" Value="1.0"/>
+                            <Setter Property="ScaleTransform.ScaleY" Value="1.0"/>
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+        </Border.Styles>
+
+        <Grid RowDefinitions="Auto,Auto,Auto">
+            <TextBlock Grid.Row="0" Text="{Binding WindowTitle}" FontSize="32" FontWeight="Normal"
+                       Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,24"/>
+
+            <StackPanel Grid.Row="1" Spacing="16">
+                <!-- Name Input -->
+                <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                         p1:TextFieldAssist.Label="Platform Name"
+                         Classes="outline"
+                         Background="{DynamicResource SurfaceVariantBrush}"
+                         UseFloatingPlaceholder="True"
+                         Text="{Binding PlatformName}"/>
+
+                <!-- Icon Selection -->
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Icon" FontSize="13" Foreground="{DynamicResource OnSurfaceVariantBrush}" Opacity="0.7"/>
+                    <ListBox ItemsSource="{Binding Icons}" SelectedItem="{Binding IconKind}"
+                             Background="Transparent" BorderThickness="0">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate><WrapPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="6" Margin="4">
+                                    <material:MaterialIcon Kind="{Binding Kind}" Width="18" Height="18"/>
+                                    <TextBlock Text="{Binding Label}" VerticalAlignment="Center" FontSize="13"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Padding" Value="10,6"/>
+                                <Setter Property="Margin" Value="0,0,5,5"/>
+                                <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+                                <Setter Property="Template">
+                                    <ControlTemplate>
+                                        <Border Name="PART_Root"
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="12"
+                                                Padding="{TemplateBinding Padding}"
+                                                Margin="{TemplateBinding Margin}">
+                                            <ContentPresenter Content="{TemplateBinding Content}"
+                                                              ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter>
+                            </Style>
+                            <Style Selector="ListBoxItem:selected /template/ Border#PART_Root">
+                                <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
+                            </Style>
+                        </ListBox.Styles>
+                    </ListBox>
+                </StackPanel>
+
+                <!-- Error Message -->
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="#B3261E"
+                           IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                           TextWrapping="Wrap" FontSize="14"/>
+                <!-- Default Settings -->
+                <TextBlock Text="Default Settings" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Medium" Margin="0,16,0,8"/>
+                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
+                    <ComboBox Grid.Row="0" Grid.Column="0" Margin="0,0,8,16"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="Resolution" 
+                              Classes="dense"
+                              ItemsSource="{Binding Resolutions}"
+                              SelectedItem="{Binding Resolution}"
+                              HorizontalAlignment="Stretch"/>
+
+                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,16"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="Bitrate (kbps)" 
+                              Classes="dense"
+                              ItemsSource="{Binding Bitrates}"
+                              SelectedItem="{Binding Bitrate}"
+                              HorizontalAlignment="Stretch"/>
+
+                    <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,8,16"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="FPS" 
+                              Classes="dense"
+                              ItemsSource="{Binding FrameRates}"
+                              SelectedItem="{Binding FrameRate}"
+                              HorizontalAlignment="Stretch"/>
+
+                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,16"
+                              Theme="{StaticResource MaterialOutlineComboBox}" 
+                              p1:ComboBoxAssist.Label="Codec" 
+                              Classes="dense"
+                              ItemsSource="{Binding Codecs}"
+                              SelectedItem="{Binding Codec}"
+                              HorizontalAlignment="Stretch"/>
+                </Grid>
+            </StackPanel>
+
+            <!-- Actions -->
+            <StackPanel Grid.Row="2" Margin="0,16,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="24">
+                    <Button Content="Cancel" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}"
+                            FontWeight="Bold" Click="Cancel_Click" FontSize="16"/>
+                    <Button Content="{Binding SubmitButtonText}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}"
+                            FontWeight="Bold" Click="Save_Click" FontSize="16"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

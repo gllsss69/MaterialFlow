@@ -13,4 +13,6 @@ public class Platform
     public int DefaultBitrate { get; set; } = 5000;
     public string DefaultFormat { get; set; } = "mp4";
     public string DefaultAspectRatio { get; set; } = "16:9";
+    public int DefaultFPS { get; set; } = 30;
+    public string DefaultCodec { get; set; } = "libx264";
 }
