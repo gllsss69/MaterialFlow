@@ -27,10 +27,16 @@ public class VideoProject : INotifyPropertyChanged
     /// </summary>
     public string SourceFilePath { get; set; } = string.Empty;
 
+    private string _exportFilePath = string.Empty;
+
     /// <summary>
     /// Файловий шлях для експорту обробленого відео.
     /// </summary>
-    public string ExportFilePath { get; set; } = string.Empty;
+    public string ExportFilePath
+    {
+        get => _exportFilePath;
+        set { _exportFilePath = value; OnPropertyChanged(); }
+    }
 
     /// <summary>
     /// Роздільна здатність відео (наприклад, "1920x1080").

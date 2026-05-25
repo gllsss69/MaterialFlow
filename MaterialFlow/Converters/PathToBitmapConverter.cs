@@ -21,7 +21,8 @@ public class PathToBitmapConverter : IValueConverter
         {
             try
             {
-                return new Bitmap(path);
+                using var stream = File.OpenRead(path);
+                return new Bitmap(stream);
             }
             catch
             {

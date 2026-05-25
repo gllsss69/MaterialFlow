@@ -58,7 +58,7 @@ public class AuthService
         File.WriteAllText(UsersFile, json);
     }
 
-    public (bool Success, string Message) Register(string login, string password, string fullName)
+    public (bool Success, string Message) Register(string login, string password, string fullName, UserRole role = UserRole.Editor)
     {
         if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             return (false, "Login and password are required.");
@@ -71,12 +71,21 @@ public class AuthService
             Login = login,
             FullName = fullName,
             PasswordHash = HashPassword(password),
-            Role = _users.Count == 0 ? UserRole.Admin : UserRole.Editor // First user is Admin
+            Role = _users.Count == 0 ? UserRole.Admin : role // First user is always Admin, others use selected role
         };
 
         _users.Add(user);
         SaveUsers();
         return (true, "Registration successful.");
+    }
+
+    public void RestoreSession(string login)
+    {
+        var user = _users.FirstOrDefault(u => u.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
+        if (user != null)
+        {
+            CurrentUser = user;
+        }
     }
 
     public (bool Success, string Message, User? User) Login(string login, string password)

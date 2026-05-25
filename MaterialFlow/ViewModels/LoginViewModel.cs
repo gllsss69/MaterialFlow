@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Avalonia;
+using MaterialFlow.Models;
 using MaterialFlow.Services;
 
 namespace MaterialFlow.ViewModels;
@@ -13,6 +14,7 @@ public class LoginViewModel : INotifyPropertyChanged
     private string _fullName = string.Empty;
     private string _message = string.Empty;
     private bool _isRegisterMode;
+    private UserRole _selectedRole = UserRole.Editor;
 
     public string Login
     {
@@ -37,6 +39,14 @@ public class LoginViewModel : INotifyPropertyChanged
         get => _message;
         set { _message = value; OnPropertyChanged(); }
     }
+
+    public UserRole SelectedRole
+    {
+        get => _selectedRole;
+        set { _selectedRole = value; OnPropertyChanged(); }
+    }
+
+    public Array AvailableRoles => Enum.GetValues(typeof(UserRole));
 
     public bool IsRegisterMode
     {
@@ -69,7 +79,7 @@ public class LoginViewModel : INotifyPropertyChanged
     {
         if (IsRegisterMode)
         {
-            var result = AuthService.Instance.Register(Login, Password, FullName);
+            var result = AuthService.Instance.Register(Login, Password, FullName, SelectedRole);
             Message = result.Message;
             if (result.Success)
             {

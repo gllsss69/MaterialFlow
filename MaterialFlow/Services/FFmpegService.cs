@@ -125,7 +125,7 @@ public class FFmpegService
     /// <param name="progress">Об'єкт для повідомлення про зміну прогресу.</param>
     /// <param name="cancellationToken">Токен скасування асинхронної операції.</param>
     /// <returns>Значення true, якщо конвертація завершилась успішно; інакше false.</returns>
-    public async Task<bool> ConvertVideoAsync(VideoProject project, Preset preset, ConversionJob job, IProgress<double> progress = null, CancellationToken cancellationToken = default)
+    public async Task<bool> ConvertVideoAsync(VideoProject project, Preset preset, ConversionJob job, IProgress<double>? progress = null, CancellationToken cancellationToken = default)
     {
         if (!IsFFmpegAvailable())
         {
@@ -167,8 +167,16 @@ public class FFmpegService
 
             if (applyWatermark)
             {
-
-                string scaleWatermark = "[1:v]scale=150:-1[wm];";
+                int watermarkWidth = 150;
+                if (!string.IsNullOrWhiteSpace(preset.Resolution))
+                {
+                    var parts = preset.Resolution.Split('x', StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length == 2 && int.TryParse(parts[0], out int w))
+                    {
+                        watermarkWidth = Math.Max(50, w / 10);
+                    }
+                }
+                string scaleWatermark = $"[1:v]scale={watermarkWidth}:-1[wm];";
                 string overlayParams = "overlay=main_w-overlay_w-20:main_h-overlay_h-20[outv]";
                 // filter_complex: масштабування + накладання водяного знаку в правому нижньому куті
                 string filterComplex;

@@ -25,13 +25,14 @@
                 <ControlTemplate>
                     <Border Name="PART_RootBorder" 
                             Background="{DynamicResource SurfaceBrush}" 
-                            CornerRadius="20" 
-                            Padding="16,8" 
-                            Margin="0,0,8,8">
-                        <TextBlock Name="PART_Text" 
-                                   Text="{TemplateBinding Content}" 
-                                   Foreground="{DynamicResource OnSurfaceBrush}" 
-                                   FontWeight="SemiBold"/>
+                            CornerRadius="16" 
+                            Padding="10,6" 
+                            Margin="0,0,5,8">
+                        <ContentPresenter Name="PART_ContentPresenter" 
+                                   Content="{TemplateBinding Content}" 
+                                   TextElement.Foreground="{DynamicResource OnSurfaceBrush}" 
+                                   TextElement.FontWeight="Medium"
+                                   TextElement.FontSize="13"/>
                     </Border>
                 </ControlTemplate>
             </Setter>
@@ -39,8 +40,8 @@
         <Style Selector="RadioButton.Chip:checked /template/ Border#PART_RootBorder">
             <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
         </Style>
-        <Style Selector="RadioButton.Chip:checked /template/ TextBlock#PART_Text">
-            <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
+        <Style Selector="RadioButton.Chip:checked /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
         </Style>
         
         <Style Selector="ComboBox.dense">
@@ -73,7 +74,7 @@
             <TextBlock Grid.Row="0" Text="{DynamicResource HeaderCreateProject}" FontSize="32" FontWeight="Normal" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,16"/>
 
             <StackPanel Grid.Row="1" Spacing="16">
-                <!-- Name Input -->
+                    <!-- Name Input -->
                 <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
                          p1:TextFieldAssist.Label="{DynamicResource LabelProjectName}"
                          Classes="outline"
@@ -150,20 +151,44 @@
                 <!-- Platform Selection -->
                 <StackPanel Spacing="12">
                     <TextBlock Text="{DynamicResource HeaderPlatform}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="14"/>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <RadioButton Content="YouTube" Classes="Chip" GroupName="Platform"
-                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=YouTube}"/>
-                        <RadioButton Content="TikTok" Classes="Chip" GroupName="Platform"
-                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=TikTok}"/>
-                        <RadioButton Content="Facebook" Classes="Chip" GroupName="Platform"
-                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Facebook}"/>
-                        <RadioButton Content="Instagram" Classes="Chip" GroupName="Platform"
-                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Instagram}"/>
-                        <RadioButton Content="Other" Classes="Chip" GroupName="Platform"
-                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Other}"/>
-                        <RadioButton Content="None" Classes="Chip" GroupName="Platform"
-                                     IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=None}"/>
-                    </StackPanel>
+                    <WrapPanel Orientation="Horizontal">
+                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=YouTube}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <material:MaterialIcon Kind="Youtube" Width="16" Height="16"/>
+                                <TextBlock Text="YouTube"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=TikTok}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <material:MaterialIcon Kind="MusicNote" Width="16" Height="16"/>
+                                <TextBlock Text="TikTok"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Facebook}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <material:MaterialIcon Kind="Facebook" Width="16" Height="16"/>
+                                <TextBlock Text="Facebook"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Instagram}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <material:MaterialIcon Kind="Instagram" Width="16" Height="16"/>
+                                <TextBlock Text="Instagram"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=Other}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <material:MaterialIcon Kind="Web" Width="16" Height="16"/>
+                                <TextBlock Text="Other"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Classes="Chip" GroupName="Platform" IsChecked="{Binding SelectedPlatform, Converter={StaticResource EqualityConverter}, ConverterParameter=None}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <material:MaterialIcon Kind="Cancel" Width="16" Height="16"/>
+                                <TextBlock Text="None"/>
+                            </StackPanel>
+                        </RadioButton>
+                    </WrapPanel>
                 </StackPanel>
 
                 <!-- Preset Selection -->

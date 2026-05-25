@@ -195,7 +195,10 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         "1280x720",
         "720x1280",
         "1080x1080",
-        "3840x2160"
+        "2560x1440",
+        "3840x2160",
+        "1440x2560",
+        "2160x3840"
     };
 
     /// <summary>
@@ -208,8 +211,10 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         "5 Mbps",
         "8 Mbps",
         "10 Mbps",
+        "12 Mbps",
         "15 Mbps",
         "20 Mbps",
+        "25 Mbps",
         "30 Mbps",
         "50 Mbps"
     };
@@ -234,7 +239,9 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     {
         ".mp4",
         ".mkv",
-        ".avi"
+        ".avi",
+        ".mov",
+        ".webm"
     };
 
     /// <summary>
@@ -246,7 +253,9 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         "libx264",
         "libx265",
         "mpeg4",
-        "libvpx-vp9"
+        "libvpx-vp9",
+        "h264_nvenc",
+        "hevc_nvenc"
     };
 
     /// <summary>

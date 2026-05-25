@@ -31,4 +31,17 @@ public partial class SettingsView : UserControl
             vm.DefaultSavePath = folders[0].Path.LocalPath;
         }
     }
+
+    private void OpenGitHub_Click(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "https://github.com/gllsss69/MaterialFlow",
+                UseShellExecute = true
+            });
+        }
+        catch { }
+    }
 }

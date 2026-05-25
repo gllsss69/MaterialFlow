@@ -23,10 +23,10 @@ public class CreatePresetViewModel : INotifyPropertyChanged
     public string WindowTitle => _isEditMode ? $"Edit {_originalName}" : "Create Preset";
 
     public ObservableCollection<Platform> Platforms { get; } = new();
-    public ObservableCollection<string> Resolutions { get; } = new() { "1920x1080", "1280x720", "720x1280", "1080x1080", "3840x2160" };
-    public ObservableCollection<int> Bitrates { get; } = new() { 2000, 5000, 8000, 10000, 15000, 20000, 30000, 50000 };
+    public ObservableCollection<string> Resolutions { get; } = new() { "1920x1080", "1280x720", "720x1280", "1080x1080", "2560x1440", "3840x2160", "1440x2560", "2160x3840" };
+    public ObservableCollection<int> Bitrates { get; } = new() { 2000, 5000, 8000, 10000, 12000, 15000, 20000, 25000, 30000, 50000 };
     public ObservableCollection<int> FrameRates { get; } = new() { 24, 25, 30, 50, 60, 120 };
-    public ObservableCollection<string> Codecs { get; } = new() { "libx264", "libx265", "mpeg4", "libvpx-vp9" };
+    public ObservableCollection<string> Codecs { get; } = new() { "libx264", "libx265", "mpeg4", "libvpx-vp9", "h264_nvenc", "hevc_nvenc" };
 
     public CreatePresetViewModel(Preset? presetToEdit = null)
     {

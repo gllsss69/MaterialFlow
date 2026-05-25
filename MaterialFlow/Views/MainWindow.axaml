@@ -13,7 +13,7 @@
         x:DataType="vm:MainWindowViewModel"
         Title="MaterialFlow"
         Background="{DynamicResource WindowBackgroundBrush}"
-        MinWidth="900" MinHeight="600">
+        MinWidth="1080" MinHeight="700">
 
     <Window.Resources>
         <conv:EqualityToBoolConverter x:Key="EqualityConverter"/>
@@ -417,9 +417,8 @@
                 <Border Grid.Row="2" Margin="24,0,24,24" Padding="0" CornerRadius="24" Background="Transparent" ClipToBounds="True">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
                                   VerticalScrollBarVisibility="Auto" 
-                                  Theme="{StaticResource MaterialModernScrollViewer}"
-                                  Padding="24">
-                        <ItemsControl ItemsSource="{Binding FilteredProjects}">
+                                  Theme="{StaticResource MaterialModernScrollViewer}">
+                        <ItemsControl ItemsSource="{Binding FilteredProjects}" Margin="24,24,24,48">
                             <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

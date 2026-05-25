@@ -88,6 +88,15 @@
                          UseFloatingPlaceholder="True"
                          PasswordChar="*"
                          Text="{Binding Password}"/>
+
+                <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                          p1:ComboBoxAssist.Label="Role"
+                          Classes="outline"
+                          Background="{DynamicResource SurfaceVariantBrush}"
+                          IsVisible="{Binding IsRegisterMode}"
+                          ItemsSource="{Binding AvailableRoles}"
+                          SelectedItem="{Binding SelectedRole}"
+                          HorizontalAlignment="Stretch"/>
             </StackPanel>
 
             <!-- Actions -->

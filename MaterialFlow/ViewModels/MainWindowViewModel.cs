@@ -16,6 +16,7 @@ namespace MaterialFlow.ViewModels;
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly FFmpegService _ffmpegService;
+        private string _lastLoginUser = string.Empty;
         private User? _currentUser;
         public User? CurrentUser
         {
@@ -23,16 +24,22 @@ namespace MaterialFlow.ViewModels;
             set 
             { 
                 _currentUser = value; 
+                _lastLoginUser = _currentUser?.Login ?? string.Empty;
                 OnPropertyChanged(); 
                 OnPropertyChanged(nameof(IsLoggedIn));
                 OnPropertyChanged(nameof(IsLoggedOut));
                 OnPropertyChanged(nameof(UserFullName));
                 OnPropertyChanged(nameof(UserInitials));
+                OnPropertyChanged(nameof(IsAdmin));
+                OnPropertyChanged(nameof(IsEditor));
+                SaveSettings();
             }
         }
 
         public bool IsLoggedIn => CurrentUser != null;
         public bool IsLoggedOut => CurrentUser == null;
+        public bool IsAdmin => CurrentUser?.Role == UserRole.Admin;
+        public bool IsEditor => !IsAdmin;
         public string UserFullName => CurrentUser?.FullName ?? "Guest";
         public string UserInitials => string.IsNullOrWhiteSpace(CurrentUser?.FullName) ? "?" : 
             new string(CurrentUser.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
@@ -221,7 +228,8 @@ namespace MaterialFlow.ViewModels;
                 {
                     SelectedLanguage = _selectedLanguage,
                     SelectedTheme = _selectedTheme,
-                    DefaultSavePath = _defaultSavePath
+                    DefaultSavePath = _defaultSavePath,
+                    LastLoginUser = _lastLoginUser
                 };
                 var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
@@ -259,6 +267,14 @@ namespace MaterialFlow.ViewModels;
                     if (root.TryGetProperty("DefaultSavePath", out var pathProp))
                     {
                         _defaultSavePath = pathProp.GetString() ?? "C:\\Users\\maksim\\Documents\\MaterialFlow\\Projects";
+                    }
+                    if (root.TryGetProperty("LastLoginUser", out var userProp))
+                    {
+                        _lastLoginUser = userProp.GetString() ?? string.Empty;
+                        if (!string.IsNullOrWhiteSpace(_lastLoginUser))
+                        {
+                            AuthService.Instance.RestoreSession(_lastLoginUser);
+                        }
                     }
                 }
             }
@@ -491,6 +507,7 @@ namespace MaterialFlow.ViewModels;
         LoadProjects();
         ApplyTheme(_selectedTheme);
         ApplyLanguage(_selectedLanguage);
+        CurrentUser = AuthService.Instance.CurrentUser;
 
         Projects.CollectionChanged += (s, e) => OnPropertyChanged(nameof(FilteredProjects));
     }
@@ -548,6 +565,8 @@ namespace MaterialFlow.ViewModels;
                 var thumbnailPath = await _ffmpegService.GenerateThumbnailAsync(project.SourceFilePath, thumbnailFile);
                 if (!string.IsNullOrEmpty(thumbnailPath))
                 {
+                    // Тимчасово очищаємо шлях, щоб змусити Avalonia оновити Image (так як шлях міг не змінитись, але сам файл змінився)
+                    project.ThumbnailPath = string.Empty;
                     project.ThumbnailPath = thumbnailPath;
                 }
             }

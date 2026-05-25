@@ -141,6 +141,15 @@ namespace MaterialFlow
                         catch { }
                     }
 
+                    if (!string.IsNullOrEmpty(project.ThumbnailPath) && project.ThumbnailPath.Contains(oldSafeName))
+                    {
+                        project.ThumbnailPath = project.ThumbnailPath.Replace(oldSafeName, newSafeName);
+                    }
+                    if (!string.IsNullOrEmpty(project.ExportFilePath) && project.ExportFilePath.Contains(oldSafeName))
+                    {
+                        project.ExportFilePath = project.ExportFilePath.Replace(oldSafeName, newSafeName);
+                    }
+
                     _viewModel.UpdateProject(project);
                 }
             }

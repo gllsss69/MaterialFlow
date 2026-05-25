@@ -6,6 +6,7 @@ public class Platform
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; } = string.Empty;
+    public string IconKind { get; set; } = "Web";
     
     // Default settings for the platform
     public string DefaultResolution { get; set; } = "1920x1080";

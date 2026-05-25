@@ -58,6 +58,24 @@
                         </Button>
                     </Grid>
                 </StackPanel>
+
+                <!-- About -->
+                <StackPanel Spacing="12" Margin="0,32,0,0">
+                    <TextBlock Text="About" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="16"/>
+                    <Border Background="{DynamicResource SurfaceVariantBrush}" CornerRadius="16" Padding="24" Width="550">
+                        <StackPanel Spacing="16">
+                            <TextBlock Text="MaterialFlow" FontWeight="Bold" FontSize="20" Foreground="{DynamicResource OnSurfaceBrush}"/>
+                            <TextBlock Text="Version 1.0.0" Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                            <TextBlock Text="An advanced video adaptation and preset management tool." TextWrapping="Wrap" Foreground="{DynamicResource OnSurfaceBrush}"/>
+                            <Button Theme="{StaticResource MaterialFlatButton}" Foreground="{DynamicResource PrimaryBrush}" Background="Transparent" HorizontalAlignment="Left" Margin="-16,8,0,0" Click="OpenGitHub_Click" CornerRadius="16">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <material:MaterialIcon Kind="Github" Width="20" Height="20"/>
+                                    <TextBlock Text="View on GitHub" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
