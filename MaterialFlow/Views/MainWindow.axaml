@@ -361,7 +361,7 @@
         <Border Grid.Column="1" CornerRadius="32" Background="{DynamicResource SurfaceBrush}" BoxShadow="0 4 20 0 #15000000" ClipToBounds="True">
             <Panel>
                 <!-- Home Page -->
-                <Grid RowDefinitions="Auto,Auto,*,Auto" IsVisible="{Binding CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=0}">
+                <Grid RowDefinitions="Auto,Auto,*,Auto" DataContext="{Binding ProjectList}" IsVisible="{Binding $parent[Window].DataContext.CurrentPageIndex, Converter={StaticResource EqualityConverter}, ConverterParameter=0}">
                 
                 <!-- Top Toolbar -->
                 <Grid Grid.Row="0" Margin="24,24,24,16" ColumnDefinitions="Auto,*,Auto">
@@ -412,7 +412,7 @@
                         <Button Classes="SecondaryCapsule" Height="48" Padding="16,0" CornerRadius="24" VerticalAlignment="Center">
                             <Button.Styles>
                                 <Style Selector="MenuItem" x:DataType="vm:FilterItem">
-                                    <Setter Property="Command" Value="{Binding $parent[Window].DataContext.SetStatusFilterCommand}"/>
+                                    <Setter Property="Command" Value="{Binding $parent[Window].DataContext.ProjectList.SetStatusFilterCommand}"/>
                                     <Setter Property="CommandParameter" Value="{Binding}"/>
                                     <Setter Property="Header" Value="{Binding Name}"/>
                                     <Setter Property="Icon">
@@ -436,7 +436,7 @@
                         <Button Classes="SecondaryCapsule" Height="48" Padding="16,0" CornerRadius="24" VerticalAlignment="Center">
                             <Button.Styles>
                                 <Style Selector="MenuItem" x:DataType="vm:FilterItem">
-                                    <Setter Property="Command" Value="{Binding $parent[Window].DataContext.SetPlatformFilterCommand}"/>
+                                    <Setter Property="Command" Value="{Binding $parent[Window].DataContext.ProjectList.SetPlatformFilterCommand}"/>
                                     <Setter Property="CommandParameter" Value="{Binding}"/>
                                     <Setter Property="Header" Value="{Binding Name}"/>
                                     <Setter Property="Icon">
@@ -565,7 +565,7 @@
                                                         </controls:Card>
                                                         
                                                         <Button Background="Transparent" Width="32" Height="32" Padding="0" CornerRadius="10"
-                                                                Command="{Binding $parent[Window].DataContext.ToggleFavorite}" CommandParameter="{Binding}">
+                                                                Command="{Binding $parent[Window].DataContext.ProjectList.ToggleFavorite}" CommandParameter="{Binding}">
                                                             <Panel>
                                                                 <material:MaterialIcon Kind="StarOutline" Width="20" Height="20" Opacity="0.6" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsFavorite}"/>
                                                                 <material:MaterialIcon Kind="Star" Width="20" Height="20" Foreground="#FFB300" IsVisible="{Binding IsFavorite}"/>
@@ -575,12 +575,12 @@
                                                         <Button Background="Transparent" Width="32" Height="32" Padding="0" CornerRadius="10">
                                                             <Button.Flyout>
                                                                 <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                                                    <MenuItem Header="{DynamicResource LabelAddToFavorites}" Command="{Binding $parent[Window].DataContext.ToggleFavorite}" CommandParameter="{Binding}" IsVisible="{Binding !IsFavorite}">
+                                                                    <MenuItem Header="{DynamicResource LabelAddToFavorites}" Command="{Binding $parent[Window].DataContext.ProjectList.ToggleFavorite}" CommandParameter="{Binding}" IsVisible="{Binding !IsFavorite}">
                                                                         <MenuItem.Icon>
                                                                             <material:MaterialIcon Kind="Star" Foreground="#FFB300" Width="16" Height="16"/>
                                                                         </MenuItem.Icon>
                                                                     </MenuItem>
-                                                                    <MenuItem Header="{DynamicResource LabelRemoveFromFavorites}" Command="{Binding $parent[Window].DataContext.ToggleFavorite}" CommandParameter="{Binding}" IsVisible="{Binding IsFavorite}">
+                                                                    <MenuItem Header="{DynamicResource LabelRemoveFromFavorites}" Command="{Binding $parent[Window].DataContext.ProjectList.ToggleFavorite}" CommandParameter="{Binding}" IsVisible="{Binding IsFavorite}">
                                                                         <MenuItem.Icon>
                                                                             <material:MaterialIcon Kind="StarOutline" Width="16" Height="16"/>
                                                                         </MenuItem.Icon>

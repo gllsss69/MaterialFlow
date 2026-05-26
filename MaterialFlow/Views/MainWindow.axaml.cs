@@ -47,7 +47,7 @@ namespace MaterialFlow
                     selectedCodec = projectViewModel.SelectedFormat.TrimStart('.').Equals("avi", System.StringComparison.OrdinalIgnoreCase) ? "mpeg4" : "libx264";
                 }
 
-                // Створюємо новий проєкт на основі введених даних
+
                 var newProject = new MaterialFlow.Models.VideoProject
                 {
                     Name = projectViewModel.ProjectName,
@@ -62,10 +62,10 @@ namespace MaterialFlow
                     CreatedAt = System.DateTime.UtcNow
                 };
 
-                // Додаємо його в список проєктів на головному екрані
-                _viewModel.Projects.Insert(0, newProject);
 
-                // Створюємо пресет на основі вибраних налаштувань
+                _viewModel.ProjectList.Projects.Insert(0, newProject);
+
+
                 var preset = new MaterialFlow.Models.Preset
                 {
                     Name = projectViewModel.SelectedPlatform?.Name ?? "None",
@@ -75,8 +75,8 @@ namespace MaterialFlow
                     Codec = selectedCodec
                 };
 
-                // Запускаємо конвертацію (асинхронно у фоні), передаємо SavePath як шлях для експорту
-                _ = _viewModel.StartConversionAsync(newProject, preset, projectViewModel.SavePath);
+
+                _ = _viewModel.ProjectList.StartConversionAsync(newProject, preset, projectViewModel.SavePath);
             }
         }
 
@@ -151,7 +151,7 @@ namespace MaterialFlow
                         project.ExportFilePath = project.ExportFilePath.Replace(oldSafeName, newSafeName);
                     }
 
-                    _viewModel.UpdateProject(project);
+                    _viewModel.ProjectList.UpdateProject(project);
                 }
             }
         }
@@ -169,9 +169,8 @@ namespace MaterialFlow
         {
             if (sender is MenuItem menuItem && menuItem.DataContext is Models.VideoProject project)
             {
-                _viewModel.CancelConversion(project.Id);
-                _viewModel.Projects.Remove(project);
-                // Also remove directory
+                _viewModel.ProjectList.CancelConversion(project.Id);
+                _viewModel.ProjectList.Projects.Remove(project);
                 var safeProjectName = string.Join("_", project.Name.Split(System.IO.Path.GetInvalidFileNameChars()));
                 var projectDir = System.IO.Path.Combine(_viewModel.DefaultSavePath, safeProjectName);
                 if (System.IO.Directory.Exists(projectDir))

@@ -71,7 +71,7 @@ public partial class CreateProjectWindow : Window
     {
         if (_viewModel.Validate())
         {
-            // Data is already in _viewModel thanks to bindings
+
             Close(true);
         }
     }

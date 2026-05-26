@@ -54,7 +54,7 @@ public partial class PlatformsView : UserControl
     {
         if (sender is Button button && button.Tag is Platform platform)
         {
-            // У реальному додатку тут міг би бути діалог підтвердження
+
             if (DataContext is PlatformsViewModel vm)
             {
                 await vm.DeletePlatformAsync(platform);

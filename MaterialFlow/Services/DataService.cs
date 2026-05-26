@@ -99,7 +99,7 @@ public class DataService
             // Ensure "Other" platform exists for backward compatibility
             if (!Platforms.Any(p => p.Name.Equals("Other", StringComparison.OrdinalIgnoreCase)))
             {
-                Platforms.Add(new Platform { Name = "Other", IconKind = "Web", DefaultResolution = "1920x1080", DefaultAspectRatio = "16:9" });
+                Platforms.Add(new Platform { Name = "Other", IconKind = "Web", DefaultResolution = "1920x1080" });
             }
             
             // Backfill icons
@@ -119,11 +119,11 @@ public class DataService
 
     private void InitializeDefaultPlatforms()
     {
-        Platforms.Add(new Platform { Name = "YouTube", IconKind = "Youtube", DefaultResolution = "1920x1080", DefaultAspectRatio = "16:9" });
-        Platforms.Add(new Platform { Name = "TikTok", IconKind = "MusicNote", DefaultResolution = "720x1280", DefaultAspectRatio = "9:16" });
-        Platforms.Add(new Platform { Name = "Instagram", IconKind = "Instagram", DefaultResolution = "1080x1080", DefaultAspectRatio = "1:1" });
-        Platforms.Add(new Platform { Name = "Facebook", IconKind = "Facebook", DefaultResolution = "1080x1080", DefaultAspectRatio = "1:1" });
-        Platforms.Add(new Platform { Name = "Other", IconKind = "Web", DefaultResolution = "1920x1080", DefaultAspectRatio = "16:9" });
+        Platforms.Add(new Platform { Name = "YouTube", IconKind = "Youtube", DefaultResolution = "1920x1080" });
+        Platforms.Add(new Platform { Name = "TikTok", IconKind = "MusicNote", DefaultResolution = "720x1280" });
+        Platforms.Add(new Platform { Name = "Instagram", IconKind = "Instagram", DefaultResolution = "1080x1080" });
+        Platforms.Add(new Platform { Name = "Facebook", IconKind = "Facebook", DefaultResolution = "1080x1080" });
+        Platforms.Add(new Platform { Name = "Other", IconKind = "Web", DefaultResolution = "1920x1080" });
     }
 
     public async Task SavePresetsAsync() => await SaveListAsync(_presetsPath, Presets);

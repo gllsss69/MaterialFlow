@@ -1,810 +1,268 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Avalonia.Layout;
-using System.Threading;
-using System.Threading.Tasks;
-using System.IO;
-using System.Text.Json;
 using MaterialFlow.Models;
 using MaterialFlow.Services;
 
 namespace MaterialFlow.ViewModels;
 
-    public class MainWindowViewModel : INotifyPropertyChanged
-    {
-        private readonly FFmpegService _ffmpegService;
-        private readonly Dictionary<Guid, CancellationTokenSource> _cancellationTokens = new();
-        private string _lastLoginUser = string.Empty;
-        private User? _currentUser;
-        public User? CurrentUser
-        {
-            get => _currentUser;
-            set 
-            { 
-                _currentUser = value; 
-                _lastLoginUser = _currentUser?.Login ?? string.Empty;
-                OnPropertyChanged(); 
-                OnPropertyChanged(nameof(IsLoggedIn));
-                OnPropertyChanged(nameof(IsLoggedOut));
-                OnPropertyChanged(nameof(UserFullName));
-                OnPropertyChanged(nameof(UserInitials));
-                OnPropertyChanged(nameof(IsAdmin));
-                OnPropertyChanged(nameof(IsEditor));
-                SaveSettings();
-            }
-        }
-
-        public bool IsLoggedIn => CurrentUser != null;
-        public bool IsLoggedOut => CurrentUser == null;
-        public bool IsAdmin => CurrentUser?.Role == UserRole.Admin;
-        public bool IsEditor => !IsAdmin;
-        public string UserFullName => CurrentUser?.FullName ?? "Guest";
-        public string UserInitials => string.IsNullOrWhiteSpace(CurrentUser?.FullName) ? "?" : 
-            new string(CurrentUser.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
-
-        private bool _isSidebarCollapsed;
-        public bool IsSidebarCollapsed
-        {
-            get => _isSidebarCollapsed;
-            set
-            {
-                _isSidebarCollapsed = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(SidebarWidth));
-                OnPropertyChanged(nameof(DividerWidth));
-                OnPropertyChanged(nameof(ItemWidth));
-                OnPropertyChanged(nameof(SidebarContentAlignment));
-            }
-        }
-
-        public double SidebarWidth => IsSidebarCollapsed ? 104 : 280;
-        public double DividerWidth => IsSidebarCollapsed ? 56 : 232;
-        public double ItemWidth => IsSidebarCollapsed ? 80 : 232;
-        public double ItemHeight => 56;
-        public HorizontalAlignment SidebarContentAlignment => IsSidebarCollapsed ? HorizontalAlignment.Center : HorizontalAlignment.Left;
-
-        private int _currentPageIndex = 0;
-        public int CurrentPageIndex
-        {
-            get => _currentPageIndex;
-            set { _currentPageIndex = value; OnPropertyChanged(); }
-        }
-
-        // Settings
-        private string _selectedLanguage = "English";
-        private string _selectedTheme = "System Default";
-        private string _defaultSavePath = "C:\\Users\\maksim\\Documents\\MaterialFlow\\Projects";
-
-        /// <summary>
-        /// Поточна вибрана мова локалізації інтерфейсу програми.
-        /// При зміні оновлює мовний ресурс та зберігає налаштування у файл.
-        /// </summary>
-        public string SelectedLanguage
-        {
-            get => _selectedLanguage;
-            set 
-            { 
-                _selectedLanguage = value; 
-                OnPropertyChanged(); 
-                ApplyLanguage(value);
-                OnPropertyChanged(nameof(SelectedSortText));
-                OnPropertyChanged(nameof(FilteredProjects));
-                SaveSettings();
-            }
-        }
-
-        /// <summary>
-        /// Динамічно завантажує та застосовує словник ресурсів локалізації (.axaml)
-        /// відповідно до обраної мови користувача.
-        /// </summary>
-        /// <param name="languageName">Назва обраної мови (наприклад, "Ukrainian", "English").</param>
-        private void ApplyLanguage(string languageName)
-        {
-            if (Avalonia.Application.Current == null) return;
-            
-            string langCode = languageName switch
-            {
-                "Czech" => "cz",
-                "German" => "de",
-                "Japanese" => "ja",
-                "Polish" => "pl",
-                "Slovak" => "sk",
-                "Ukrainian" => "uk",
-                _ => "en"
-            };
-
-            var uri = new Uri($"avares://MaterialFlow/Resources/Langs/{langCode}.axaml");
-            try
-            {
-                var newDict = (Avalonia.Controls.ResourceDictionary)Avalonia.Markup.Xaml.AvaloniaXamlLoader.Load(uri);
-                
-                var mergedDicts = Avalonia.Application.Current.Resources.MergedDictionaries;
-                var existingDict = mergedDicts.OfType<Avalonia.Controls.ResourceDictionary>().FirstOrDefault(d => d.ContainsKey("NavHome"));
-                
-                if (existingDict != null)
-                {
-                    mergedDicts.Remove(existingDict);
-                }
-                
-                mergedDicts.Add(newDict);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Failed to load language {langCode}: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Поточна вибрана тема оформлення інтерфейсу (Світла, Темна або Системна).
-        /// При зміні оновлює колірну схему вікон та зберігає налаштування.
-        /// </summary>
-        public string SelectedTheme
-        {
-            get => _selectedTheme;
-            set 
-            { 
-                _selectedTheme = value; 
-                OnPropertyChanged(); 
-                ApplyTheme(value);
-                SaveSettings();
-            }
-        }
-
-        /// <summary>
-        /// Застосовує вказану тему оформлення до поточного застосунку Avalonia.
-        /// </summary>
-        /// <param name="theme">Назва теми ("Dark", "Light" або "System Default").</param>
-        private void ApplyTheme(string theme)
-        {
-            if (Avalonia.Application.Current != null)
-            {
-                if (theme == "Dark")
-                {
-                    Avalonia.Application.Current.RequestedThemeVariant = Avalonia.Styling.ThemeVariant.Dark;
-                }
-                else if (theme == "Light")
-                {
-                    Avalonia.Application.Current.RequestedThemeVariant = Avalonia.Styling.ThemeVariant.Light;
-                }
-                else
-                {
-                    Avalonia.Application.Current.RequestedThemeVariant = Avalonia.Styling.ThemeVariant.Default;
-                }
-                                var materialTheme = Avalonia.Application.Current.Styles.OfType<Material.Styles.Themes.MaterialTheme>().FirstOrDefault();
-                if (materialTheme != null)
-                {
-                    var prop = materialTheme.GetType().GetProperty("BaseTheme");
-                    if (prop != null)
-                    {
-                        var propType = prop.PropertyType;
-                        try
-                        {
-                            if (theme == "Dark")
-                            {
-                                prop.SetValue(materialTheme, Enum.Parse(propType, "Dark"));
-                            }
-                            else if (theme == "Light")
-                            {
-                                prop.SetValue(materialTheme, Enum.Parse(propType, "Light"));
-                            }
-                            else
-                            {
-                                prop.SetValue(materialTheme, Enum.Parse(propType, "Inherit"));
-                            }
-                        }
-                        catch { }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Шлях за замовчуванням для збереження створених відеопроєктів.
-        /// При зміні перезавантажує список проєктів та зберігає налаштування.
-        /// </summary>
-        public string DefaultSavePath
-        {
-            get => _defaultSavePath;
-            set 
-            { 
-                _defaultSavePath = value; 
-                OnPropertyChanged(); 
-                LoadProjects();
-                SaveSettings();
-            }
-        }
-
-        /// <summary>
-        /// Зберігає поточні налаштування користувача (мову, тему, шлях до проєктів)
-        /// у локальний файл конфігурації settings.json у форматі JSON.
-        /// </summary>
-        private void SaveSettings()
-        {
-            try
-            {
-                var settings = new
-                {
-                    SelectedLanguage = _selectedLanguage,
-                    SelectedTheme = _selectedTheme,
-                    DefaultSavePath = _defaultSavePath,
-                    LastLoginUser = _lastLoginUser,
-                    EnableProjectLogging = _enableProjectLogging
-                };
-                var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
-                File.WriteAllText(path, json);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Failed to save settings: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Завантажує збережені налаштування користувача з файлу settings.json,
-        /// якщо він існує, та ініціалізує відповідні поля конфігурації.
-        /// </summary>
-        private void LoadSettings()
-        {
-            try
-            {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
-                if (File.Exists(path))
-                {
-                    var json = File.ReadAllText(path);
-                    using var doc = JsonDocument.Parse(json);
-                    var root = doc.RootElement;
-                    
-                    if (root.TryGetProperty("SelectedLanguage", out var langProp))
-                    {
-                        _selectedLanguage = langProp.GetString() ?? "English";
-                    }
-                    if (root.TryGetProperty("SelectedTheme", out var themeProp))
-                    {
-                        _selectedTheme = themeProp.GetString() ?? "System Default";
-                    }
-                    if (root.TryGetProperty("DefaultSavePath", out var pathProp))
-                    {
-                        _defaultSavePath = pathProp.GetString() ?? "C:\\Users\\maksim\\Documents\\MaterialFlow\\Projects";
-                    }
-                    if (root.TryGetProperty("LastLoginUser", out var userProp))
-                    {
-                        _lastLoginUser = userProp.GetString() ?? string.Empty;
-                        if (!string.IsNullOrWhiteSpace(_lastLoginUser))
-                        {
-                            AuthService.Instance.RestoreSession(_lastLoginUser);
-                        }
-                    }
-                    if (root.TryGetProperty("EnableProjectLogging", out var logProp))
-                    {
-                        _enableProjectLogging = logProp.ValueKind == JsonValueKind.True;
-                        OnPropertyChanged(nameof(EnableProjectLogging));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Failed to load settings: {ex.Message}");
-            }
-        }
-
-        public ObservableCollection<string> Languages { get; } = new() { "Czech", "English", "German", "Japanese", "Polish", "Slovak", "Ukrainian" };
-        public ObservableCollection<string> Themes { get; } = new() { "System Default", "Light", "Dark" };
-
-        public void Logout()
-        {
-            AuthService.Instance.Logout();
-            CurrentUser = null;
-        }
-
-        public void SetPageIndex(string index)
-        {
-            if (int.TryParse(index, out int i))
-            {
-                CurrentPageIndex = i;
-            }
-        }
-
-        public void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
-
-        private string _searchText = string.Empty;
-        public string SearchText
-        {
-            get => _searchText;
-            set
-            {
-                _searchText = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(FilteredProjects));
-            }
-        }
-
-        private int _selectedFilterIndex = 0;
-        public int SelectedFilterIndex
-        {
-            get => _selectedFilterIndex;
-            set
-            {
-                _selectedFilterIndex = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(FilteredProjects));
-                OnPropertyChanged(nameof(EmptyStateIconKind));
-            }
-        }
-
-        public string EmptyStateIconKind => _selectedFilterIndex == 2 ? "StarOutline" : "FolderOpenOutline";
-
-
-
-        public ObservableCollection<FilterItem> StatusFilters { get; } = new()
-        {
-            new("All", "FilterVariant"),
-            new("Done", "CheckCircle"),
-            new("Error", "AlertCircle"),
-            new("Processing", "ProgressClock")
-        };
-
-        public IEnumerable<FilterItem> PlatformFilters
-        {
-            get
-            {
-                var list = new List<FilterItem> { new("All", "Web") };
-                list.AddRange(DataService.Instance.Platforms.Select(p => new FilterItem(p.Name, p.IconKind)));
-                return list;
-            }
-        }
-
-        private FilterItem _selectedStatusFilter;
-        public FilterItem SelectedStatusFilter
-        {
-            get => _selectedStatusFilter;
-            set
-            {
-                _selectedStatusFilter = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(FilteredProjects));
-            }
-        }
-
-        private FilterItem _selectedPlatformFilter;
-        public FilterItem SelectedPlatformFilter
-        {
-            get => _selectedPlatformFilter;
-            set
-            {
-                _selectedPlatformFilter = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(FilteredProjects));
-            }
-        }
-
-        public void SetStatusFilterCommand(FilterItem item)
-        {
-            SelectedStatusFilter = item;
-        }
-
-        public void SetPlatformFilterCommand(FilterItem item)
-        {
-            SelectedPlatformFilter = item;
-        }
-
-        private string _selectedSortOption = "DateDesc";
-        public string SelectedSortOption
-        {
-            get => _selectedSortOption;
-            set
-            {
-                _selectedSortOption = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(SelectedSortText));
-                OnPropertyChanged(nameof(FilteredProjects));
-            }
-        }
-
-        private int _pageSize = 20;
-        public int PageSize
-        {
-            get => _pageSize;
-            set
-            {
-                if (_pageSize != value)
-                {
-                    _pageSize = value;
-                    CurrentPage = 1; // Reset to first page when size changes
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(TotalPages));
-                    OnPropertyChanged(nameof(FilteredProjects));
-                }
-            }
-        }
-
-        public ObservableCollection<int> PageSizes { get; } = new() { 20, 50, 100 };
-
-        private int _currentPage = 1;
-        public int CurrentPage
-        {
-            get => _currentPage;
-            set
-            {
-                if (_currentPage != value)
-                {
-                    _currentPage = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(FilteredProjects));
-                }
-            }
-        }
-
-        private int _totalItemsCount = 0;
-        public int TotalPages => Math.Max(1, (int)Math.Ceiling((double)_totalItemsCount / PageSize));
-        public bool IsProjectsEmpty => _totalItemsCount == 0;
-
-        public void NextPage()
-        {
-            if (CurrentPage < TotalPages)
-            {
-                CurrentPage++;
-            }
-        }
-
-        public void PreviousPage()
-        {
-            if (CurrentPage > 1)
-            {
-                CurrentPage--;
-            }
-        }
-
-        public void SetPageSize(string sizeStr)
-        {
-            if (int.TryParse(sizeStr, out int size))
-            {
-                PageSize = size;
-            }
-        }
-
-        public string SelectedSortText
-        {
-            get
-            {
-                string key = _selectedSortOption switch
-                {
-                    "NameAsc" => "SortByNameAsc",
-                    "NameDesc" => "SortByNameDesc",
-                    "DateAsc" => "SortByDateAsc",
-                    "DateDesc" or _ => "SortByDateDesc",
-                };
-
-                if (Avalonia.Application.Current != null && 
-                    Avalonia.Application.Current.Resources.TryGetResource(key, null, out object? val) && 
-                    val is string localizedString)
-                {
-                    return localizedString;
-                }
-
-                return _selectedSortOption switch
-                {
-                    "NameAsc" => "Name (A-Z)",
-                    "NameDesc" => "Name (Z-A)",
-                    "DateAsc" => "Oldest First",
-                    "DateDesc" or _ => "Newest First",
-                };
-            }
-        }
-
-        public IEnumerable<VideoProject> FilteredProjects
-        {
-            get
-            {
-                IEnumerable<VideoProject> result = Projects;
-
-                // Apply filtering based on selected tab
-                if (_selectedFilterIndex == 1) // Recent: e.g. created in last 7 days
-                {
-                    var limit = DateTime.UtcNow.AddDays(-7);
-                    result = result.Where(p => p.CreatedAt >= limit);
-                }
-                else if (_selectedFilterIndex == 2) // Favorites
-                {
-                    result = result.Where(p => p.IsFavorite);
-                }
-
-                // Apply search text filtering
-                if (!string.IsNullOrWhiteSpace(_searchText))
-                {
-                    result = result.Where(p => p.Name.Contains(_searchText, StringComparison.OrdinalIgnoreCase));
-                }
-
-                // Apply platform filter
-                if (_selectedPlatformFilter?.Name != "All")
-                {
-                    result = result.Where(p => p.Platform != null && p.Platform.Equals(_selectedPlatformFilter.Name, StringComparison.OrdinalIgnoreCase));
-                }
-
-                // Apply status filter
-                if (_selectedStatusFilter?.Name != "All")
-                {
-                    result = _selectedStatusFilter?.Name switch
-                    {
-                        "Done" => result.Where(p => p.Progress >= 100 && string.IsNullOrEmpty(p.StatusText)),
-                        "Error" => result.Where(p => !string.IsNullOrEmpty(p.StatusText) && p.StatusText.StartsWith("Error")),
-                        "Processing" => result.Where(p => p.IsProcessing),
-                        _ => result
-                    };
-                }
-
-                // Apply sorting
-                result = _selectedSortOption switch
-                {
-                    "NameAsc" => result.OrderBy(p => p.Name),
-                    "NameDesc" => result.OrderByDescending(p => p.Name),
-                    "DateAsc" => result.OrderBy(p => p.CreatedAt),
-                    "DateDesc" or _ => result.OrderByDescending(p => p.CreatedAt),
-                };
-
-                int count = result.Count();
-                if (_totalItemsCount != count)
-                {
-                    _totalItemsCount = count;
-                    OnPropertyChanged(nameof(TotalPages));
-                    OnPropertyChanged(nameof(IsProjectsEmpty));
-                    if (_currentPage > TotalPages && TotalPages > 0)
-                    {
-                        _currentPage = TotalPages;
-                        OnPropertyChanged(nameof(CurrentPage));
-                    }
-                }
-
-                return result.Skip((_currentPage - 1) * _pageSize).Take(_pageSize).ToList();
-            }
-        }
-
-        public void SetSortOption(string option)
-        {
-            if (string.IsNullOrEmpty(option)) return;
-            SelectedSortOption = option;
-        }
-
-        public void ToggleFavorite(VideoProject project)
-        {
-            if (project == null) return;
-            project.IsFavorite = !project.IsFavorite;
-            UpdateProject(project);
-            OnPropertyChanged(nameof(FilteredProjects));
-        }
-
-        public ObservableCollection<VideoProject> Projects { get; set; } = new();
-        public ObservableCollection<ConversionJob> ConversionJobs { get; set; } = new();
-
-        private bool _enableProjectLogging;
-        public bool EnableProjectLogging
-        {
-            get => _enableProjectLogging;
-            set
-            {
-                _enableProjectLogging = value;
-                OnPropertyChanged();
-                SaveSettings(); // Optional: persist the setting
-            }
-        }
-
+/// <summary>
+/// Головна ViewModel програми — координатор навігації, авторизації та дочірніх ViewModel-ів.
+/// </summary>
+public class MainWindowViewModel : INotifyPropertyChanged
+{
     /// <summary>
-    /// Конструктор головної моделі подання MainWindowViewModel.
-    /// Ініціалізує сервіси, завантажує збережені налаштування та застосовує мову та тему.
+    /// ViewModel для списку проєктів (фільтри, сортування, пагінація, конвертація).
     /// </summary>
+    public ProjectListViewModel ProjectList { get; }
+
     public MainWindowViewModel()
     {
-        // Вкажіть шлях до ffmpeg (для демонстрації припускаємо, що він в PATH або в тій же папці)
-        _ffmpegService = new FFmpegService("ffmpeg");
-        
-        _selectedStatusFilter = StatusFilters[0];
-        _selectedPlatformFilter = PlatformFilters.First();
-        
-        LoadSettings();
-        LoadProjects();
+        ProjectList = new ProjectListViewModel();
+
+        SettingsService.Instance.Load();
+
+        _selectedLanguage = SettingsService.Instance.SelectedLanguage;
+        _selectedTheme = SettingsService.Instance.SelectedTheme;
+        _defaultSavePath = SettingsService.Instance.DefaultSavePath;
+        _enableProjectLogging = SettingsService.Instance.EnableProjectLogging;
+
+        var lastLogin = SettingsService.Instance.LastLoginUser;
+        if (!string.IsNullOrWhiteSpace(lastLogin))
+        {
+            _lastLoginUser = lastLogin;
+            AuthService.Instance.RestoreSession(lastLogin);
+        }
+
+        ProjectList.LoadProjects(_defaultSavePath);
         ApplyTheme(_selectedTheme);
         ApplyLanguage(_selectedLanguage);
         CurrentUser = AuthService.Instance.CurrentUser;
-
-        Projects.CollectionChanged += (s, e) => OnPropertyChanged(nameof(FilteredProjects));
     }
 
-    private void LoadProjects()
-    {
-        Projects.Clear();
-        if (!Directory.Exists(DefaultSavePath)) return;
+    #region Authorization
 
-        try
+    private string _lastLoginUser = string.Empty;
+    private User? _currentUser;
+    public User? CurrentUser
+    {
+        get => _currentUser;
+        set
         {
-            var directories = Directory.GetDirectories(DefaultSavePath);
-            foreach (var dir in directories)
-            {
-                var projectFile = Path.Combine(dir, "project.json");
-                if (File.Exists(projectFile))
-                {
-                    var json = File.ReadAllText(projectFile);
-                    var project = JsonSerializer.Deserialize<VideoProject>(json);
-                    if (project != null)
-                    {
-                        project.IsProcessing = false;
-                        // If progress is 100, the project is completed successfully (no status text). Otherwise, it's considered an Error.
-                        project.StatusText = project.Progress >= 100 ? "" : "Error";
-                        Projects.Add(project);
-                    }
-                }
-            }
+            _currentUser = value;
+            _lastLoginUser = _currentUser?.Login ?? string.Empty;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsLoggedIn));
+            OnPropertyChanged(nameof(IsLoggedOut));
+            OnPropertyChanged(nameof(UserFullName));
+            OnPropertyChanged(nameof(UserInitials));
+            OnPropertyChanged(nameof(IsAdmin));
+            OnPropertyChanged(nameof(IsEditor));
+            SaveSettings();
         }
-        catch { }
+    }
+
+    public bool IsLoggedIn => CurrentUser != null;
+    public bool IsLoggedOut => CurrentUser == null;
+    public bool IsAdmin => CurrentUser?.Role == UserRole.Admin;
+    public bool IsEditor => !IsAdmin;
+    public string UserFullName => CurrentUser?.FullName ?? "Guest";
+    public string UserInitials => string.IsNullOrWhiteSpace(CurrentUser?.FullName) ? "?" :
+        new string(CurrentUser.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
+
+    public void Logout()
+    {
+        AuthService.Instance.Logout();
+        CurrentUser = null;
+    }
+
+    #endregion
+
+    #region Navigation & Sidebar
+
+    private bool _isSidebarCollapsed;
+    public bool IsSidebarCollapsed
+    {
+        get => _isSidebarCollapsed;
+        set
+        {
+            _isSidebarCollapsed = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(SidebarWidth));
+            OnPropertyChanged(nameof(DividerWidth));
+            OnPropertyChanged(nameof(ItemWidth));
+            OnPropertyChanged(nameof(SidebarContentAlignment));
+        }
+    }
+
+    public double SidebarWidth => IsSidebarCollapsed ? 104 : 280;
+    public double DividerWidth => IsSidebarCollapsed ? 56 : 232;
+    public double ItemWidth => IsSidebarCollapsed ? 80 : 232;
+    public double ItemHeight => 56;
+    public HorizontalAlignment SidebarContentAlignment => IsSidebarCollapsed ? HorizontalAlignment.Center : HorizontalAlignment.Left;
+
+    private int _currentPageIndex = 0;
+    public int CurrentPageIndex
+    {
+        get => _currentPageIndex;
+        set { _currentPageIndex = value; OnPropertyChanged(); }
+    }
+
+    public void SetPageIndex(string index)
+    {
+        if (int.TryParse(index, out int i)) CurrentPageIndex = i;
+    }
+
+    public void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
+
+    #endregion
+
+    #region Settings (Language, Theme, Path, Logging)
+
+    private string _selectedLanguage = "English";
+    private string _selectedTheme = "System Default";
+    private string _defaultSavePath = "C:\\Users\\maksim\\Documents\\MaterialFlow\\Projects";
+
+    /// <summary>
+    /// Поточна вибрана мова локалізації інтерфейсу програми.
+    /// </summary>
+    public string SelectedLanguage
+    {
+        get => _selectedLanguage;
+        set
+        {
+            _selectedLanguage = value;
+            OnPropertyChanged();
+            ApplyLanguage(value);
+            OnPropertyChanged(nameof(ProjectList.SelectedSortText));
+            OnPropertyChanged(nameof(ProjectList.FilteredProjects));
+            SaveSettings();
+        }
     }
 
     /// <summary>
-    /// Запуск завдання конвертації відео
+    /// Поточна вибрана тема оформлення інтерфейсу.
     /// </summary>
-    public async Task StartConversionAsync(VideoProject project, Preset preset, string exportPath)
+    public string SelectedTheme
     {
-        if (project == null || preset == null) return;
-
-        // Створюємо папку для проєкту
-        var safeProjectName = string.Join("_", project.Name.Split(Path.GetInvalidFileNameChars()));
-        var projectDir = Path.Combine(DefaultSavePath, safeProjectName);
-        
-        if (!Directory.Exists(projectDir))
+        get => _selectedTheme;
+        set
         {
-            Directory.CreateDirectory(projectDir);
+            _selectedTheme = value;
+            OnPropertyChanged();
+            ApplyTheme(value);
+            SaveSettings();
         }
+    }
 
-        // Генеруємо мініатюру для відео
+    /// <summary>
+    /// Шлях за замовчуванням для збереження відеопроєктів.
+    /// </summary>
+    public string DefaultSavePath
+    {
+        get => _defaultSavePath;
+        set
+        {
+            _defaultSavePath = value;
+            OnPropertyChanged();
+            ProjectList.LoadProjects(_defaultSavePath);
+            SaveSettings();
+        }
+    }
+
+    private bool _enableProjectLogging;
+    public bool EnableProjectLogging
+    {
+        get => _enableProjectLogging;
+        set
+        {
+            _enableProjectLogging = value;
+            OnPropertyChanged();
+            SaveSettings();
+        }
+    }
+
+    public ObservableCollection<string> Languages { get; } = new() { "Czech", "English", "German", "Japanese", "Polish", "Slovak", "Ukrainian" };
+    public ObservableCollection<string> Themes { get; } = new() { "System Default", "Light", "Dark" };
+
+    private void SaveSettings()
+    {
+        SettingsService.Instance.SelectedLanguage = _selectedLanguage;
+        SettingsService.Instance.SelectedTheme = _selectedTheme;
+        SettingsService.Instance.DefaultSavePath = _defaultSavePath;
+        SettingsService.Instance.LastLoginUser = _lastLoginUser;
+        SettingsService.Instance.EnableProjectLogging = _enableProjectLogging;
+        SettingsService.Instance.Save();
+    }
+
+    private void ApplyLanguage(string languageName)
+    {
+        if (Avalonia.Application.Current == null) return;
+
+        string langCode = languageName switch
+        {
+            "Czech" => "cz",
+            "German" => "de",
+            "Japanese" => "ja",
+            "Polish" => "pl",
+            "Slovak" => "sk",
+            "Ukrainian" => "uk",
+            _ => "en"
+        };
+
+        var uri = new Uri($"avares://MaterialFlow/Resources/Langs/{langCode}.axaml");
         try
         {
-            var thumbnailFile = Path.Combine(projectDir, "thumbnail.jpg");
-            if (File.Exists(project.SourceFilePath))
+            var newDict = (Avalonia.Controls.ResourceDictionary)Avalonia.Markup.Xaml.AvaloniaXamlLoader.Load(uri);
+            var mergedDicts = Avalonia.Application.Current.Resources.MergedDictionaries;
+            var existingDict = mergedDicts.OfType<Avalonia.Controls.ResourceDictionary>().FirstOrDefault(d => d.ContainsKey("NavHome"));
+
+            if (existingDict != null) mergedDicts.Remove(existingDict);
+            mergedDicts.Add(newDict);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to load language {langCode}: {ex.Message}");
+        }
+    }
+
+    private void ApplyTheme(string theme)
+    {
+        if (Avalonia.Application.Current != null)
+        {
+            if (theme == "Dark")
+                Avalonia.Application.Current.RequestedThemeVariant = Avalonia.Styling.ThemeVariant.Dark;
+            else if (theme == "Light")
+                Avalonia.Application.Current.RequestedThemeVariant = Avalonia.Styling.ThemeVariant.Light;
+            else
+                Avalonia.Application.Current.RequestedThemeVariant = Avalonia.Styling.ThemeVariant.Default;
+
+            var materialTheme = Avalonia.Application.Current.Styles.OfType<Material.Styles.Themes.MaterialTheme>().FirstOrDefault();
+            if (materialTheme != null)
             {
-                var thumbnailPath = await _ffmpegService.GenerateThumbnailAsync(project.SourceFilePath, thumbnailFile);
-                if (!string.IsNullOrEmpty(thumbnailPath))
+                var prop = materialTheme.GetType().GetProperty("BaseTheme");
+                if (prop != null)
                 {
-                    // Тимчасово очищаємо шлях, щоб змусити Avalonia оновити Image (так як шлях міг не змінитись, але сам файл змінився)
-                    project.ThumbnailPath = string.Empty;
-                    project.ThumbnailPath = thumbnailPath;
+                    var propType = prop.PropertyType;
+                    try
+                    {
+                        if (theme == "Dark")
+                            prop.SetValue(materialTheme, Enum.Parse(propType, "Dark"));
+                        else if (theme == "Light")
+                            prop.SetValue(materialTheme, Enum.Parse(propType, "Light"));
+                        else
+                            prop.SetValue(materialTheme, Enum.Parse(propType, "Inherit"));
+                    }
+                    catch { }
                 }
             }
         }
-        catch { }
-
-        // Зберігаємо метадані проєкту
-        try
-        {
-            var projectJson = JsonSerializer.Serialize(project, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(Path.Combine(projectDir, "project.json"), projectJson);
-        }
-        catch { }
-
-        // Визначаємо шлях для експорту (якщо не вказаний, зберігаємо в папці проєкту)
-        if (string.IsNullOrEmpty(exportPath))
-        {
-            exportPath = projectDir;
-        }
-
-        var formatExtension = string.IsNullOrWhiteSpace(project.Format) ? "mp4" : project.Format.TrimStart('.');
-        var job = new ConversionJob
-        {
-            ProjectId = project.Id,
-            PresetId = preset.Id,
-            OutputPath = Path.Combine(exportPath, $"{project.Name}_{preset.Name}.{formatExtension}")
-        };
-
-        project.ExportFilePath = job.OutputPath;
-
-        // Переконуємось, що папка для експорту існує
-        var exportDir = Path.GetDirectoryName(job.OutputPath);
-        if (!string.IsNullOrEmpty(exportDir) && !Directory.Exists(exportDir))
-        {
-            Directory.CreateDirectory(exportDir);
-        }
-
-        ConversionJobs.Add(job);
-
-        // Налаштовуємо Progress для оновлення UI
-        project.IsProcessing = true;
-        project.StatusText = "Pending in queue...";
-        project.Progress = 0;
-
-        var progress = new Progress<double>(p =>
-        {
-            job.Progress = p;
-            project.Progress = p;
-            project.StatusText = p == 0 ? "Processing..." : $"Processing: {p:F1}%";
-        });
-
-        string? logFilePath = EnableProjectLogging ? Path.Combine(projectDir, "conversion.log") : null;
-
-        var cts = new CancellationTokenSource();
-        _cancellationTokens[project.Id] = cts;
-
-        // Запускаємо конвертацію
-        bool success = await _ffmpegService.ConvertVideoAsync(project, preset, job, progress, cts.Token, logFilePath);
-
-        _cancellationTokens.Remove(project.Id);
-
-        if (success)
-        {
-            project.Progress = 100;
-            project.StatusText = "Processing: 100.0%";
-            
-            try
-            {
-                var fileInfo = new FileInfo(job.OutputPath);
-                var outputFile = new OutputFile
-                {
-                    JobId = job.Id,
-                    FilePath = job.OutputPath,
-                    Size = fileInfo.Exists ? fileInfo.Length : 0,
-                    CreatedAt = DateTime.UtcNow
-                };
-                
-                DataService.Instance.OutputFiles.Add(outputFile);
-                _ = DataService.Instance.SaveOutputFilesAsync();
-            }
-            catch { }
-            // Keep IsProcessing true to show the progress bar
-            
-            // Fire and forget a 5 second delay to clear the UI
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(5000);
-                Avalonia.Threading.Dispatcher.UIThread.Post(() =>
-                {
-                    project.IsProcessing = false;
-                    project.StatusText = "";
-                });
-            });
-        }
-        else
-        {
-            project.IsProcessing = false;
-            project.StatusText = $"Error: {job.ErrorMessage}"; // Persists on failure
-        }
-
-        // Перезаписуємо project.json з оновленим статусом
-        try
-        {
-            var projectJson = JsonSerializer.Serialize(project, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(Path.Combine(projectDir, "project.json"), projectJson);
-        }
-        catch { }
-
-        OnPropertyChanged(nameof(ConversionJobs));
     }
 
-    public void UpdateProject(VideoProject project)
-    {
-        var safeProjectName = string.Join("_", project.Name.Split(Path.GetInvalidFileNameChars()));
-        var projectDir = Path.Combine(DefaultSavePath, safeProjectName);
-        if (!Directory.Exists(projectDir))
-        {
-            Directory.CreateDirectory(projectDir);
-        }
-
-        try
-        {
-            var projectJson = JsonSerializer.Serialize(project, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(Path.Combine(projectDir, "project.json"), projectJson);
-        }
-        catch { }
-        
-        OnPropertyChanged(nameof(FilteredProjects));
-    }
-
-    public void CancelConversion(Guid projectId)
-    {
-        if (_cancellationTokens.TryGetValue(projectId, out var cts))
-        {
-            cts.Cancel();
-        }
-    }
+    #endregion
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)

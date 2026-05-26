@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace MaterialFlow.Models;
 
@@ -68,10 +69,7 @@ public class VideoProject : INotifyPropertyChanged
     /// </summary>
     public string Codec { get; set; } = "libx264";
 
-    /// <summary>
-    /// Опис проєкту.
-    /// </summary>
-    public string Description { get; set; } = string.Empty;
+
 
     /// <summary>
     /// Вказує, чи потрібно накладати водяний знак під час рендерингу.
@@ -107,6 +105,7 @@ public class VideoProject : INotifyPropertyChanged
     /// <summary>
     /// Поточний прогрес обробки проєкту (від 0.0 до 100.0).
     /// </summary>
+    [JsonIgnore]
     public double Progress
     {
         get => _progress;
@@ -116,6 +115,7 @@ public class VideoProject : INotifyPropertyChanged
     /// <summary>
     /// Текстовий опис поточного стану обробки (наприклад, "Очікування...", "Рендеринг...").
     /// </summary>
+    [JsonIgnore]
     public string StatusText
     {
         get => _statusText;
@@ -127,6 +127,7 @@ public class VideoProject : INotifyPropertyChanged
     /// <summary>
     /// Визначає, чи виконується в даний момент обробка (конвертація) цього проєкту.
     /// </summary>
+    [JsonIgnore]
     public bool IsProcessing
     {
         get => _isProcessing;
