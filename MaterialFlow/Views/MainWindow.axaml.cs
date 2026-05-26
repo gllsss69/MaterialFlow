@@ -169,17 +169,28 @@ namespace MaterialFlow
         {
             if (sender is MenuItem menuItem && menuItem.DataContext is Models.VideoProject project)
             {
+                _viewModel.CancelConversion(project.Id);
                 _viewModel.Projects.Remove(project);
                 // Also remove directory
                 var safeProjectName = string.Join("_", project.Name.Split(System.IO.Path.GetInvalidFileNameChars()));
                 var projectDir = System.IO.Path.Combine(_viewModel.DefaultSavePath, safeProjectName);
                 if (System.IO.Directory.Exists(projectDir))
                 {
-                    try
+                    System.Threading.Tasks.Task.Run(async () =>
                     {
-                        System.IO.Directory.Delete(projectDir, true);
-                    }
-                    catch { }
+                        for (int i = 0; i < 5; i++)
+                        {
+                            try
+                            {
+                                System.IO.Directory.Delete(projectDir, true);
+                                break;
+                            }
+                            catch
+                            {
+                                await System.Threading.Tasks.Task.Delay(500);
+                            }
+                        }
+                    });
                 }
             }
         }

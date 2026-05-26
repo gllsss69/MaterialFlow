@@ -126,7 +126,7 @@ public class FFmpegService
     /// <param name="progress">Об'єкт для повідомлення про зміну прогресу.</param>
     /// <param name="cancellationToken">Токен скасування асинхронної операції.</param>
     /// <returns>Значення true, якщо конвертація завершилась успішно; інакше false.</returns>
-    public async Task<bool> ConvertVideoAsync(VideoProject project, Preset preset, ConversionJob job, IProgress<double>? progress = null, CancellationToken cancellationToken = default)
+    public async Task<bool> ConvertVideoAsync(VideoProject project, Preset preset, ConversionJob job, IProgress<double>? progress = null, CancellationToken cancellationToken = default, string? logFilePath = null)
     {
         await _conversionQueue.WaitAsync(cancellationToken);
         try
@@ -230,6 +230,18 @@ public class FFmpegService
                 return false;
             }
 
+            StreamWriter? logWriter = null;
+            if (!string.IsNullOrEmpty(logFilePath))
+            {
+                try
+                {
+                    logWriter = new StreamWriter(logFilePath, append: true);
+                    await logWriter.WriteLineAsync($"--- Starting Conversion: {DateTime.UtcNow} ---");
+                    await logWriter.WriteLineAsync($"Command: {startInfo.FileName} {startInfo.Arguments}");
+                }
+                catch { }
+            }
+
             // Register cancellation
             using var reg = cancellationToken.Register(() => {
                 try {
@@ -237,38 +249,61 @@ public class FFmpegService
                 } catch { }
             });
 
-            // Read output asynchronously to report progress
-            var buffer = new char[1024];
-            while (!process.StandardError.EndOfStream)
+            try
             {
-                if (cancellationToken.IsCancellationRequested)
+                // Read output asynchronously to report progress
+                while (!process.StandardError.EndOfStream)
                 {
-                    break;
-                }
-
-                string? line = await process.StandardError.ReadLineAsync();
-                if (line != null && duration.TotalSeconds > 0)
-                {
-                    // Look for time=00:00:00.00
-                    var match = Regex.Match(line, @"time=(\d{2}):(\d{2}):(\d{2}\.\d{2})");
-                    if (match.Success)
+                    if (cancellationToken.IsCancellationRequested)
                     {
-                        int hours = int.Parse(match.Groups[1].Value);
-                        int minutes = int.Parse(match.Groups[2].Value);
-                        double seconds = double.Parse(match.Groups[3].Value, System.Globalization.CultureInfo.InvariantCulture);
-                        var currentTime = new TimeSpan(0, hours, minutes, 0, (int)(seconds * 1000));
-                        
-                        double currentProgress = (currentTime.TotalSeconds / duration.TotalSeconds) * 100.0;
-                        if (currentProgress > 100) currentProgress = 100;
-                        if (currentProgress < 0) currentProgress = 0;
-                        
-                        job.Progress = Math.Round(currentProgress, 2);
-                        progress?.Report(job.Progress);
+                        break;
+                    }
+
+                    string? line = await process.StandardError.ReadLineAsync();
+                    if (line != null)
+                    {
+                        if (logWriter != null)
+                        {
+                            try { await logWriter.WriteLineAsync(line); } catch { }
+                        }
+
+                        if (duration.TotalSeconds > 0)
+                        {
+                            // Look for time=00:00:00.00
+                            var match = Regex.Match(line, @"time=(\d{2}):(\d{2}):(\d{2}\.\d{2})");
+                            if (match.Success)
+                            {
+                                int hours = int.Parse(match.Groups[1].Value);
+                                int minutes = int.Parse(match.Groups[2].Value);
+                                double seconds = double.Parse(match.Groups[3].Value, System.Globalization.CultureInfo.InvariantCulture);
+                                var currentTime = new TimeSpan(0, hours, minutes, 0, (int)(seconds * 1000));
+                                
+                                double currentProgress = (currentTime.TotalSeconds / duration.TotalSeconds) * 100.0;
+                                if (currentProgress > 100) currentProgress = 100;
+                                if (currentProgress < 0) currentProgress = 0;
+                                
+                                job.Progress = Math.Round(currentProgress, 2);
+                                progress?.Report(job.Progress);
+                            }
+                        }
                     }
                 }
-            }
 
-            await process.WaitForExitAsync(cancellationToken);
+                await process.WaitForExitAsync(cancellationToken);
+            }
+            finally
+            {
+                if (logWriter != null)
+                {
+                    try
+                    {
+                        await logWriter.WriteLineAsync($"--- Finished Conversion: {DateTime.UtcNow} ---");
+                        await logWriter.FlushAsync();
+                        logWriter.Dispose();
+                    }
+                    catch { }
+                }
+            }
 
             if (cancellationToken.IsCancellationRequested)
             {

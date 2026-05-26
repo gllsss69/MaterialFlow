@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Avalonia.Layout;
+using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.Json;
@@ -16,6 +17,7 @@ namespace MaterialFlow.ViewModels;
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly FFmpegService _ffmpegService;
+        private readonly Dictionary<Guid, CancellationTokenSource> _cancellationTokens = new();
         private string _lastLoginUser = string.Empty;
         private User? _currentUser;
         public User? CurrentUser
@@ -229,7 +231,8 @@ namespace MaterialFlow.ViewModels;
                     SelectedLanguage = _selectedLanguage,
                     SelectedTheme = _selectedTheme,
                     DefaultSavePath = _defaultSavePath,
-                    LastLoginUser = _lastLoginUser
+                    LastLoginUser = _lastLoginUser,
+                    EnableProjectLogging = _enableProjectLogging
                 };
                 var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
@@ -275,6 +278,11 @@ namespace MaterialFlow.ViewModels;
                         {
                             AuthService.Instance.RestoreSession(_lastLoginUser);
                         }
+                    }
+                    if (root.TryGetProperty("EnableProjectLogging", out var logProp))
+                    {
+                        _enableProjectLogging = logProp.ValueKind == JsonValueKind.True;
+                        OnPropertyChanged(nameof(EnableProjectLogging));
                     }
                 }
             }
@@ -324,8 +332,11 @@ namespace MaterialFlow.ViewModels;
                 _selectedFilterIndex = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(FilteredProjects));
+                OnPropertyChanged(nameof(EmptyStateIconKind));
             }
         }
+
+        public string EmptyStateIconKind => _selectedFilterIndex == 2 ? "StarOutline" : "FolderOpenOutline";
 
 
 
@@ -430,6 +441,7 @@ namespace MaterialFlow.ViewModels;
 
         private int _totalItemsCount = 0;
         public int TotalPages => Math.Max(1, (int)Math.Ceiling((double)_totalItemsCount / PageSize));
+        public bool IsProjectsEmpty => _totalItemsCount == 0;
 
         public void NextPage()
         {
@@ -539,6 +551,7 @@ namespace MaterialFlow.ViewModels;
                 {
                     _totalItemsCount = count;
                     OnPropertyChanged(nameof(TotalPages));
+                    OnPropertyChanged(nameof(IsProjectsEmpty));
                     if (_currentPage > TotalPages && TotalPages > 0)
                     {
                         _currentPage = TotalPages;
@@ -706,8 +719,15 @@ namespace MaterialFlow.ViewModels;
             project.StatusText = p == 0 ? "Processing..." : $"Processing: {p:F1}%";
         });
 
+        string? logFilePath = EnableProjectLogging ? Path.Combine(projectDir, "conversion.log") : null;
+
+        var cts = new CancellationTokenSource();
+        _cancellationTokens[project.Id] = cts;
+
         // Запускаємо конвертацію
-        bool success = await _ffmpegService.ConvertVideoAsync(project, preset, job, progress);
+        bool success = await _ffmpegService.ConvertVideoAsync(project, preset, job, progress, cts.Token, logFilePath);
+
+        _cancellationTokens.Remove(project.Id);
 
         if (success)
         {
@@ -776,6 +796,14 @@ namespace MaterialFlow.ViewModels;
         catch { }
         
         OnPropertyChanged(nameof(FilteredProjects));
+    }
+
+    public void CancelConversion(Guid projectId)
+    {
+        if (_cancellationTokens.TryGetValue(projectId, out var cts))
+        {
+            cts.Cancel();
+        }
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

@@ -410,43 +410,49 @@
                         
                         <!-- Status Filter -->
                         <Button Classes="SecondaryCapsule" Height="48" Padding="16,0" CornerRadius="24" VerticalAlignment="Center">
+                            <Button.Styles>
+                                <Style Selector="MenuItem" x:DataType="vm:FilterItem">
+                                    <Setter Property="Command" Value="{Binding $parent[Window].DataContext.SetStatusFilterCommand}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                    <Setter Property="Header" Value="{Binding Name}"/>
+                                    <Setter Property="Icon">
+                                        <Template>
+                                            <material:MaterialIcon Kind="{Binding IconKind}" Width="16" Height="16"/>
+                                        </Template>
+                                    </Setter>
+                                </Style>
+                            </Button.Styles>
                             <Button.Flyout>
-                                <MenuFlyout Placement="BottomEdgeAlignedLeft" ItemsSource="{Binding StatusFilters}">
-                                    <MenuFlyout.ItemTemplate>
-                                        <DataTemplate x:DataType="vm:FilterItem">
-                                            <MenuItem Header="{Binding Name}" Command="{Binding $parent[Window].DataContext.SetStatusFilterCommand}" CommandParameter="{Binding}">
-                                                <MenuItem.Icon>
-                                                    <material:MaterialIcon Kind="{Binding IconKind}" Width="16" Height="16"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                        </DataTemplate>
-                                    </MenuFlyout.ItemTemplate>
-                                </MenuFlyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedLeft" ItemsSource="{Binding StatusFilters}"/>
                             </Button.Flyout>
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock Text="Status:" Opacity="0.7" VerticalAlignment="Center" FontSize="16"/>
-                                <TextBlock Text="{Binding SelectedStatusFilter.Name}" VerticalAlignment="Center" FontSize="16" FontWeight="Medium" />
+                                <material:MaterialIcon Kind="FilterVariant" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="Status:" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="{Binding SelectedStatusFilter.Name}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
                             </StackPanel>
                         </Button>
 
                         <!-- Platform Filter -->
                         <Button Classes="SecondaryCapsule" Height="48" Padding="16,0" CornerRadius="24" VerticalAlignment="Center">
+                            <Button.Styles>
+                                <Style Selector="MenuItem" x:DataType="vm:FilterItem">
+                                    <Setter Property="Command" Value="{Binding $parent[Window].DataContext.SetPlatformFilterCommand}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                    <Setter Property="Header" Value="{Binding Name}"/>
+                                    <Setter Property="Icon">
+                                        <Template>
+                                            <material:MaterialIcon Kind="{Binding IconKind}" Width="16" Height="16"/>
+                                        </Template>
+                                    </Setter>
+                                </Style>
+                            </Button.Styles>
                             <Button.Flyout>
-                                <MenuFlyout Placement="BottomEdgeAlignedLeft" ItemsSource="{Binding PlatformFilters}">
-                                    <MenuFlyout.ItemTemplate>
-                                        <DataTemplate x:DataType="vm:FilterItem">
-                                            <MenuItem Header="{Binding Name}" Command="{Binding $parent[Window].DataContext.SetPlatformFilterCommand}" CommandParameter="{Binding}">
-                                                <MenuItem.Icon>
-                                                    <material:MaterialIcon Kind="{Binding IconKind}" Width="16" Height="16"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                        </DataTemplate>
-                                    </MenuFlyout.ItemTemplate>
-                                </MenuFlyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedLeft" ItemsSource="{Binding PlatformFilters}"/>
                             </Button.Flyout>
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock Text="Platform:" Opacity="0.7" VerticalAlignment="Center" FontSize="16"/>
-                                <TextBlock Text="{Binding SelectedPlatformFilter.Name}" VerticalAlignment="Center" FontSize="16" FontWeight="Medium" />
+                                <material:MaterialIcon Kind="MonitorDashboard" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="Platform:" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="{Binding SelectedPlatformFilter.Name}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
                             </StackPanel>
                         </Button>
 
@@ -487,9 +493,16 @@
                 </Grid>
                 <!-- Projects Grid -->
                 <Border Grid.Row="2" Margin="24,0,24,24" Padding="0" CornerRadius="24" Background="Transparent" ClipToBounds="True">
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
-                                  VerticalScrollBarVisibility="Auto" 
-                                  Theme="{StaticResource MaterialModernScrollViewer}">
+                    <Panel>
+                        <!-- Empty State Message -->
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16" IsVisible="{Binding IsProjectsEmpty}">
+                            <material:MaterialIcon Kind="{Binding EmptyStateIconKind}" Width="64" Height="64" Foreground="{DynamicResource OnSurfaceVariantBrush}" Opacity="0.5"/>
+                            <TextBlock Text="Nothing here yet" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" Opacity="0.7"/>
+                        </StackPanel>
+
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
+                                      VerticalScrollBarVisibility="Auto" 
+                                      Theme="{StaticResource MaterialModernScrollViewer}">
                         <ItemsControl ItemsSource="{Binding FilteredProjects}" Margin="24,24,24,48">
                             <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
@@ -600,6 +613,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
+                    </Panel>
                 </Border>
 
                 <!-- Pagination Controls -->

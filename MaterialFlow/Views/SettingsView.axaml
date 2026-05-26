@@ -62,9 +62,9 @@
                 </StackPanel>
 
                 <!-- Enable Project Logging -->
-                <StackPanel Spacing="12">
-                    <TextBlock Text="Enable logging to file" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="16"/>
-                    <CheckBox IsChecked="{Binding EnableProjectLogging}" Theme="{StaticResource MaterialCheckBox}"/>
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <TextBlock Text="Enable logging to file" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+                    <CheckBox IsChecked="{Binding EnableProjectLogging}" Theme="{StaticResource MaterialCheckBox}" VerticalAlignment="Center"/>
                 </StackPanel>
 
                 <!-- About -->
