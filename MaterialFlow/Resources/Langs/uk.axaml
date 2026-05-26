@@ -87,4 +87,19 @@
     <sys:String x:Key="LabelNext">Наступна</sys:String>
     <sys:String x:Key="LabelPage">Сторінка</sys:String>
     <sys:String x:Key="LabelOf">з</sys:String>
+
+    <!-- General UI -->
+    <sys:String x:Key="LabelStatus">Статус:</sys:String>
+    <sys:String x:Key="LabelPlatform">Платформа:</sys:String>
+    <sys:String x:Key="LabelNothingHere">Тут поки нічого немає</sys:String>
+    <sys:String x:Key="LabelEnableLogging">Увімкнути логування у файл</sys:String>
+    <sys:String x:Key="HeaderAbout">Про програму</sys:String>
+    <sys:String x:Key="TextAboutDescription">Просунутий інструмент для адаптації відео та керування пресетами.</sys:String>
+    <sys:String x:Key="BtnViewGitHub">Переглянути на GitHub</sys:String>
+    <sys:String x:Key="NavPresets">Пресети</sys:String>
+    <sys:String x:Key="NavPlatforms">Платформи</sys:String>
+    <sys:String x:Key="FilterAll">Усі</sys:String>
+    <sys:String x:Key="FilterCompleted">Завершені</sys:String>
+    <sys:String x:Key="FilterError">Помилка</sys:String>
+    <sys:String x:Key="FilterProcessing">В процесі</sys:String>
 </ResourceDictionary>

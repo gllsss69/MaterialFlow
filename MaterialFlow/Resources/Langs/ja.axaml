@@ -82,9 +82,24 @@
     <sys:String x:Key="LabelAddToFavorites">お気に入りに追加</sys:String>
     <sys:String x:Key="LabelRemoveFromFavorites">お気に入りから削除</sys:String>
     <!-- Pagination -->
-    <sys:String x:Key="LabelItemsPerPage">Items per page:</sys:String>
-    <sys:String x:Key="LabelPrevious">Previous</sys:String>
-    <sys:String x:Key="LabelNext">Next</sys:String>
-    <sys:String x:Key="LabelPage">Page</sys:String>
-    <sys:String x:Key="LabelOf">of</sys:String>
+    <sys:String x:Key="LabelItemsPerPage">1ページあたりのアイテム</sys:String>
+    <sys:String x:Key="LabelPrevious">前</sys:String>
+    <sys:String x:Key="LabelNext">次</sys:String>
+    <sys:String x:Key="LabelPage">ページ</sys:String>
+    <sys:String x:Key="LabelOf">の</sys:String>
+
+    <!-- General UI -->
+    <sys:String x:Key="LabelStatus">ステータス:</sys:String>
+    <sys:String x:Key="LabelPlatform">プラットフォーム:</sys:String>
+    <sys:String x:Key="LabelNothingHere">まだ何もありません</sys:String>
+    <sys:String x:Key="LabelEnableLogging">ファイルへのログ記録を有効にする</sys:String>
+    <sys:String x:Key="HeaderAbout">概要</sys:String>
+    <sys:String x:Key="TextAboutDescription">高度なビデオ適応およびプリセット管理ツール。</sys:String>
+    <sys:String x:Key="BtnViewGitHub">GitHubで表示</sys:String>
+    <sys:String x:Key="NavPresets">プリセット</sys:String>
+    <sys:String x:Key="NavPlatforms">プラットフォーム</sys:String>
+    <sys:String x:Key="FilterAll">すべて</sys:String>
+    <sys:String x:Key="FilterCompleted">完了</sys:String>
+    <sys:String x:Key="FilterError">エラー</sys:String>
+    <sys:String x:Key="FilterProcessing">処理中</sys:String>
 </ResourceDictionary>

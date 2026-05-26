@@ -26,13 +26,12 @@ public class ProjectListViewModel : INotifyPropertyChanged
         _ffmpegService = new FFmpegService("ffmpeg");
         _selectedStatusFilter = StatusFilters[0];
         _selectedPlatformFilter = PlatformFilters.First();
-        Projects.CollectionChanged += (s, e) => OnPropertyChanged(nameof(FilteredProjects));
+        Projects.CollectionChanged += (s, e) => UpdateFilteredProjects();
     }
 
     public ObservableCollection<VideoProject> Projects { get; set; } = new();
     public ObservableCollection<ConversionJob> ConversionJobs { get; set; } = new();
 
-    #region Search, Filter, Sort
 
     private string _searchText = string.Empty;
     public string SearchText
@@ -42,7 +41,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
         {
             _searchText = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(FilteredProjects));
+            UpdateFilteredProjects();
         }
     }
 
@@ -54,8 +53,8 @@ public class ProjectListViewModel : INotifyPropertyChanged
         {
             _selectedFilterIndex = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(FilteredProjects));
             OnPropertyChanged(nameof(EmptyStateIconKind));
+            UpdateFilteredProjects();
         }
     }
 
@@ -64,7 +63,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
     public ObservableCollection<FilterItem> StatusFilters { get; } = new()
     {
         new("All", "FilterVariant"),
-        new("Done", "CheckCircle"),
+        new("Completed", "CheckCircle"),
         new("Error", "AlertCircle"),
         new("Processing", "ProgressClock")
     };
@@ -73,7 +72,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
     {
         get
         {
-            var list = new List<FilterItem> { new("All", "Web") };
+            var list = new List<FilterItem> { new("All", "FilterVariant") };
             list.AddRange(DataService.Instance.Platforms.Select(p => new FilterItem(p.Name, p.IconKind)));
             return list;
         }
@@ -87,7 +86,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
         {
             _selectedStatusFilter = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(FilteredProjects));
+            UpdateFilteredProjects();
         }
     }
 
@@ -99,7 +98,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
         {
             _selectedPlatformFilter = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(FilteredProjects));
+            UpdateFilteredProjects();
         }
     }
 
@@ -115,7 +114,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
             _selectedSortOption = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(SelectedSortText));
-            OnPropertyChanged(nameof(FilteredProjects));
+            UpdateFilteredProjects();
         }
     }
 
@@ -123,6 +122,18 @@ public class ProjectListViewModel : INotifyPropertyChanged
     {
         if (string.IsNullOrEmpty(option)) return;
         SelectedSortOption = option;
+    }
+
+    public void RefreshLocalizations()
+    {
+        foreach (var item in StatusFilters) item.Refresh();
+        foreach (var item in PlatformFilters) item.Refresh();
+        
+        OnPropertyChanged(nameof(SelectedStatusFilter));
+        OnPropertyChanged(nameof(SelectedPlatformFilter));
+        OnPropertyChanged(nameof(SelectedSortText));
+        OnPropertyChanged(nameof(StatusFilters));
+        OnPropertyChanged(nameof(PlatformFilters));
     }
 
     public string SelectedSortText
@@ -137,11 +148,13 @@ public class ProjectListViewModel : INotifyPropertyChanged
                 "DateDesc" or _ => "SortByDateDesc",
             };
 
-            if (Avalonia.Application.Current != null &&
-                Avalonia.Application.Current.Resources.TryGetResource(key, null, out object? val) &&
-                val is string localizedString)
+            if (Avalonia.Application.Current != null)
             {
-                return localizedString;
+                var activeDict = Avalonia.Application.Current.Resources.MergedDictionaries
+                    .OfType<Avalonia.Controls.ResourceDictionary>()
+                    .LastOrDefault(d => d.ContainsKey("NavHome"));
+                if (activeDict != null && activeDict.TryGetValue(key, out object? val) && val is string s)
+                    return s;
             }
 
             return _selectedSortOption switch
@@ -154,9 +167,6 @@ public class ProjectListViewModel : INotifyPropertyChanged
         }
     }
 
-    #endregion
-
-    #region Pagination
 
     private int _pageSize = 20;
     public int PageSize
@@ -170,7 +180,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
                 CurrentPage = 1;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(TotalPages));
-                OnPropertyChanged(nameof(FilteredProjects));
+                UpdateFilteredProjects();
             }
         }
     }
@@ -187,7 +197,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
             {
                 _currentPage = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(FilteredProjects));
+                UpdateFilteredProjects();
             }
         }
     }
@@ -211,82 +221,77 @@ public class ProjectListViewModel : INotifyPropertyChanged
         if (int.TryParse(sizeStr, out int size)) PageSize = size;
     }
 
-    #endregion
 
-    #region FilteredProjects
+    private IEnumerable<VideoProject> _filteredProjects = Array.Empty<VideoProject>();
+    public IEnumerable<VideoProject> FilteredProjects => _filteredProjects;
 
-    public IEnumerable<VideoProject> FilteredProjects
+    private void UpdateFilteredProjects()
     {
-        get
+        IEnumerable<VideoProject> result = Projects;
+
+        if (_selectedFilterIndex == 1) // Recent
         {
-            IEnumerable<VideoProject> result = Projects;
-
-            if (_selectedFilterIndex == 1) // Recent
-            {
-                var limit = DateTime.UtcNow.AddDays(-7);
-                result = result.Where(p => p.CreatedAt >= limit);
-            }
-            else if (_selectedFilterIndex == 2) // Favorites
-            {
-                result = result.Where(p => p.IsFavorite);
-            }
-
-            if (!string.IsNullOrWhiteSpace(_searchText))
-            {
-                result = result.Where(p => p.Name.Contains(_searchText, StringComparison.OrdinalIgnoreCase));
-            }
-
-            if (_selectedPlatformFilter != null && _selectedPlatformFilter.Name != "All")
-            {
-                result = result.Where(p => p.Platform != null && p.Platform.Equals(_selectedPlatformFilter.Name, StringComparison.OrdinalIgnoreCase));
-            }
-
-            if (_selectedStatusFilter != null && _selectedStatusFilter.Name != "All")
-            {
-                result = _selectedStatusFilter.Name switch
-                {
-                    "Done" => result.Where(p => p.Progress >= 100 && string.IsNullOrEmpty(p.StatusText)),
-                    "Error" => result.Where(p => !string.IsNullOrEmpty(p.StatusText) && p.StatusText.StartsWith("Error")),
-                    "Processing" => result.Where(p => p.IsProcessing),
-                    _ => result
-                };
-            }
-
-            result = _selectedSortOption switch
-            {
-                "NameAsc" => result.OrderBy(p => p.Name),
-                "NameDesc" => result.OrderByDescending(p => p.Name),
-                "DateAsc" => result.OrderBy(p => p.CreatedAt),
-                "DateDesc" or _ => result.OrderByDescending(p => p.CreatedAt),
-            };
-
-            int count = result.Count();
-            if (_totalItemsCount != count)
-            {
-                _totalItemsCount = count;
-                OnPropertyChanged(nameof(TotalPages));
-                OnPropertyChanged(nameof(IsProjectsEmpty));
-                if (_currentPage > TotalPages && TotalPages > 0)
-                {
-                    _currentPage = TotalPages;
-                    OnPropertyChanged(nameof(CurrentPage));
-                }
-            }
-
-            return result.Skip((_currentPage - 1) * _pageSize).Take(_pageSize).ToList();
+            var limit = DateTime.UtcNow.AddDays(-7);
+            result = result.Where(p => p.CreatedAt >= limit);
         }
+        else if (_selectedFilterIndex == 2) // Favorites
+        {
+            result = result.Where(p => p.IsFavorite);
+        }
+
+        if (!string.IsNullOrWhiteSpace(_searchText))
+        {
+            result = result.Where(p => p.Name.Contains(_searchText, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (_selectedPlatformFilter != null && _selectedPlatformFilter.Name != "All")
+        {
+            result = result.Where(p => p.Platform != null && p.Platform.Equals(_selectedPlatformFilter.Name, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (_selectedStatusFilter != null && _selectedStatusFilter.Name != "All")
+        {
+            result = _selectedStatusFilter.Name switch
+            {
+                "Completed" => result.Where(p => p.Progress >= 100 && (string.IsNullOrEmpty(p.StatusText) || p.StatusText == "Completed")),
+                "Error" => result.Where(p => !string.IsNullOrEmpty(p.StatusText) && p.StatusText.StartsWith("Error")),
+                "Processing" => result.Where(p => p.IsProcessing),
+                _ => result
+            };
+        }
+
+        result = _selectedSortOption switch
+        {
+            "NameAsc" => result.OrderBy(p => p.Name),
+            "NameDesc" => result.OrderByDescending(p => p.Name),
+            "DateAsc" => result.OrderBy(p => p.CreatedAt),
+            "DateDesc" or _ => result.OrderByDescending(p => p.CreatedAt),
+        };
+
+        int count = result.Count();
+        if (_totalItemsCount != count)
+        {
+            _totalItemsCount = count;
+            OnPropertyChanged(nameof(TotalPages));
+            OnPropertyChanged(nameof(IsProjectsEmpty));
+        }
+        if (_currentPage > TotalPages && TotalPages > 0)
+        {
+            _currentPage = TotalPages;
+            OnPropertyChanged(nameof(CurrentPage));
+        }
+
+        _filteredProjects = result.Skip((_currentPage - 1) * _pageSize).Take(_pageSize).ToList();
+        OnPropertyChanged(nameof(FilteredProjects));
     }
 
-    #endregion
-
-    #region Projects CRUD
 
     public void ToggleFavorite(VideoProject project)
     {
         if (project == null) return;
         project.IsFavorite = !project.IsFavorite;
         UpdateProject(project);
-        OnPropertyChanged(nameof(FilteredProjects));
+        UpdateFilteredProjects();
     }
 
     public void LoadProjects(string defaultSavePath)
@@ -333,12 +338,8 @@ public class ProjectListViewModel : INotifyPropertyChanged
         }
         catch { }
 
-        OnPropertyChanged(nameof(FilteredProjects));
+        UpdateFilteredProjects();
     }
-
-    #endregion
-
-    #region Conversion
 
     public async Task StartConversionAsync(VideoProject project, Preset preset, string exportPath)
     {
@@ -475,7 +476,6 @@ public class ProjectListViewModel : INotifyPropertyChanged
         }
     }
 
-    #endregion
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)

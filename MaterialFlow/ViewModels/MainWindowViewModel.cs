@@ -43,7 +43,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         CurrentUser = AuthService.Instance.CurrentUser;
     }
 
-    #region Authorization
 
     private string _lastLoginUser = string.Empty;
     private User? _currentUser;
@@ -79,9 +78,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         CurrentUser = null;
     }
 
-    #endregion
-
-    #region Navigation & Sidebar
 
     private bool _isSidebarCollapsed;
     public bool IsSidebarCollapsed
@@ -118,10 +114,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
 
-    #endregion
-
-    #region Settings (Language, Theme, Path, Logging)
-
     private string _selectedLanguage = "English";
     private string _selectedTheme = "System Default";
     private string _defaultSavePath = "C:\\Users\\maksim\\Documents\\MaterialFlow\\Projects";
@@ -137,8 +129,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             _selectedLanguage = value;
             OnPropertyChanged();
             ApplyLanguage(value);
-            OnPropertyChanged(nameof(ProjectList.SelectedSortText));
-            OnPropertyChanged(nameof(ProjectList.FilteredProjects));
+            ProjectList.RefreshLocalizations();
             SaveSettings();
         }
     }
@@ -262,7 +253,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
-    #endregion
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -271,4 +261,38 @@ public class MainWindowViewModel : INotifyPropertyChanged
     }
 }
 
-public record FilterItem(string Name, string IconKind);
+public class FilterItem : INotifyPropertyChanged
+{
+    public string Name { get; }
+    public string IconKind { get; }
+
+    public FilterItem(string name, string iconKind)
+    {
+        Name = name;
+        IconKind = iconKind;
+    }
+
+    public string DisplayName
+    {
+        get
+        {
+            string key = $"Filter{Name}";
+            if (Avalonia.Application.Current != null)
+            {
+                var activeDict = Avalonia.Application.Current.Resources.MergedDictionaries
+                    .OfType<Avalonia.Controls.ResourceDictionary>()
+                    .LastOrDefault(d => d.ContainsKey("NavHome"));
+                if (activeDict != null && activeDict.TryGetValue(key, out object? val) && val is string s)
+                    return s;
+            }
+            return Name;
+        }
+    }
+
+    public void Refresh()
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayName)));
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+}

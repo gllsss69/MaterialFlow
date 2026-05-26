@@ -81,10 +81,26 @@
     <sys:String x:Key="LabelSortBy">Sortieren</sys:String>
     <sys:String x:Key="LabelAddToFavorites">Zu Favoriten hinzufügen</sys:String>
     <sys:String x:Key="LabelRemoveFromFavorites">Aus Favoriten entfernen</sys:String>
+    
     <!-- Pagination -->
-    <sys:String x:Key="LabelItemsPerPage">Items per page:</sys:String>
-    <sys:String x:Key="LabelPrevious">Previous</sys:String>
-    <sys:String x:Key="LabelNext">Next</sys:String>
-    <sys:String x:Key="LabelPage">Page</sys:String>
-    <sys:String x:Key="LabelOf">of</sys:String>
+    <sys:String x:Key="LabelItemsPerPage">Anzahl der Elemente pro Seite</sys:String>
+    <sys:String x:Key="LabelPrevious">Vor</sys:String>
+    <sys:String x:Key="LabelNext">Nächste</sys:String>
+    <sys:String x:Key="LabelPage">Seite</sys:String>
+    <sys:String x:Key="LabelOf">von</sys:String>
+
+    <!-- General UI -->
+    <sys:String x:Key="LabelStatus">Status:</sys:String>
+    <sys:String x:Key="LabelPlatform">Plattform:</sys:String>
+    <sys:String x:Key="LabelNothingHere">Noch nichts hier</sys:String>
+    <sys:String x:Key="LabelEnableLogging">Protokollierung in Datei aktivieren</sys:String>
+    <sys:String x:Key="HeaderAbout">Über</sys:String>
+    <sys:String x:Key="TextAboutDescription">Ein fortschrittliches Tool zur Videoanpassung und Preset-Verwaltung.</sys:String>
+    <sys:String x:Key="BtnViewGitHub">Auf GitHub ansehen</sys:String>
+    <sys:String x:Key="NavPresets">Voreinstellungen</sys:String>
+    <sys:String x:Key="NavPlatforms">Plattformen</sys:String>
+    <sys:String x:Key="FilterAll">Alle</sys:String>
+    <sys:String x:Key="FilterCompleted">Fertig</sys:String>
+    <sys:String x:Key="FilterError">Fehler</sys:String>
+    <sys:String x:Key="FilterProcessing">Verarbeitung</sys:String>
 </ResourceDictionary>

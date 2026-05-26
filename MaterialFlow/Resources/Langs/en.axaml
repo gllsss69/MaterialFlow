@@ -88,4 +88,19 @@
     <sys:String x:Key="LabelNext">Next</sys:String>
     <sys:String x:Key="LabelPage">Page</sys:String>
     <sys:String x:Key="LabelOf">of</sys:String>
+
+    <!-- General UI -->
+    <sys:String x:Key="LabelStatus">Status:</sys:String>
+    <sys:String x:Key="LabelPlatform">Platform:</sys:String>
+    <sys:String x:Key="LabelNothingHere">Nothing here yet</sys:String>
+    <sys:String x:Key="LabelEnableLogging">Enable logging to file</sys:String>
+    <sys:String x:Key="HeaderAbout">About</sys:String>
+    <sys:String x:Key="TextAboutDescription">An advanced video adaptation and preset management tool.</sys:String>
+    <sys:String x:Key="BtnViewGitHub">View on GitHub</sys:String>
+    <sys:String x:Key="NavPresets">Presets</sys:String>
+    <sys:String x:Key="NavPlatforms">Platforms</sys:String>
+    <sys:String x:Key="FilterAll">All</sys:String>
+    <sys:String x:Key="FilterCompleted">Completed</sys:String>
+    <sys:String x:Key="FilterError">Error</sys:String>
+    <sys:String x:Key="FilterProcessing">Processing</sys:String>
 </ResourceDictionary>

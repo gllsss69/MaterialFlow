@@ -21,7 +21,6 @@
     </Window.Resources>
 
     <Window.Styles>
-        <!-- Capsule Button Base -->
         <Style Selector="Button.Capsule">
             <Setter Property="CornerRadius" Value="24"/>
             <Setter Property="Height" Value="48"/>
@@ -30,6 +29,19 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Name="PART_RootBorder"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
         </Style>
 
         <!-- Dark Purple Button (Primary) -->
@@ -37,9 +49,11 @@
             <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
             <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
         </Style>
-        <Style Selector="Button.PrimaryCapsule:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
-            <Setter Property="Opacity" Value="0.9"/>
+        <Style Selector="Button.PrimaryCapsule:pointerover /template/ Border#PART_RootBorder">
+            <Setter Property="Opacity" Value="0.85"/>
+        </Style>
+        <Style Selector="Button.PrimaryCapsule:pressed /template/ Border#PART_RootBorder">
+            <Setter Property="Opacity" Value="0.7"/>
         </Style>
 
         <!-- Light Purple Button (Secondary) -->
@@ -47,9 +61,11 @@
             <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
             <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
         </Style>
-        <Style Selector="Button.SecondaryCapsule:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="{DynamicResource SecondaryContainerBrush}"/>
-            <Setter Property="Opacity" Value="0.9"/>
+        <Style Selector="Button.SecondaryCapsule:pointerover /template/ Border#PART_RootBorder">
+            <Setter Property="Opacity" Value="0.85"/>
+        </Style>
+        <Style Selector="Button.SecondaryCapsule:pressed /template/ Border#PART_RootBorder">
+            <Setter Property="Opacity" Value="0.7"/>
         </Style>
 
         <!-- Sidebar Item Style -->
@@ -249,7 +265,7 @@
                             </Border.Transitions>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
                                 <material:MaterialIcon Kind="Tune" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="Presets" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                                <TextBlock Text="{DynamicResource NavPresets}" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
                             </StackPanel>
                         </Border>
                     </Button>
@@ -275,7 +291,7 @@
                             </Border.Transitions>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
                                 <material:MaterialIcon Kind="ViewDashboardOutline" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="Platforms" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
+                                <TextBlock Text="{DynamicResource NavPlatforms}" VerticalAlignment="Center" FontSize="16" Foreground="{DynamicResource OnSecondaryContainerBrush}" IsVisible="{Binding !IsSidebarCollapsed}"/>
                             </StackPanel>
                         </Border>
                     </Button>
@@ -414,7 +430,7 @@
                                 <Style Selector="MenuItem" x:DataType="vm:FilterItem">
                                     <Setter Property="Command" Value="{Binding $parent[Window].DataContext.ProjectList.SetStatusFilterCommand}"/>
                                     <Setter Property="CommandParameter" Value="{Binding}"/>
-                                    <Setter Property="Header" Value="{Binding Name}"/>
+                                    <Setter Property="Header" Value="{Binding DisplayName}"/>
                                     <Setter Property="Icon">
                                         <Template>
                                             <material:MaterialIcon Kind="{Binding IconKind}" Width="16" Height="16"/>
@@ -427,8 +443,8 @@
                             </Button.Flyout>
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <material:MaterialIcon Kind="FilterVariant" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="Status:" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="{Binding SelectedStatusFilter.Name}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                                <TextBlock Text="{DynamicResource LabelStatus}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="{Binding SelectedStatusFilter.DisplayName}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
                             </StackPanel>
                         </Button>
 
@@ -438,7 +454,7 @@
                                 <Style Selector="MenuItem" x:DataType="vm:FilterItem">
                                     <Setter Property="Command" Value="{Binding $parent[Window].DataContext.ProjectList.SetPlatformFilterCommand}"/>
                                     <Setter Property="CommandParameter" Value="{Binding}"/>
-                                    <Setter Property="Header" Value="{Binding Name}"/>
+                                    <Setter Property="Header" Value="{Binding DisplayName}"/>
                                     <Setter Property="Icon">
                                         <Template>
                                             <material:MaterialIcon Kind="{Binding IconKind}" Width="16" Height="16"/>
@@ -451,8 +467,8 @@
                             </Button.Flyout>
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <material:MaterialIcon Kind="MonitorDashboard" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="Platform:" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="{Binding SelectedPlatformFilter.Name}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                                <TextBlock Text="{DynamicResource LabelPlatform}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Text="{Binding SelectedPlatformFilter.DisplayName}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
                             </StackPanel>
                         </Button>
 
@@ -497,7 +513,7 @@
                         <!-- Empty State Message -->
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16" IsVisible="{Binding IsProjectsEmpty}">
                             <material:MaterialIcon Kind="{Binding EmptyStateIconKind}" Width="64" Height="64" Foreground="{DynamicResource OnSurfaceVariantBrush}" Opacity="0.5"/>
-                            <TextBlock Text="Nothing here yet" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" Opacity="0.7"/>
+                            <TextBlock Text="{DynamicResource LabelNothingHere}" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" Opacity="0.7"/>
                         </StackPanel>
 
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" 

@@ -6,7 +6,6 @@
     "DefaultResolution": "1920x1080",
     "DefaultBitrate": 5000,
     "DefaultFormat": "mp4",
-    "DefaultAspectRatio": "16:9",
     "DefaultFPS": 30,
     "DefaultCodec": "libx264"
   },
@@ -17,7 +16,6 @@
     "DefaultResolution": "720x1280",
     "DefaultBitrate": 5000,
     "DefaultFormat": "mp4",
-    "DefaultAspectRatio": "9:16",
     "DefaultFPS": 30,
     "DefaultCodec": "libx264"
   },
@@ -28,7 +26,6 @@
     "DefaultResolution": "1080x1080",
     "DefaultBitrate": 5000,
     "DefaultFormat": "mp4",
-    "DefaultAspectRatio": "1:1",
     "DefaultFPS": 30,
     "DefaultCodec": "libx264"
   },
@@ -39,7 +36,6 @@
     "DefaultResolution": "1080x1080",
     "DefaultBitrate": 5000,
     "DefaultFormat": "mp4",
-    "DefaultAspectRatio": "1:1",
     "DefaultFPS": 30,
     "DefaultCodec": "libx264"
   },
@@ -50,7 +46,6 @@
     "DefaultResolution": "1920x1080",
     "DefaultBitrate": 5000,
     "DefaultFormat": "mp4",
-    "DefaultAspectRatio": "16:9",
     "DefaultFPS": 30,
     "DefaultCodec": "libx264"
   }

@@ -81,10 +81,17 @@
     <sys:String x:Key="LabelSortBy">Třídit</sys:String>
     <sys:String x:Key="LabelAddToFavorites">Přidat do oblíbených</sys:String>
     <sys:String x:Key="LabelRemoveFromFavorites">Odebrat z oblíbených</sys:String>
+    
     <!-- Pagination -->
-    <sys:String x:Key="LabelItemsPerPage">Items per page:</sys:String>
-    <sys:String x:Key="LabelPrevious">Previous</sys:String>
-    <sys:String x:Key="LabelNext">Next</sys:String>
-    <sys:String x:Key="LabelPage">Page</sys:String>
-    <sys:String x:Key="LabelOf">of</sys:String>
+    <sys:String x:Key="LabelItemsPerPage">Položek na stránku</sys:String>
+    <sys:String x:Key="LabelPrevious">Předchozí</sys:String>
+    <sys:String x:Key="LabelNext">Další</sys:String>
+    <sys:String x:Key="LabelPage">Strana</sys:String>
+    <sys:String x:Key="LabelOf">z</sys:String>
+    <sys:String x:Key="NavPresets">Předvolby</sys:String>
+    <sys:String x:Key="NavPlatforms">Platformy</sys:String>
+    <sys:String x:Key="FilterAll">Vše</sys:String>
+    <sys:String x:Key="FilterCompleted">Hotovo</sys:String>
+    <sys:String x:Key="FilterError">Chyba</sys:String>
+    <sys:String x:Key="FilterProcessing">Zpracovává se</sys:String>
 </ResourceDictionary>
