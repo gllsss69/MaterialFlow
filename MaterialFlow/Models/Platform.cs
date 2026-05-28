@@ -14,4 +14,7 @@ public class Platform
     public string DefaultFormat { get; set; } = "mp4";
     public int DefaultFPS { get; set; } = 30;
     public string DefaultCodec { get; set; } = "libx264";
+    
+    // Dynamic aspect ratio calculation
+    public string DefaultAspectRatio => ResolutionHelper.GetAspectRatio(DefaultResolution);
 }
