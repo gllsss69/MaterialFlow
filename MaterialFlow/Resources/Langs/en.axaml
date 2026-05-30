@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -37,7 +37,7 @@
     <sys:String x:Key="LabelExportTo">Export to</sys:String>
     <sys:String x:Key="HeaderPlatform">Platform</sys:String>
     <sys:String x:Key="HeaderResolution">Resolution</sys:String>
-    <sys:String x:Key="HeaderBitrate">Bitrate</sys:String>
+    <sys:String x:Key="HeaderBitrate">Bitrate (kbps)</sys:String>
     <sys:String x:Key="HeaderFPS">FPS</sys:String>
     <sys:String x:Key="HeaderFormat">Format</sys:String>
     <sys:String x:Key="HeaderCodec">Codec</sys:String>
@@ -106,4 +106,20 @@
     <sys:String x:Key="FilterCompleted">Completed</sys:String>
     <sys:String x:Key="FilterError">Error</sys:String>
     <sys:String x:Key="FilterProcessing">Processing</sys:String>
+    <sys:String x:Key="LabelManualSettings">Manual settings</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatform">Please select a platform.</sys:String>
+    <sys:String x:Key="ErrorEmptyFormat">Please select a video format.</sys:String>
+    <sys:String x:Key="ErrorPlatformExists">A platform with this name already exists.</sys:String>
+    <sys:String x:Key="ErrorEmptySavePath">Please select an export destination.</sys:String>
+    <sys:String x:Key="ErrorEmptyFPS">Please select a frame rate (FPS).</sys:String>
+    <sys:String x:Key="ErrorEmptySourceFile">Please select a source video file.</sys:String>
+    <sys:String x:Key="ErrorEmptyResolution">Please select a resolution.</sys:String>
+    <sys:String x:Key="ErrorEmptyProjectName">Project name cannot be empty.</sys:String>
+    <sys:String x:Key="ErrorEmptyBitrate">Please select a bitrate.</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">Please enter a valid bitrate value.</sys:String>
+    <sys:String x:Key="ErrorEmptyCodec">Please select a codec.</sys:String>
+    <sys:String x:Key="ErrorInvalidResolution">Invalid resolution (e.g., 1920x1080).</sys:String>
+    <sys:String x:Key="ErrorEmptyPresetName">Preset name cannot be empty.</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatformName">Please enter a platform name.</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">Please enter a valid FPS value.</sys:String>
 </ResourceDictionary>

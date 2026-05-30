@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -58,7 +58,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
         }
     }
 
-    public string EmptyStateIconKind => _selectedFilterIndex == 2 ? "StarOutline" : "FolderOpenOutline";
+    public string EmptyStateIconKind => _selectedFilterIndex == 2 ? "StarOutline" : (_selectedFilterIndex == 1 ? "ClockOutline" : "FolderOpenOutline");
 
     public ObservableCollection<FilterItem> StatusFilters { get; } = new()
     {

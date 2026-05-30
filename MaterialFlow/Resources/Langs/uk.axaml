@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -37,7 +37,7 @@
     <sys:String x:Key="LabelExportTo">Експортувати до</sys:String>
     <sys:String x:Key="HeaderPlatform">Платформа</sys:String>
     <sys:String x:Key="HeaderResolution">Роздільна здатність</sys:String>
-    <sys:String x:Key="HeaderBitrate">Бітрейт</sys:String>
+    <sys:String x:Key="HeaderBitrate">Бітрейт (kbps)</sys:String>
     <sys:String x:Key="HeaderFPS">Кадри/с</sys:String>
     <sys:String x:Key="HeaderFormat">Формат</sys:String>
     <sys:String x:Key="HeaderCodec">Кодек</sys:String>
@@ -105,4 +105,20 @@
     <sys:String x:Key="FilterCompleted">Завершені</sys:String>
     <sys:String x:Key="FilterError">Помилка</sys:String>
     <sys:String x:Key="FilterProcessing">В процесі</sys:String>
+    <sys:String x:Key="LabelManualSettings">Ручні налаштування</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatform">Будь ласка, виберіть платформу.</sys:String>
+    <sys:String x:Key="ErrorEmptyFormat">Будь ласка, виберіть формат відео.</sys:String>
+    <sys:String x:Key="ErrorPlatformExists">Платформа з такою назвою вже існує.</sys:String>
+    <sys:String x:Key="ErrorEmptySavePath">Будь ласка, виберіть папку для експорту.</sys:String>
+    <sys:String x:Key="ErrorEmptyFPS">Будь ласка, виберіть частоту кадрів (FPS).</sys:String>
+    <sys:String x:Key="ErrorEmptySourceFile">Будь ласка, виберіть джерельний відеофайл.</sys:String>
+    <sys:String x:Key="ErrorEmptyResolution">Будь ласка, виберіть роздільну здатність.</sys:String>
+    <sys:String x:Key="ErrorEmptyProjectName">Назва проєкту не може бути порожньою.</sys:String>
+    <sys:String x:Key="ErrorEmptyBitrate">Будь ласка, виберіть бітрейт.</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">Будь ласка, введіть дійсне значення бітрейту.</sys:String>
+    <sys:String x:Key="ErrorEmptyCodec">Будь ласка, виберіть кодек.</sys:String>
+    <sys:String x:Key="ErrorInvalidResolution">Недійсна роздільна здатність (напр., 1920x1080).</sys:String>
+    <sys:String x:Key="ErrorEmptyPresetName">Назва пресета не може бути порожньою.</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatformName">Будь ласка, введіть назву платформи.</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">Будь ласка, введіть дійсне значення FPS.</sys:String>
 </ResourceDictionary>

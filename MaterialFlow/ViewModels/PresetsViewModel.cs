@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -23,10 +23,11 @@ public class PresetsViewModel : INotifyPropertyChanged
         {
             _searchText = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(FilteredPresets));
+            OnPropertyChanged(nameof(FilteredPresets)); OnPropertyChanged(nameof(IsPresetsEmpty));
         }
     }
 
+    public bool IsPresetsEmpty => !FilteredPresets.Any();
     public IEnumerable<Preset> FilteredPresets
     {
         get
@@ -55,7 +56,7 @@ public class PresetsViewModel : INotifyPropertyChanged
         {
             Presets.Add(preset);
         }
-        OnPropertyChanged(nameof(FilteredPresets));
+        OnPropertyChanged(nameof(FilteredPresets)); OnPropertyChanged(nameof(IsPresetsEmpty));
     }
 
     /// <summary>
@@ -76,7 +77,7 @@ public class PresetsViewModel : INotifyPropertyChanged
             DataService.Instance.Presets.Remove(preset);
             Presets.Remove(preset);
             await DataService.Instance.SavePresetsAsync();
-            OnPropertyChanged(nameof(FilteredPresets));
+            OnPropertyChanged(nameof(FilteredPresets)); OnPropertyChanged(nameof(IsPresetsEmpty));
         }
     }
 

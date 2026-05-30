@@ -1,4 +1,4 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using MaterialFlow.ViewModels;
 using System.Threading.Tasks;
@@ -53,7 +53,7 @@ namespace MaterialFlow
                     Name = projectViewModel.ProjectName,
                     SourceFilePath = projectViewModel.SourceFilePath,
                     Resolution = projectViewModel.SelectedResolution,
-                    Bitrate = projectViewModel.SelectedBitrate == "Auto" ? "5000 kbps" : projectViewModel.SelectedBitrate,
+                    Bitrate = projectViewModel.SelectedBitrate == "Auto" ? "5000" : projectViewModel.SelectedBitrate,
                     Format = projectViewModel.SelectedFormat.TrimStart('.'),
                     FPS = projectViewModel.SelectedFPS,
                     Codec = selectedCodec,

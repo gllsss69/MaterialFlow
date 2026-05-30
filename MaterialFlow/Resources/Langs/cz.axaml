@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -37,7 +37,7 @@
     <sys:String x:Key="LabelExportTo">Exportovat do</sys:String>
     <sys:String x:Key="HeaderPlatform">Platforma</sys:String>
     <sys:String x:Key="HeaderResolution">Rozlišení</sys:String>
-    <sys:String x:Key="HeaderBitrate">Bitrate</sys:String>
+    <sys:String x:Key="HeaderBitrate">Bitrate (kbps)</sys:String>
     <sys:String x:Key="HeaderFPS">FPS</sys:String>
     <sys:String x:Key="HeaderFormat">Formát</sys:String>
     <sys:String x:Key="HeaderCodec">Kodek</sys:String>
@@ -106,4 +106,20 @@
     <sys:String x:Key="HeaderAbout">O programu</sys:String>
     <sys:String x:Key="TextAboutDescription">Pokročilý nástroj pro adaptaci videa a správu předvoleb.</sys:String>
     <sys:String x:Key="BtnViewGitHub">Zobrazit na GitHubu</sys:String>
+    <sys:String x:Key="LabelManualSettings">Ruční nastavení</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatform">Vyberte platformu.</sys:String>
+    <sys:String x:Key="ErrorEmptyFormat">Vyberte formát videa.</sys:String>
+    <sys:String x:Key="ErrorPlatformExists">Platforma s tímto názvem již existuje.</sys:String>
+    <sys:String x:Key="ErrorEmptySavePath">Vyberte cílovou složku pro export.</sys:String>
+    <sys:String x:Key="ErrorEmptyFPS">Vyberte snímkovou frekvenci (FPS).</sys:String>
+    <sys:String x:Key="ErrorEmptySourceFile">Vyberte zdrojový video soubor.</sys:String>
+    <sys:String x:Key="ErrorEmptyResolution">Vyberte rozlišení.</sys:String>
+    <sys:String x:Key="ErrorEmptyProjectName">Název projektu nesmí být prázdný.</sys:String>
+    <sys:String x:Key="ErrorEmptyBitrate">Vyberte datový tok.</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">Zadejte platnou hodnotu datového toku.</sys:String>
+    <sys:String x:Key="ErrorEmptyCodec">Vyberte kodek.</sys:String>
+    <sys:String x:Key="ErrorInvalidResolution">Neplatné rozlišení (např. 1920x1080).</sys:String>
+    <sys:String x:Key="ErrorEmptyPresetName">Název předvolby nesmí být prázdný.</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatformName">Zadejte název platformy.</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">Zadejte platnou hodnotu FPS.</sys:String>
 </ResourceDictionary>

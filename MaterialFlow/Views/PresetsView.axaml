@@ -50,6 +50,13 @@
 
             <!-- Presets Grid -->
             <Border Grid.Row="1" Margin="24,0,24,24" Padding="0" CornerRadius="24" Background="Transparent" ClipToBounds="True">
+                <Panel>
+                    <!-- Empty State Message -->
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16" IsVisible="{Binding IsPresetsEmpty}">
+                        <material:MaterialIcon Kind="Tune" Width="64" Height="64" Foreground="{DynamicResource OnSurfaceVariantBrush}" Opacity="0.5"/>
+                        <TextBlock Text="{DynamicResource LabelNothingHere}" FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceVariantBrush}" HorizontalAlignment="Center" Opacity="0.7"/>
+                    </StackPanel>
+
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
                               VerticalScrollBarVisibility="Auto" 
                               Theme="{StaticResource MaterialModernScrollViewer}"
@@ -90,6 +97,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
+                </Panel>
             </Border>
         </Grid>
     </Panel>

@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -37,7 +37,7 @@
     <sys:String x:Key="LabelExportTo">Eksportuj do</sys:String>
     <sys:String x:Key="HeaderPlatform">Platforma</sys:String>
     <sys:String x:Key="HeaderResolution">Rozdzielczość</sys:String>
-    <sys:String x:Key="HeaderBitrate">Bitrate</sys:String>
+    <sys:String x:Key="HeaderBitrate">Bitrate (kbps)</sys:String>
     <sys:String x:Key="HeaderFPS">FPS</sys:String>
     <sys:String x:Key="HeaderFormat">Format</sys:String>
     <sys:String x:Key="HeaderCodec">Kodek</sys:String>
@@ -105,4 +105,20 @@
     <sys:String x:Key="FilterCompleted">Gotowe</sys:String>
     <sys:String x:Key="FilterError">Błąd</sys:String>
     <sys:String x:Key="FilterProcessing">Przetwarzanie</sys:String>
+    <sys:String x:Key="LabelManualSettings">Ustawienia ręczne</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatform">Wybierz platformę.</sys:String>
+    <sys:String x:Key="ErrorEmptyFormat">Wybierz format wideo.</sys:String>
+    <sys:String x:Key="ErrorPlatformExists">Platforma o tej nazwie już istnieje.</sys:String>
+    <sys:String x:Key="ErrorEmptySavePath">Wybierz folder docelowy.</sys:String>
+    <sys:String x:Key="ErrorEmptyFPS">Wybierz liczbę klatek (FPS).</sys:String>
+    <sys:String x:Key="ErrorEmptySourceFile">Wybierz plik wideo źródłowy.</sys:String>
+    <sys:String x:Key="ErrorEmptyResolution">Wybierz rozdzielczość.</sys:String>
+    <sys:String x:Key="ErrorEmptyProjectName">Nazwa projektu nie może być pusta.</sys:String>
+    <sys:String x:Key="ErrorEmptyBitrate">Wybierz bitrate.</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">Wprowadź prawidłową wartość bitrate.</sys:String>
+    <sys:String x:Key="ErrorEmptyCodec">Wybierz kodek.</sys:String>
+    <sys:String x:Key="ErrorInvalidResolution">Nieprawidłowa rozdzielczość (np. 1920x1080).</sys:String>
+    <sys:String x:Key="ErrorEmptyPresetName">Nazwa presetu nie może być pusta.</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatformName">Wprowadź nazwę platformy.</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">Wprowadź prawidłową wartość FPS.</sys:String>
 </ResourceDictionary>

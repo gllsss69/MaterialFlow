@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -21,12 +21,13 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     private string _sourceFileName = string.Empty;
     private bool _isSourceFileSelected = false;
     private string _selectedBitrate = "Auto";
-    private string _selectedFPS = "30 fps";
+    private string _selectedFPS = "30";
     private string _selectedFormat = ".mp4";
     private string _selectedCodec = "Auto";
     private bool _useWatermark = true;
     private string _errorMessage = string.Empty;
     private Preset? _selectedPreset;
+    private bool _isManualMode = false;
 
     private ObservableCollection<Platform> _availablePlatforms = new();
 
@@ -56,13 +57,13 @@ public class CreateProjectViewModel : INotifyPropertyChanged
                 {
                     SelectedResolution = _selectedPreset.Resolution;
                     
-                    var bitrateStr = _selectedPreset.Bitrate >= 1000 ? $"{_selectedPreset.Bitrate / 1000} Mbps" : $"{_selectedPreset.Bitrate} kbps";
+                    var bitrateStr = $"{_selectedPreset.Bitrate}";
                     if (Bitrates.Contains(bitrateStr))
                         SelectedBitrate = bitrateStr;
                     else
                         SelectedBitrate = "Auto";
                         
-                    var fpsStr = $"{_selectedPreset.FrameRate} fps";
+                    var fpsStr = $"{_selectedPreset.FrameRate}";
                     if (FPSs.Contains(fpsStr))
                         SelectedFPS = fpsStr;
                         
@@ -154,7 +155,16 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     }
 
     public bool IsPresetSelectionVisible => SelectedPlatform != null && !string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase);
-    public bool IsManualSettingsEnabled => SelectedPlatform == null || string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase);
+    public bool IsManualSettingsEnabled => _isManualMode || SelectedPlatform == null || string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Вмикає/вимикає ручний режим редагування налаштувань відео.
+    /// </summary>
+    public bool IsManualMode
+    {
+        get => _isManualMode;
+        set { _isManualMode = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsManualSettingsEnabled)); }
+    }
 
     /// <summary>
     /// Очікувана роздільна здатність вихідного файлу.
@@ -231,16 +241,16 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     public ObservableCollection<string> Bitrates { get; } = new()
     {
         "Auto",
-        "2 Mbps",
-        "5 Mbps",
-        "8 Mbps",
-        "10 Mbps",
-        "12 Mbps",
-        "15 Mbps",
-        "20 Mbps",
-        "25 Mbps",
-        "30 Mbps",
-        "50 Mbps"
+        "2000",
+        "5000",
+        "8000",
+        "10000",
+        "12000",
+        "15000",
+        "20000",
+        "25000",
+        "30000",
+        "50000"
     };
 
     /// <summary>
@@ -248,12 +258,12 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     /// </summary>
     public ObservableCollection<string> FPSs { get; } = new()
     {
-        "24 fps",
-        "25 fps",
-        "30 fps",
-        "50 fps",
-        "60 fps",
-        "120 fps"
+        "24",
+        "25",
+        "30",
+        "50",
+        "60",
+        "120"
     };
 
     /// <summary>
@@ -295,7 +305,7 @@ public class CreateProjectViewModel : INotifyPropertyChanged
             SelectedResolution = SelectedPlatform.DefaultResolution;
             
             var bitrateKbps = SelectedPlatform.DefaultBitrate;
-            var bitrateStr = bitrateKbps >= 1000 ? $"{bitrateKbps / 1000} Mbps" : $"{bitrateKbps} kbps";
+            var bitrateStr = $"{bitrateKbps}";
             if (Bitrates.Contains(bitrateStr))
                 SelectedBitrate = bitrateStr;
             else

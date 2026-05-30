@@ -22,9 +22,11 @@ public class PlatformsViewModel : INotifyPropertyChanged
         {
             _searchText = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(FilteredPlatforms));
+            OnPropertyChanged(nameof(FilteredPlatforms)); OnPropertyChanged(nameof(IsPlatformsEmpty));
         }
     }
+
+    public bool IsPlatformsEmpty => !FilteredPlatforms.Any();
 
     public System.Collections.Generic.IEnumerable<Platform> FilteredPlatforms
     {
@@ -53,7 +55,7 @@ public class PlatformsViewModel : INotifyPropertyChanged
         {
             Platforms.Add(platform);
         }
-        OnPropertyChanged(nameof(FilteredPlatforms));
+        OnPropertyChanged(nameof(FilteredPlatforms)); OnPropertyChanged(nameof(IsPlatformsEmpty));
     }
 
     /// <summary>
@@ -66,7 +68,7 @@ public class PlatformsViewModel : INotifyPropertyChanged
             DataService.Instance.Platforms.Remove(platform);
             Platforms.Remove(platform);
             await DataService.Instance.SavePlatformsAsync();
-            OnPropertyChanged(nameof(FilteredPlatforms));
+            OnPropertyChanged(nameof(FilteredPlatforms)); OnPropertyChanged(nameof(IsPlatformsEmpty));
         }
     }
 

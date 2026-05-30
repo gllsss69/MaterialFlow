@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -37,7 +37,7 @@
     <sys:String x:Key="LabelExportTo">Exportieren nach</sys:String>
     <sys:String x:Key="HeaderPlatform">Plattform</sys:String>
     <sys:String x:Key="HeaderResolution">Auflösung</sys:String>
-    <sys:String x:Key="HeaderBitrate">Bitrate</sys:String>
+    <sys:String x:Key="HeaderBitrate">Bitrate (kbps)</sys:String>
     <sys:String x:Key="HeaderFPS">FPS</sys:String>
     <sys:String x:Key="HeaderFormat">Format</sys:String>
     <sys:String x:Key="HeaderCodec">Codec</sys:String>
@@ -106,4 +106,20 @@
     <sys:String x:Key="FilterCompleted">Fertig</sys:String>
     <sys:String x:Key="FilterError">Fehler</sys:String>
     <sys:String x:Key="FilterProcessing">Verarbeitung</sys:String>
+    <sys:String x:Key="LabelManualSettings">Manuelle Einstellungen</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatform">Bitte wählen Sie eine Plattform aus.</sys:String>
+    <sys:String x:Key="ErrorEmptyFormat">Bitte wählen Sie ein Videoformat aus.</sys:String>
+    <sys:String x:Key="ErrorPlatformExists">Eine Plattform mit diesem Namen existiert bereits.</sys:String>
+    <sys:String x:Key="ErrorEmptySavePath">Bitte wählen Sie einen Exportordner aus.</sys:String>
+    <sys:String x:Key="ErrorEmptyFPS">Bitte wählen Sie eine Bildrate (FPS) aus.</sys:String>
+    <sys:String x:Key="ErrorEmptySourceFile">Bitte wählen Sie eine Quell-Videodatei aus.</sys:String>
+    <sys:String x:Key="ErrorEmptyResolution">Bitte wählen Sie eine Auflösung aus.</sys:String>
+    <sys:String x:Key="ErrorEmptyProjectName">Der Projektname darf nicht leer sein.</sys:String>
+    <sys:String x:Key="ErrorEmptyBitrate">Bitte wählen Sie eine Bitrate aus.</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">Bitte geben Sie einen gültigen Bitraten-Wert ein.</sys:String>
+    <sys:String x:Key="ErrorEmptyCodec">Bitte wählen Sie einen Codec aus.</sys:String>
+    <sys:String x:Key="ErrorInvalidResolution">Ungültige Auflösung (z.B. 1920x1080).</sys:String>
+    <sys:String x:Key="ErrorEmptyPresetName">Der Preset-Name darf nicht leer sein.</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatformName">Bitte geben Sie einen Plattformnamen ein.</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">Bitte geben Sie einen gültigen FPS-Wert ein.</sys:String>
 </ResourceDictionary>

@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p1="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
         xmlns:material="using:Material.Icons.Avalonia"
@@ -39,12 +39,12 @@
                        Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,24"/>
 
             <StackPanel Grid.Row="1" Spacing="16">
-                <!-- Name Input -->
-                <TextBox Theme="{StaticResource MaterialOutlineTextBox}"
+                    <!-- Name Input -->
+                <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
                          p1:TextFieldAssist.Label="Platform Name"
-                         Classes="outline"
+                         
                          Background="{DynamicResource SurfaceVariantBrush}"
-                         UseFloatingPlaceholder="True"
+                         
                          Text="{Binding PlatformName}"/>
 
                 <!-- Icon Selection -->
@@ -94,38 +94,75 @@
                            TextWrapping="Wrap" FontSize="14"/>
                 <!-- Default Settings -->
                 <TextBlock Text="Default Settings" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Medium" Margin="0,16,0,8"/>
+                <!-- Manual Mode Toggle -->
+                <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,8">
+                    <TextBlock Text="{DynamicResource LabelManualSettings}" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="14"/>
+                    <CheckBox IsChecked="{Binding IsManualMode}" Theme="{StaticResource MaterialCheckBox}"/>
+                </StackPanel>
                 <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
-                    <ComboBox Grid.Row="0" Grid.Column="0" Margin="0,0,8,16"
-                              Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="Resolution" 
-                              Classes="dense"
-                              ItemsSource="{Binding Resolutions}"
-                              SelectedItem="{Binding Resolution}"
-                              HorizontalAlignment="Stretch"/>
+                    <Panel Grid.Row="0" Grid.Column="0" Margin="0,0,8,16">
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                                  p1:ComboBoxAssist.Label="Resolution" 
+                                  Classes="dense"
+                                  ItemsSource="{Binding Resolutions}"
+                                  SelectedItem="{Binding Resolution}"
+                                  IsVisible="{Binding !IsManualMode}"
+                                  HorizontalAlignment="Stretch"/>
+                        <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
+                                 p1:TextFieldAssist.Label="Resolution"
+                                 Foreground="{DynamicResource PrimaryBrush}"
+                                 Text="{Binding Resolution}"
+                                 IsVisible="{Binding IsManualMode}"
+                                 HorizontalAlignment="Stretch"/>
+                    </Panel>
 
-                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,16"
-                              Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="Bitrate (kbps)" 
-                              Classes="dense"
-                              ItemsSource="{Binding Bitrates}"
-                              SelectedItem="{Binding Bitrate}"
-                              HorizontalAlignment="Stretch"/>
+                    <Panel Grid.Row="0" Grid.Column="1" Margin="8,0,0,16">
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                                  p1:ComboBoxAssist.Label="Bitrate (kbps)" 
+                                  Classes="dense"
+                                  ItemsSource="{Binding Bitrates}"
+                                  SelectedItem="{Binding Bitrate}"
+                                  IsVisible="{Binding !IsManualMode}"
+                                  HorizontalAlignment="Stretch"/>
+                        <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
+                                 p1:TextFieldAssist.Label="Bitrate (kbps)"
+                                 Foreground="{DynamicResource PrimaryBrush}"
+                                 Text="{Binding Bitrate}"
+                                 IsVisible="{Binding IsManualMode}"
+                                 HorizontalAlignment="Stretch"/>
+                    </Panel>
 
-                    <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,0,8,16"
-                              Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="FPS" 
-                              Classes="dense"
-                              ItemsSource="{Binding FrameRates}"
-                              SelectedItem="{Binding FrameRate}"
-                              HorizontalAlignment="Stretch"/>
+                    <Panel Grid.Row="1" Grid.Column="0" Margin="0,0,8,16">
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                                  p1:ComboBoxAssist.Label="FPS" 
+                                  Classes="dense"
+                                  ItemsSource="{Binding FrameRates}"
+                                  SelectedItem="{Binding FrameRate}"
+                                  IsVisible="{Binding !IsManualMode}"
+                                  HorizontalAlignment="Stretch"/>
+                        <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
+                                 p1:TextFieldAssist.Label="FPS"
+                                 Foreground="{DynamicResource PrimaryBrush}"
+                                 Text="{Binding FrameRate}"
+                                 IsVisible="{Binding IsManualMode}"
+                                 HorizontalAlignment="Stretch"/>
+                    </Panel>
 
-                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,16"
-                              Theme="{StaticResource MaterialOutlineComboBox}" 
-                              p1:ComboBoxAssist.Label="Codec" 
-                              Classes="dense"
-                              ItemsSource="{Binding Codecs}"
-                              SelectedItem="{Binding Codec}"
-                              HorizontalAlignment="Stretch"/>
+                    <Panel Grid.Row="1" Grid.Column="1" Margin="8,0,0,16">
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                                  p1:ComboBoxAssist.Label="Codec" 
+                                  Classes="dense"
+                                  ItemsSource="{Binding Codecs}"
+                                  SelectedItem="{Binding Codec}"
+                                  IsVisible="{Binding !IsManualMode}"
+                                  HorizontalAlignment="Stretch"/>
+                        <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
+                                 p1:TextFieldAssist.Label="Codec"
+                                 Foreground="{DynamicResource PrimaryBrush}"
+                                 Text="{Binding Codec}"
+                                 IsVisible="{Binding IsManualMode}"
+                                 HorizontalAlignment="Stretch"/>
+                    </Panel>
                 </Grid>
             </StackPanel>
 

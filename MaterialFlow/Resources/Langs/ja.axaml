@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -37,7 +37,7 @@
     <sys:String x:Key="LabelExportTo">エクスポート先</sys:String>
     <sys:String x:Key="HeaderPlatform">プラットフォーム</sys:String>
     <sys:String x:Key="HeaderResolution">解像度</sys:String>
-    <sys:String x:Key="HeaderBitrate">ビットレート</sys:String>
+    <sys:String x:Key="HeaderBitrate">ビットレート (kbps)</sys:String>
     <sys:String x:Key="HeaderFPS">FPS</sys:String>
     <sys:String x:Key="HeaderFormat">フォーマット</sys:String>
     <sys:String x:Key="HeaderCodec">コーデック</sys:String>
@@ -105,4 +105,20 @@
     <sys:String x:Key="FilterCompleted">完了</sys:String>
     <sys:String x:Key="FilterError">エラー</sys:String>
     <sys:String x:Key="FilterProcessing">処理中</sys:String>
+    <sys:String x:Key="LabelManualSettings">手動設定</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatform">プラットフォームを選択してください。</sys:String>
+    <sys:String x:Key="ErrorEmptyFormat">ビデオフォーマットを選択してください。</sys:String>
+    <sys:String x:Key="ErrorPlatformExists">この名前のプラットフォームは既に存在します。</sys:String>
+    <sys:String x:Key="ErrorEmptySavePath">エクスポート先を選択してください。</sys:String>
+    <sys:String x:Key="ErrorEmptyFPS">フレームレート（FPS）を選択してください。</sys:String>
+    <sys:String x:Key="ErrorEmptySourceFile">ソースの動画ファイルを選択してください。</sys:String>
+    <sys:String x:Key="ErrorEmptyResolution">解像度を選択してください。</sys:String>
+    <sys:String x:Key="ErrorEmptyProjectName">プロジェクト名を空にすることはできません。</sys:String>
+    <sys:String x:Key="ErrorEmptyBitrate">ビットレートを選択してください。</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">有効なビットレート値を入力してください。</sys:String>
+    <sys:String x:Key="ErrorEmptyCodec">コーデックを選択してください。</sys:String>
+    <sys:String x:Key="ErrorInvalidResolution">無効な解像度です（例：1920x1080）。</sys:String>
+    <sys:String x:Key="ErrorEmptyPresetName">プリセット名を空にすることはできません。</sys:String>
+    <sys:String x:Key="ErrorEmptyPlatformName">プラットフォーム名を入力してください。</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">有効なFPS値を入力してください。</sys:String>
 </ResourceDictionary>
