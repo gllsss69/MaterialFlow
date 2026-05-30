@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -329,6 +329,15 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         SelectedPreset = null;
     }
 
+    private string GetLocalizedString(string key)
+    {
+        if (Avalonia.Application.Current?.Resources.TryGetResource(key, null, out var value) == true && value is string s)
+        {
+            return s;
+        }
+        return key;
+    }
+
     /// <summary>
     /// Перевіряє коректність заповнення форми створення проєкту.
     /// </summary>
@@ -337,48 +346,83 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     {
         if (string.IsNullOrWhiteSpace(ProjectName))
         {
-            ErrorMessage = "Project name cannot be empty.";
+            ErrorMessage = GetLocalizedString("ErrorEmptyProjectName");
             return false;
         }
         if (string.IsNullOrWhiteSpace(SourceFilePath))
         {
-            ErrorMessage = "Please select a source video file.";
+            ErrorMessage = GetLocalizedString("ErrorEmptySourceFile");
             return false;
         }
         if (string.IsNullOrWhiteSpace(SavePath))
         {
-            ErrorMessage = "Please select an export destination.";
+            ErrorMessage = GetLocalizedString("ErrorEmptySavePath");
             return false;
         }
         if (SelectedPlatform == null)
         {
-            ErrorMessage = "Please select a platform.";
+            ErrorMessage = GetLocalizedString("ErrorEmptyPlatform");
             return false;
         }
         if (string.IsNullOrWhiteSpace(SelectedResolution))
         {
-            ErrorMessage = "Please select a resolution.";
+            ErrorMessage = GetLocalizedString("ErrorEmptyResolution");
             return false;
         }
+        if (!System.Text.RegularExpressions.Regex.IsMatch(SelectedResolution.Trim(), @"^\d+x\d+$"))
+        {
+            ErrorMessage = GetLocalizedString("ErrorInvalidResolution");
+            return false;
+        }
+
         if (string.IsNullOrWhiteSpace(SelectedBitrate))
         {
-            ErrorMessage = "Please select a bitrate.";
+            ErrorMessage = GetLocalizedString("ErrorEmptyBitrate");
             return false;
         }
+        if (!string.Equals(SelectedBitrate, "Auto", System.StringComparison.OrdinalIgnoreCase))
+        {
+            if (!int.TryParse(SelectedBitrate, out int bitrateVal) || bitrateVal <= 0)
+            {
+                ErrorMessage = GetLocalizedString("ErrorInvalidBitrate");
+                return false;
+            }
+        }
+
         if (string.IsNullOrWhiteSpace(SelectedFPS))
         {
-            ErrorMessage = "Please select a frame rate (FPS).";
+            ErrorMessage = GetLocalizedString("ErrorEmptyFPS");
             return false;
         }
+        if (!int.TryParse(SelectedFPS, out int fpsVal) || fpsVal <= 0)
+        {
+            ErrorMessage = GetLocalizedString("ErrorInvalidFPS");
+            return false;
+        }
+
         if (string.IsNullOrWhiteSpace(SelectedFormat))
         {
-            ErrorMessage = "Please select a video format.";
+            ErrorMessage = GetLocalizedString("ErrorEmptyFormat");
             return false;
         }
+        if (!System.Text.RegularExpressions.Regex.IsMatch(SelectedFormat.Trim(), @"^\.?\w+$"))
+        {
+            ErrorMessage = GetLocalizedString("ErrorInvalidFormat");
+            return false;
+        }
+
         if (string.IsNullOrWhiteSpace(SelectedCodec))
         {
-            ErrorMessage = "Please select a codec.";
+            ErrorMessage = GetLocalizedString("ErrorEmptyCodec");
             return false;
+        }
+        if (!string.Equals(SelectedCodec, "Auto", System.StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Text.RegularExpressions.Regex.IsMatch(SelectedCodec.Trim(), @"^[\w\-]+$"))
+            {
+                ErrorMessage = GetLocalizedString("ErrorInvalidCodec");
+                return false;
+            }
         }
 
         ErrorMessage = string.Empty;

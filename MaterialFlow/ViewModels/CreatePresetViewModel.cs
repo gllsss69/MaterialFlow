@@ -105,6 +105,15 @@ public class CreatePresetViewModel : INotifyPropertyChanged
         set { _errorMessage = value; OnPropertyChanged(); }
     }
 
+    private string GetLocalizedString(string key)
+    {
+        if (Avalonia.Application.Current?.Resources.TryGetResource(key, null, out var value) == true && value is string s)
+        {
+            return s;
+        }
+        return key;
+    }
+
     /// <summary>
     /// Перевіряє коректність заповнення полів нового пресета.
     /// </summary>
@@ -112,22 +121,22 @@ public class CreatePresetViewModel : INotifyPropertyChanged
     {
         if (string.IsNullOrWhiteSpace(PresetName))
         {
-            ErrorMessage = "Preset name cannot be empty.";
+            ErrorMessage = GetLocalizedString("ErrorEmptyPresetName");
             return false;
         }
         if (SelectedPlatform == null)
         {
-            ErrorMessage = "Please select a platform.";
+            ErrorMessage = GetLocalizedString("ErrorEmptyPlatform");
             return false;
         }
         if (!int.TryParse(Bitrate, out _) || int.Parse(Bitrate) <= 0)
         {
-            ErrorMessage = "Please enter a valid bitrate value.";
+            ErrorMessage = GetLocalizedString("ErrorInvalidBitrate");
             return false;
         }
         if (!int.TryParse(FrameRate, out _) || int.Parse(FrameRate) <= 0)
         {
-            ErrorMessage = "Please enter a valid FPS value.";
+            ErrorMessage = GetLocalizedString("ErrorInvalidFPS");
             return false;
         }
         

@@ -1,4 +1,4 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p1="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
         xmlns:material="using:Material.Icons.Avalonia"
@@ -242,6 +242,7 @@
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
                                  p1:TextFieldAssist.Label="{DynamicResource HeaderResolution}"
+                                 Watermark="e.g. 1920x1080"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedResolution}"
                                  IsVisible="{Binding IsManualMode}"
@@ -261,6 +262,7 @@
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
                                  p1:TextFieldAssist.Label="{DynamicResource HeaderBitrate}"
+                                 Watermark="e.g. 5000"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedBitrate}"
                                  IsVisible="{Binding IsManualMode}"
@@ -280,6 +282,7 @@
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
                                  p1:TextFieldAssist.Label="FPS (fps)"
+                                 Watermark="e.g. 60"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedFPS}"
                                  IsVisible="{Binding IsManualMode}"
@@ -299,6 +302,7 @@
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
                                  p1:TextFieldAssist.Label="{DynamicResource HeaderCodec}"
+                                 Watermark="e.g. libx264"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedCodec}"
                                  IsVisible="{Binding IsManualMode}"
@@ -316,6 +320,7 @@
                                   IsVisible="{Binding !IsManualMode}"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
                                  p1:TextFieldAssist.Label="{DynamicResource HeaderFormat}"
+                                 Watermark="e.g. .mp4"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedFormat}"
                                  IsVisible="{Binding IsManualMode}"/>

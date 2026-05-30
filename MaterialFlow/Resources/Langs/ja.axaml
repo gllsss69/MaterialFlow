@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -115,10 +115,12 @@
     <sys:String x:Key="ErrorEmptyResolution">解像度を選択してください。</sys:String>
     <sys:String x:Key="ErrorEmptyProjectName">プロジェクト名を空にすることはできません。</sys:String>
     <sys:String x:Key="ErrorEmptyBitrate">ビットレートを選択してください。</sys:String>
-    <sys:String x:Key="ErrorInvalidBitrate">有効なビットレート値を入力してください。</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">無効なビットレート（例：5000）。</sys:String>
     <sys:String x:Key="ErrorEmptyCodec">コーデックを選択してください。</sys:String>
     <sys:String x:Key="ErrorInvalidResolution">無効な解像度です（例：1920x1080）。</sys:String>
     <sys:String x:Key="ErrorEmptyPresetName">プリセット名を空にすることはできません。</sys:String>
     <sys:String x:Key="ErrorEmptyPlatformName">プラットフォーム名を入力してください。</sys:String>
-    <sys:String x:Key="ErrorInvalidFPS">有効なFPS値を入力してください。</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">無効なFPS（例：30または60）。</sys:String>
+    <sys:String x:Key="ErrorInvalidFormat">無効なフォーマット（例：.mp4）。</sys:String>
+    <sys:String x:Key="ErrorInvalidCodec">無効なコーデック（例：libx264）。</sys:String>
 </ResourceDictionary>

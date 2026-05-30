@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -116,10 +116,12 @@
     <sys:String x:Key="ErrorEmptyResolution">Vyberte rozlišení.</sys:String>
     <sys:String x:Key="ErrorEmptyProjectName">Název projektu nesmí být prázdný.</sys:String>
     <sys:String x:Key="ErrorEmptyBitrate">Vyberte datový tok.</sys:String>
-    <sys:String x:Key="ErrorInvalidBitrate">Zadejte platnou hodnotu datového toku.</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">Neplatný datový tok (např. 5000).</sys:String>
     <sys:String x:Key="ErrorEmptyCodec">Vyberte kodek.</sys:String>
     <sys:String x:Key="ErrorInvalidResolution">Neplatné rozlišení (např. 1920x1080).</sys:String>
     <sys:String x:Key="ErrorEmptyPresetName">Název předvolby nesmí být prázdný.</sys:String>
     <sys:String x:Key="ErrorEmptyPlatformName">Zadejte název platformy.</sys:String>
-    <sys:String x:Key="ErrorInvalidFPS">Zadejte platnou hodnotu FPS.</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">Neplatné FPS (např. 30 nebo 60).</sys:String>
+    <sys:String x:Key="ErrorInvalidFormat">Neplatný formát (např. .mp4).</sys:String>
+    <sys:String x:Key="ErrorInvalidCodec">Neplatný kodek (např. libx264).</sys:String>
 </ResourceDictionary>

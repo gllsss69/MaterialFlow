@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -115,10 +115,12 @@
     <sys:String x:Key="ErrorEmptyResolution">Будь ласка, виберіть роздільну здатність.</sys:String>
     <sys:String x:Key="ErrorEmptyProjectName">Назва проєкту не може бути порожньою.</sys:String>
     <sys:String x:Key="ErrorEmptyBitrate">Будь ласка, виберіть бітрейт.</sys:String>
-    <sys:String x:Key="ErrorInvalidBitrate">Будь ласка, введіть дійсне значення бітрейту.</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">Недійсний бітрейт (напр., 5000).</sys:String>
     <sys:String x:Key="ErrorEmptyCodec">Будь ласка, виберіть кодек.</sys:String>
     <sys:String x:Key="ErrorInvalidResolution">Недійсна роздільна здатність (напр., 1920x1080).</sys:String>
     <sys:String x:Key="ErrorEmptyPresetName">Назва пресета не може бути порожньою.</sys:String>
     <sys:String x:Key="ErrorEmptyPlatformName">Будь ласка, введіть назву платформи.</sys:String>
-    <sys:String x:Key="ErrorInvalidFPS">Будь ласка, введіть дійсне значення FPS.</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">Недійсний FPS (напр., 30 або 60).</sys:String>
+    <sys:String x:Key="ErrorInvalidFormat">Недійсний формат (напр., .mp4).</sys:String>
+    <sys:String x:Key="ErrorInvalidCodec">Недійсний кодек (напр., libx264).</sys:String>
 </ResourceDictionary>

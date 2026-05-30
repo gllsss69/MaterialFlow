@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -115,10 +115,12 @@
     <sys:String x:Key="ErrorEmptyResolution">Wybierz rozdzielczość.</sys:String>
     <sys:String x:Key="ErrorEmptyProjectName">Nazwa projektu nie może być pusta.</sys:String>
     <sys:String x:Key="ErrorEmptyBitrate">Wybierz bitrate.</sys:String>
-    <sys:String x:Key="ErrorInvalidBitrate">Wprowadź prawidłową wartość bitrate.</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">Nieprawidłowy bitrate (np. 5000).</sys:String>
     <sys:String x:Key="ErrorEmptyCodec">Wybierz kodek.</sys:String>
     <sys:String x:Key="ErrorInvalidResolution">Nieprawidłowa rozdzielczość (np. 1920x1080).</sys:String>
     <sys:String x:Key="ErrorEmptyPresetName">Nazwa presetu nie może być pusta.</sys:String>
     <sys:String x:Key="ErrorEmptyPlatformName">Wprowadź nazwę platformy.</sys:String>
-    <sys:String x:Key="ErrorInvalidFPS">Wprowadź prawidłową wartość FPS.</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">Nieprawidłowe FPS (np. 30 lub 60).</sys:String>
+    <sys:String x:Key="ErrorInvalidFormat">Nieprawidłowy format (np. .mp4).</sys:String>
+    <sys:String x:Key="ErrorInvalidCodec">Nieprawidłowy kodek (np. libx264).</sys:String>
 </ResourceDictionary>
