@@ -201,7 +201,7 @@
                 <StackPanel Grid.Row="0" Margin="0,32,0,0" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Spacing="16" HorizontalAlignment="Center">
                         <Button Theme="{StaticResource MaterialFlatButton}" Padding="0" Click="ToggleSidebar_Click" Background="Transparent" BorderThickness="0" FocusAdorner="{x:Null}">
-                            <Image Source="avares://MaterialFlow/Resources/logo.png" Width="80" Height="80"/>
+                            <Image Source="avares://MaterialFlow/Resources/Assets/logo.png" Width="80" Height="80"/>
                         </Button>
                         <TextBlock Text="MaterialFlow" FontWeight="Black" FontSize="20" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}"
                                    IsVisible="{Binding !IsSidebarCollapsed}"/>
@@ -533,7 +533,7 @@
                                                      <Border Background="{DynamicResource SecondaryContainerBrush}"
                                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                              IsVisible="{Binding ThumbnailPath, Converter={x:Static StringConverters.IsNullOrEmpty}}">
-                                                         <Image Source="avares://MaterialFlow/Resources/logo.png"
+                                                         <Image Source="avares://MaterialFlow/Resources/Assets/logo.png"
                                                                 Width="60" Height="60"
                                                                 Stretch="Uniform"
                                                                 RenderOptions.BitmapInterpolationMode="HighQuality"

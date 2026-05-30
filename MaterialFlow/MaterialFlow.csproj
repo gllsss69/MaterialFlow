@@ -30,8 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Resources\logo.png" />
-    <None Update="Resources\logo.png">
+    <AvaloniaResource Include="Resources\Assets\logo.png" />
+    <None Update="Resources\Assets\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

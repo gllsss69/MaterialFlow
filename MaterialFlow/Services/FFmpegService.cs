@@ -126,7 +126,8 @@ public class FFmpegService
     /// <param name="progress">Об'єкт для повідомлення про зміну прогресу.</param>
     /// <param name="cancellationToken">Токен скасування асинхронної операції.</param>
     /// <returns>Значення true, якщо конвертація завершилась успішно; інакше false.</returns>
-    public async Task<bool> ConvertVideoAsync(VideoProject project, Preset preset, ConversionJob job, IProgress<double>? progress = null, CancellationToken cancellationToken = default, string? logFilePath = null)
+    public async Task<bool> ConvertVideoAsync(VideoProject project, Preset preset, ConversionJob job,
+        IProgress<double>? progress = null, CancellationToken cancellationToken = default, string? logFilePath = null)
     {
         await _conversionQueue.WaitAsync(cancellationToken);
         try
@@ -156,7 +157,7 @@ public class FFmpegService
         job.Status = JobStatus.Processing;
         job.StartTime = DateTime.UtcNow;
             // Визначаємо шлях до файлу водяного знаку
-            var watermarkPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "logo.png");
+            var watermarkPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Assets", "logo.png");
             bool applyWatermark = project.UseWatermark && File.Exists(watermarkPath);
 
             // Build arguments

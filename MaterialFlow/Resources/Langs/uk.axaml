@@ -93,6 +93,8 @@
     <sys:String x:Key="LabelPlatform">Платформа:</sys:String>
     <sys:String x:Key="LabelNothingHere">Тут поки нічого немає</sys:String>
     <sys:String x:Key="LabelEnableLogging">Увімкнути логування у файл</sys:String>
+    <sys:String x:Key="HeaderFFmpegStatus">Статус FFmpeg</sys:String>
+    <sys:String x:Key="BtnRefreshStatus">Оновити статус</sys:String>
     <sys:String x:Key="HeaderAbout">Про програму</sys:String>
     <sys:String x:Key="TextAboutDescription">Просунутий інструмент для адаптації відео та керування пресетами.</sys:String>
     <sys:String x:Key="BtnViewGitHub">Переглянути на GitHub</sys:String>

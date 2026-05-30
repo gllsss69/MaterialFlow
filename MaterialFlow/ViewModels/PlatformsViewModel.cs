@@ -43,6 +43,9 @@ public class PlatformsViewModel : INotifyPropertyChanged
         LoadData();
     }
 
+    /// <summary>
+    /// Очищує та завантажує актуальний список платформ із бази даних DataService.
+    /// </summary>
     public void LoadData()
     {
         Platforms.Clear();
@@ -53,6 +56,9 @@ public class PlatformsViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(FilteredPlatforms));
     }
 
+    /// <summary>
+    /// Асинхронно видаляє вибрану платформу та зберігає зміни на диску.
+    /// </summary>
     public async Task DeletePlatformAsync(Platform platform)
     {
         if (platform != null)

@@ -75,6 +75,10 @@ public class LoginViewModel : INotifyPropertyChanged
         return fallback;
     }
 
+    /// <summary>
+    /// Виконує реєстрацію нового акаунта або вхід в існуючий профіль через AuthService.
+    /// </summary>
+    /// <returns>Значення true у разі успішного входу; false при помилці або завершенні реєстрації.</returns>
     public bool Authenticate()
     {
         if (IsRegisterMode)

@@ -102,7 +102,16 @@ public class ProjectListViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Встановлює фільтр за статусом проєкту.
+    /// </summary>
+    /// <param name="item">Обраний елемент фільтру за статусом.</param>
     public void SetStatusFilterCommand(FilterItem item) => SelectedStatusFilter = item;
+
+    /// <summary>
+    /// Встановлює фільтр за платформою проєкту.
+    /// </summary>
+    /// <param name="item">Обраний елемент фільтру за платформою.</param>
     public void SetPlatformFilterCommand(FilterItem item) => SelectedPlatformFilter = item;
 
     private string _selectedSortOption = "DateDesc";
@@ -118,12 +127,19 @@ public class ProjectListViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Встановлює опцію сортування списку проєктів.
+    /// </summary>
+    /// <param name="option">Назва методу сортування.</param>
     public void SetSortOption(string option)
     {
         if (string.IsNullOrEmpty(option)) return;
         SelectedSortOption = option;
     }
 
+    /// <summary>
+    /// Оновлює локалізовані ресурси фільтрів при зміні мови додатку.
+    /// </summary>
     public void RefreshLocalizations()
     {
         foreach (var item in StatusFilters) item.Refresh();
@@ -206,16 +222,26 @@ public class ProjectListViewModel : INotifyPropertyChanged
     public int TotalPages => Math.Max(1, (int)Math.Ceiling((double)_totalItemsCount / PageSize));
     public bool IsProjectsEmpty => _totalItemsCount == 0;
 
+    /// <summary>
+    /// Переходить на наступну сторінку списку проєктів.
+    /// </summary>
     public void NextPage()
     {
         if (CurrentPage < TotalPages) CurrentPage++;
     }
 
+    /// <summary>
+    /// Переходить на попередню сторінку списку проєктів.
+    /// </summary>
     public void PreviousPage()
     {
         if (CurrentPage > 1) CurrentPage--;
     }
 
+    /// <summary>
+    /// Встановлює кількість проєктів на одній сторінці.
+    /// </summary>
+    /// <param name="sizeStr">Рядкове представлення розміру сторінки.</param>
     public void SetPageSize(string sizeStr)
     {
         if (int.TryParse(sizeStr, out int size)) PageSize = size;
@@ -225,6 +251,9 @@ public class ProjectListViewModel : INotifyPropertyChanged
     private IEnumerable<VideoProject> _filteredProjects = Array.Empty<VideoProject>();
     public IEnumerable<VideoProject> FilteredProjects => _filteredProjects;
 
+    /// <summary>
+    /// Фільтрує, сортує та розбиває на сторінки загальний список проєктів.
+    /// </summary>
     private void UpdateFilteredProjects()
     {
         IEnumerable<VideoProject> result = Projects;
@@ -286,6 +315,10 @@ public class ProjectListViewModel : INotifyPropertyChanged
     }
 
 
+    /// <summary>
+    /// Перемикає стан "Обраний" (IsFavorite) для вказаного проєкту.
+    /// </summary>
+    /// <param name="project">Об'єкт проєкту.</param>
     public void ToggleFavorite(VideoProject project)
     {
         if (project == null) return;
@@ -294,6 +327,10 @@ public class ProjectListViewModel : INotifyPropertyChanged
         UpdateFilteredProjects();
     }
 
+    /// <summary>
+    /// Завантажує список проєктів з вказаного каталогу збереження.
+    /// </summary>
+    /// <param name="defaultSavePath">Шлях до каталогу збереження.</param>
     public void LoadProjects(string defaultSavePath)
     {
         Projects.Clear();
@@ -321,6 +358,10 @@ public class ProjectListViewModel : INotifyPropertyChanged
         catch { }
     }
 
+    /// <summary>
+    /// Оновлює дані проєкту та перезаписує його файл конфігурації.
+    /// </summary>
+    /// <param name="project">Об'єкт проєкту для оновлення.</param>
     public void UpdateProject(VideoProject project)
     {
         var defaultSavePath = SettingsService.Instance.DefaultSavePath;
@@ -341,6 +382,12 @@ public class ProjectListViewModel : INotifyPropertyChanged
         UpdateFilteredProjects();
     }
 
+    /// <summary>
+    /// Ініціалізує та асинхронно виконує процес конвертації відео для вказаного проєкту за обраним пресетом.
+    /// </summary>
+    /// <param name="project">Об'єкт проєкту.</param>
+    /// <param name="preset">Обраний пресет рендерингу.</param>
+    /// <param name="exportPath">Шлях для збереження результуючого файлу.</param>
     public async Task StartConversionAsync(VideoProject project, Preset preset, string exportPath)
     {
         if (project == null || preset == null) return;
@@ -468,6 +515,10 @@ public class ProjectListViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(ConversionJobs));
     }
 
+    /// <summary>
+    /// Перериває активну операцію конвертації для вказаного проєкту.
+    /// </summary>
+    /// <param name="projectId">Ідентифікатор проєкту.</param>
     public void CancelConversion(Guid projectId)
     {
         if (_cancellationTokens.TryGetValue(projectId, out var cts))

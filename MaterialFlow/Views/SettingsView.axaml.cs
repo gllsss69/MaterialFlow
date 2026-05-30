@@ -13,6 +13,23 @@ public partial class SettingsView : UserControl
     public SettingsView()
     {
         InitializeComponent();
+        Loaded += OnLoaded;
+    }
+
+    private async void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel vm)
+        {
+            await vm.CheckFFmpegStatusAsync();
+        }
+    }
+
+    private async void RefreshFFmpegStatus_Click(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel vm)
+        {
+            await vm.CheckFFmpegStatusAsync();
+        }
     }
 
     private async void SelectDefaultPath_Click(object? sender, RoutedEventArgs e)

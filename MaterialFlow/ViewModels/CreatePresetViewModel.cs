@@ -95,6 +95,9 @@ public class CreatePresetViewModel : INotifyPropertyChanged
         set { _errorMessage = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Перевіряє коректність заповнення полів нового пресета.
+    /// </summary>
     public bool Validate()
     {
         if (string.IsNullOrWhiteSpace(PresetName))
@@ -112,6 +115,9 @@ public class CreatePresetViewModel : INotifyPropertyChanged
         return true;
     }
 
+    /// <summary>
+    /// Повертає сформований об'єкт моделі Preset на основі заповнених полів форми.
+    /// </summary>
     public Preset GetPresetData(Guid existingId)
     {
         return new Preset

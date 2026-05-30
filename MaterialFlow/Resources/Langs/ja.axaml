@@ -93,6 +93,8 @@
     <sys:String x:Key="LabelPlatform">プラットフォーム:</sys:String>
     <sys:String x:Key="LabelNothingHere">まだ何もありません</sys:String>
     <sys:String x:Key="LabelEnableLogging">ファイルへのログ記録を有効にする</sys:String>
+    <sys:String x:Key="HeaderFFmpegStatus">FFmpegステータス</sys:String>
+    <sys:String x:Key="BtnRefreshStatus">ステータスを更新</sys:String>
     <sys:String x:Key="HeaderAbout">概要</sys:String>
     <sys:String x:Key="TextAboutDescription">高度なビデオ適応およびプリセット管理ツール。</sys:String>
     <sys:String x:Key="BtnViewGitHub">GitHubで表示</sys:String>

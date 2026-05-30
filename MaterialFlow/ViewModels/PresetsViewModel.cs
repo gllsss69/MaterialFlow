@@ -45,6 +45,9 @@ public class PresetsViewModel : INotifyPropertyChanged
         LoadData();
     }
 
+    /// <summary>
+    /// Очищує та завантажує актуальний список пресетів із сховища.
+    /// </summary>
     public void LoadData()
     {
         Presets.Clear();
@@ -55,11 +58,17 @@ public class PresetsViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(FilteredPresets));
     }
 
+    /// <summary>
+    /// Допоміжний метод для отримання назви платформи за її унікальним ідентифікатором.
+    /// </summary>
     public string GetPlatformName(Guid platformId)
     {
         return DataService.Instance.Platforms.FirstOrDefault(p => p.Id == platformId)?.Name ?? "Unknown";
     }
 
+    /// <summary>
+    /// Асинхронно видаляє вибраний пресет та оновлює конфігураційний файл presets.json.
+    /// </summary>
     public async Task DeletePresetAsync(Preset preset)
     {
         if (preset != null)

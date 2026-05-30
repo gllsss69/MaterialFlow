@@ -101,6 +101,10 @@ public class CreatePlatformViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Валідує введені дані платформи, додає її в DataService та зберігає зміни у файл.
+    /// </summary>
+    /// <returns>Об'єкт створеної чи оновленої моделі Platform у разі успіху; null — у разі помилки.</returns>
     public Platform? Save()
     {
         if (string.IsNullOrWhiteSpace(PlatformName))
@@ -117,7 +121,7 @@ public class CreatePlatformViewModel : INotifyPropertyChanged
         }
 
         var platform = _editingPlatform ?? new Platform();
-        platform.Name     = PlatformName.Trim();
+        platform.Name = PlatformName.Trim();
         platform.IconKind = IconKind.Kind;
         platform.DefaultResolution = Resolution;
         platform.DefaultBitrate = Bitrate;

@@ -94,4 +94,15 @@
     <sys:String x:Key="FilterCompleted">Hotovo</sys:String>
     <sys:String x:Key="FilterError">Chyba</sys:String>
     <sys:String x:Key="FilterProcessing">Spracováva sa</sys:String>
+
+    <!-- General UI -->
+    <sys:String x:Key="LabelStatus">Stav:</sys:String>
+    <sys:String x:Key="LabelPlatform">Platforma:</sys:String>
+    <sys:String x:Key="LabelNothingHere">Zatiaľ tu nič nie je</sys:String>
+    <sys:String x:Key="LabelEnableLogging">Povoliť záznam do súboru</sys:String>
+    <sys:String x:Key="HeaderFFmpegStatus">Stav FFmpeg</sys:String>
+    <sys:String x:Key="BtnRefreshStatus">Obnoviť stav</sys:String>
+    <sys:String x:Key="HeaderAbout">O programe</sys:String>
+    <sys:String x:Key="TextAboutDescription">Pokročilý nástroj na adaptáciu videa a správu predvolieb.</sys:String>
+    <sys:String x:Key="BtnViewGitHub">Zobraziť na GitHube</sys:String>
 </ResourceDictionary>

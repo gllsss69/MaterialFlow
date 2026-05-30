@@ -93,6 +93,8 @@
     <sys:String x:Key="LabelPlatform">Platforma:</sys:String>
     <sys:String x:Key="LabelNothingHere">Jeszcze nic tu nie ma</sys:String>
     <sys:String x:Key="LabelEnableLogging">Włącz logowanie do pliku</sys:String>
+    <sys:String x:Key="HeaderFFmpegStatus">Status FFmpeg</sys:String>
+    <sys:String x:Key="BtnRefreshStatus">Odśwież status</sys:String>
     <sys:String x:Key="HeaderAbout">O programie</sys:String>
     <sys:String x:Key="TextAboutDescription">Zaawansowane narzędzie do adaptacji wideo i zarządzania presetami.</sys:String>
     <sys:String x:Key="BtnViewGitHub">Zobacz na GitHubie</sys:String>

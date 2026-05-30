@@ -67,6 +67,57 @@
                     <CheckBox IsChecked="{Binding EnableProjectLogging}" Theme="{StaticResource MaterialCheckBox}" VerticalAlignment="Center"/>
                 </StackPanel>
 
+                <!-- FFmpeg Status -->
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{DynamicResource HeaderFFmpegStatus}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="16"/>
+                    <Border Background="{DynamicResource SurfaceVariantBrush}" CornerRadius="16" Padding="24" Width="550">
+                        <StackPanel Spacing="12">
+                            <!-- Status indicator row -->
+                            <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                                <!-- Green circle when available -->
+                                <Ellipse Width="14" Height="14" VerticalAlignment="Center"
+                                         IsVisible="{Binding IsFFmpegAvailable}">
+                                    <Ellipse.Fill>
+                                        <SolidColorBrush Color="#4CAF50"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <!-- Red circle when not available -->
+                                <Ellipse Width="14" Height="14" VerticalAlignment="Center"
+                                         IsVisible="{Binding !IsFFmpegAvailable}">
+                                    <Ellipse.Fill>
+                                        <SolidColorBrush Color="#F44336"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <TextBlock FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"
+                                           Foreground="{DynamicResource OnSurfaceBrush}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="FFmpeg Status: {0}">
+                                            <Binding Path="FFmpegStatusText"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                            <!-- Version string -->
+                            <TextBlock Text="{Binding FFmpegVersionText}" TextWrapping="Wrap"
+                                       FontSize="13" Foreground="{DynamicResource OnSurfaceVariantBrush}"
+                                       IsVisible="{Binding IsFFmpegAvailable}"/>
+                            <!-- Refresh button -->
+                            <Button Theme="{StaticResource MaterialFlatButton}" 
+                                    Foreground="{DynamicResource PrimaryBrush}" 
+                                    Background="Transparent" 
+                                    HorizontalAlignment="Left" 
+                                    Margin="-16,4,0,0"
+                                    CornerRadius="16"
+                                    Click="RefreshFFmpegStatus_Click">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <material:MaterialIcon Kind="Refresh" Width="20" Height="20"/>
+                                    <TextBlock Text="{DynamicResource BtnRefreshStatus}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
                 <!-- About -->
                 <StackPanel Spacing="12" Margin="0,32,0,0">
                     <TextBlock Text="{DynamicResource HeaderAbout}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="16"/>

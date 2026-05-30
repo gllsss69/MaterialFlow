@@ -94,6 +94,8 @@
     <sys:String x:Key="LabelPlatform">Platform:</sys:String>
     <sys:String x:Key="LabelNothingHere">Nothing here yet</sys:String>
     <sys:String x:Key="LabelEnableLogging">Enable logging to file</sys:String>
+    <sys:String x:Key="HeaderFFmpegStatus">FFmpeg Status</sys:String>
+    <sys:String x:Key="BtnRefreshStatus">Refresh Status</sys:String>
     <sys:String x:Key="HeaderAbout">About</sys:String>
     <sys:String x:Key="TextAboutDescription">An advanced video adaptation and preset management tool.</sys:String>
     <sys:String x:Key="BtnViewGitHub">View on GitHub</sys:String>

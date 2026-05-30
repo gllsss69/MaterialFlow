@@ -72,6 +72,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public string UserInitials => string.IsNullOrWhiteSpace(CurrentUser?.FullName) ? "?" :
         new string(CurrentUser.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
 
+    /// <summary>
+    /// Завершує сеанс поточного користувача та очищує авторизаційні дані.
+    /// </summary>
     public void Logout()
     {
         AuthService.Instance.Logout();
@@ -107,11 +110,18 @@ public class MainWindowViewModel : INotifyPropertyChanged
         set { _currentPageIndex = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Встановлює індекс активної сторінки для навігації в головному вікні.
+    /// </summary>
+    /// <param name="index">Індекс цільової сторінки у вигляді рядка.</param>
     public void SetPageIndex(string index)
     {
         if (int.TryParse(index, out int i)) CurrentPageIndex = i;
     }
 
+    /// <summary>
+    /// Згортає або розгортає бічну навігаційну панель програми.
+    /// </summary>
     public void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
 
     private string _selectedLanguage = "English";
@@ -176,9 +186,79 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
+    // --- FFmpeg Status ---
+    private bool _isFFmpegAvailable;
+    /// <summary>
+    /// Прапорець доступності медіапроцесора FFmpeg у системі.
+    /// </summary>
+    public bool IsFFmpegAvailable
+    {
+        get => _isFFmpegAvailable;
+        set { _isFFmpegAvailable = value; OnPropertyChanged(); OnPropertyChanged(nameof(FFmpegStatusText)); }
+    }
+
+    private string _ffmpegVersionText = "";
+    /// <summary>
+    /// Рядок версії FFmpeg, отриманий від медіапроцесора.
+    /// </summary>
+    public string FFmpegVersionText
+    {
+        get => _ffmpegVersionText;
+        set { _ffmpegVersionText = value; OnPropertyChanged(); }
+    }
+
+    /// <summary>
+    /// Текстове відображення статусу доступності FFmpeg.
+    /// </summary>
+    public string FFmpegStatusText => IsFFmpegAvailable ? "Available" : "Not Found";
+
+    private bool _isCheckingFFmpeg;
+    /// <summary>
+    /// Прапорець, що вказує на виконання перевірки FFmpeg.
+    /// </summary>
+    public bool IsCheckingFFmpeg
+    {
+        get => _isCheckingFFmpeg;
+        set { _isCheckingFFmpeg = value; OnPropertyChanged(); }
+    }
+
+    /// <summary>
+    /// Асинхронно перевіряє доступність FFmpeg та отримує рядок його версії.
+    /// </summary>
+    public async System.Threading.Tasks.Task CheckFFmpegStatusAsync()
+    {
+        IsCheckingFFmpeg = true;
+        try
+        {
+            var ffmpeg = new FFmpegService("ffmpeg");
+            IsFFmpegAvailable = ffmpeg.IsFFmpegAvailable();
+
+            if (IsFFmpegAvailable)
+            {
+                FFmpegVersionText = await ffmpeg.GetFFmpegVersionAsync();
+            }
+            else
+            {
+                FFmpegVersionText = "FFmpeg not found in system PATH";
+            }
+        }
+        catch (Exception ex)
+        {
+            IsFFmpegAvailable = false;
+            FFmpegVersionText = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            IsCheckingFFmpeg = false;
+        }
+    }
+
     public ObservableCollection<string> Languages { get; } = new() { "Czech", "English", "German", "Japanese", "Polish", "Slovak", "Ukrainian" };
     public ObservableCollection<string> Themes { get; } = new() { "System Default", "Light", "Dark" };
 
+    /// <summary>
+    /// Зберігає поточні налаштування інтерфейсу користувача у файл конфігурації.
+    /// </summary>
     private void SaveSettings()
     {
         SettingsService.Instance.SelectedLanguage = _selectedLanguage;
@@ -189,6 +269,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
         SettingsService.Instance.Save();
     }
 
+    /// <summary>
+    /// Завантажує та застосовує обрану мову локалізації інтерфейсу.
+    /// </summary>
+    /// <param name="languageName">Назва цільової мови.</param>
     private void ApplyLanguage(string languageName)
     {
         if (Avalonia.Application.Current == null) return;
@@ -220,6 +304,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Динамічно змінює та застосовує вибрану тему оформлення додатка.
+    /// </summary>
+    /// <param name="theme">Назва вибраної теми оформлення.</param>
     private void ApplyTheme(string theme)
     {
         if (Avalonia.Application.Current != null)

@@ -383,6 +383,9 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     }
 
     // Call this after project creation
+    /// <summary>
+    /// Створює текстовий файл журналу (log) з метаданими проєкту, якщо увімкнено логування.
+    /// </summary>
     public void CreateLogFileIfEnabled()
     {
         if (!EnableProjectLogging || string.IsNullOrWhiteSpace(SavePath)) return;
