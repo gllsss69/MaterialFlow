@@ -1,0 +1,49 @@
+name: Build and Deploy Cross-Platform Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    name: Generate Desktop Packages
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET 9 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Find and Build Project
+      run: |
+        PROJECT_PATH=$(find . -name "*.csproj" | head -n 1)
+        echo "Found project: $PROJECT_PATH"
+        
+        dotnet publish "$PROJECT_PATH" -c Release -r win-x64 --self-contained true -o ./publish/win-x64
+        dotnet publish "$PROJECT_PATH" -c Release -r linux-x64 --self-contained true -o ./publish/linux-x64
+
+    - name: Archive Windows Release
+      run: |
+        cd publish/win-x64
+        zip -r ../../MaterialFlow-win-x64.zip .
+        cd ../..
+
+    - name: Archive Linux Release
+      run: |
+        cd publish/linux-x64
+        tar -czvf ../../MaterialFlow-linux-x64.tar.gz .
+        cd ../..
+
+    - name: Upload Artifacts to GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          MaterialFlow-win-x64.zip
+          MaterialFlow-linux-x64.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
