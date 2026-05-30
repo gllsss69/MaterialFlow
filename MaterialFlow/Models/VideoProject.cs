@@ -105,7 +105,6 @@ public class VideoProject : INotifyPropertyChanged
     /// <summary>
     /// Поточний прогрес обробки проєкту (від 0.0 до 100.0).
     /// </summary>
-    [JsonIgnore]
     public double Progress
     {
         get => _progress;

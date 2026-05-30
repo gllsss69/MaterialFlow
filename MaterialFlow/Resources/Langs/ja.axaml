@@ -48,6 +48,7 @@
     <!-- Rename Project Window -->
     <sys:String x:Key="HeaderRenameProject">プロジェクト名の変更</sys:String>
     <sys:String x:Key="LabelNewName">新しい名前</sys:String>
+    <sys:String x:Key="ErrorProjectExists">この名前のプロジェクトは既に存在します。</sys:String>
     <sys:String x:Key="BtnSave">保存</sys:String>
 
     <!-- Properties Window -->

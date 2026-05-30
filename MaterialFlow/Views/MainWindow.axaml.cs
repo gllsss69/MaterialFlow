@@ -121,7 +121,8 @@ namespace MaterialFlow
         {
             if (sender is MenuItem menuItem && menuItem.DataContext is Models.VideoProject project)
             {
-                var dialog = new Views.RenameWindow(project.Name);
+                var existingNames = System.Linq.Enumerable.Select(_viewModel.ProjectList.Projects, p => p.Name);
+                var dialog = new Views.RenameWindow(project.Name, existingNames);
                 var newName = await dialog.ShowDialog<string>(this);
                 if (!string.IsNullOrWhiteSpace(newName) && newName != project.Name)
                 {

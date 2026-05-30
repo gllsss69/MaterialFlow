@@ -1,0 +1,54 @@
+name: Build and Deploy Cross-Platform Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Конвеєр спрацює лише тоді, коли ти створиш тег версії (наприклад, v1.0.0)
+
+jobs:
+  publish:
+    name: Generate Desktop Packages
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Клонуємо твій вихідний код
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    # 2. Встановлюємо офіційний .NET 9 SDK
+    - name: Setup .NET 9 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    # 3. ПУБЛІКАЦІЯ ДЛЯ WINDOWS (Self-contained, твій код + Avalonia + .NET 9 в один файл)
+    - name: Publish Windows x64
+      run: dotnet publish -c Release -r win-x64 -o ./publish/win-x64
+
+    # 4. ПУБЛІКАЦІЯ ДЛЯ LINUX (Self-contained бінарник для UNIX-систем)
+    - name: Publish Linux x64
+      run: dotnet publish -c Release -r linux-x64 -o ./publish/linux-x64
+
+    # 5. Пакуємо чисту збірку Windows у ZIP-архів
+    - name: Archive Windows Release
+      run: |
+        cd publish/win-x64
+        zip -r ../../MaterialFlow-win-x64.zip .
+        cd ../..
+
+    # 6. Пакуємо чисту збірку Linux у TAR.GZ-архів
+    - name: Archive Linux Release
+      run: |
+        cd publish/linux-x64
+        tar -czvf ../../MaterialFlow-linux-x64.tar.gz .
+        cd ../..
+
+    # 7. Створюємо сторінку релізу на GitHub та прикріплюємо архіви
+    - name: Upload Artifacts to GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          MaterialFlow-win-x64.zip
+          MaterialFlow-linux-x64.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

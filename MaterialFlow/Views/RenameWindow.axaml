@@ -12,7 +12,7 @@
         Background="Transparent">
 
     <Border CornerRadius="32" Background="{DynamicResource SurfaceVariantBrush}" Padding="32" Margin="10" BoxShadow="0 8 32 0 #20000000">
-        <Grid RowDefinitions="Auto,Auto,Auto">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto">
             <TextBlock Grid.Row="0" Text="{DynamicResource HeaderRenameProject}" FontSize="24" FontWeight="Normal" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,16"/>
 
             <TextBox Grid.Row="1" 
@@ -23,7 +23,9 @@
                      Background="{DynamicResource SurfaceVariantBrush}"
                      UseFloatingPlaceholder="True"/>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="16" Margin="0,24,0,0">
+            <TextBlock Grid.Row="2" Name="ErrorTextBlock" Text="{DynamicResource ErrorProjectExists}" Foreground="#F44336" FontWeight="SemiBold" FontSize="13" Margin="0,8,0,0" IsVisible="False"/>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="16" Margin="0,24,0,0">
                 <Button Content="{DynamicResource BtnCancel}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Cancel_Click" FontSize="16"/>
                 <Button Content="{DynamicResource BtnSave}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Save_Click" FontSize="16"/>
             </StackPanel>

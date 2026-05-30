@@ -12,6 +12,7 @@
         x:Class="MaterialFlow.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="MaterialFlow"
+        Icon="avares://MaterialFlow/Resources/Assets/ico.ico"
         Background="{DynamicResource WindowBackgroundBrush}"
         MinWidth="1200" MinHeight="700">
 
