@@ -39,7 +39,7 @@ public partial class CreateProjectWindow : Window
 
         if (files.Count > 0)
         {
-            _viewModel.SourceFilePath = files[0].Path.LocalPath;
+            _viewModel.SourceFilePath = files[0].TryGetLocalPath() ?? files[0].Path.ToString();
             _viewModel.SourceFileName = files[0].Name;
             _viewModel.IsSourceFileSelected = true;
         }
@@ -58,7 +58,7 @@ public partial class CreateProjectWindow : Window
 
         if (folders.Count > 0)
         {
-            _viewModel.SavePath = folders[0].Path.LocalPath;
+            _viewModel.SavePath = folders[0].TryGetLocalPath() ?? folders[0].Path.ToString();
         }
     }
 

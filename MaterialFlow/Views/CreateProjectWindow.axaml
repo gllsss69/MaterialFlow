@@ -272,7 +272,7 @@
                     <!-- FPS -->
                     <Panel Grid.Row="1" Grid.Column="0" Margin="0,0,8,8">
                         <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="FPS (fps)" 
+                                  p1:ComboBoxAssist.Label="FPS" 
                                   Classes="dense"
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding FPSs}"

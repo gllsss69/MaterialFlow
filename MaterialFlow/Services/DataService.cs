@@ -13,10 +13,7 @@ public class DataService
 {
     public static DataService Instance { get; } = new DataService();
 
-    private readonly string _dataFolderPath = Path.Combine(
-        Path.GetDirectoryName(Environment.ProcessPath ?? Assembly.GetExecutingAssembly().Location)
-        ?? AppDomain.CurrentDomain.BaseDirectory,
-        "Data");
+    private readonly string _dataFolderPath;
     
     // Шляхи до файлів згідно з ТЗ
     private readonly string _usersPath;
@@ -35,6 +32,31 @@ public class DataService
 
     private DataService()
     {
+        // Визначаємо папку з даними в профілі користувача замість хардкоду
+        string baseFolder;
+        try
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                // Використовуємо Documents, щоб зберігати користувацькі проєкти та файли
+                baseFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
+            else
+            {
+                // На Unix-подібних системах беремо HOME або Fall back на Personal
+                baseFolder = Environment.GetEnvironmentVariable("HOME")
+                             ?? Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            }
+        }
+        catch
+        {
+            // Якщо щось пішло не так, повертаємось до попередньої поведінки (каталог програми)
+            baseFolder = Path.GetDirectoryName(Environment.ProcessPath ?? Assembly.GetExecutingAssembly().Location)
+                         ?? AppDomain.CurrentDomain.BaseDirectory;
+        }
+
+        _dataFolderPath = Path.Combine(baseFolder, "MaterialFlow", "Data");
+
         _usersPath = Path.Combine(_dataFolderPath, "users.json");
         _projectsPath = Path.Combine(_dataFolderPath, "projects.json");
         _platformsPath = Path.Combine(_dataFolderPath, "platforms.json");

@@ -155,7 +155,15 @@ public class CreateProjectViewModel : INotifyPropertyChanged
     }
 
     public bool IsPresetSelectionVisible => SelectedPlatform != null && !string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase);
-    public bool IsManualSettingsEnabled => _isManualMode || SelectedPlatform == null || string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Вказує, чи існують пресети для обраної платформи.
+    /// </summary>
+    public bool HasPresetsForPlatform => SelectedPlatform != null 
+        && !string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase) 
+        && AvailablePresets.Count > 0;
+
+    public bool IsManualSettingsEnabled => _isManualMode || SelectedPlatform == null || string.Equals(SelectedPlatform.Name, "None", System.StringComparison.OrdinalIgnoreCase) || HasPresetsForPlatform;
 
     /// <summary>
     /// Вмикає/вимикає ручний режим редагування налаштувань відео.
@@ -303,18 +311,18 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         {
             // Set values from platform defaults
             SelectedResolution = SelectedPlatform.DefaultResolution;
-            
+
             var bitrateKbps = SelectedPlatform.DefaultBitrate;
             var bitrateStr = $"{bitrateKbps}";
             if (Bitrates.Contains(bitrateStr))
                 SelectedBitrate = bitrateStr;
             else
                 SelectedBitrate = "Auto";
-                
+
             var fpsStr = $"{SelectedPlatform.DefaultFPS} fps";
             if (FPSs.Contains(fpsStr))
                 SelectedFPS = fpsStr;
-                
+
             if (Codecs.Contains(SelectedPlatform.DefaultCodec))
                 SelectedCodec = SelectedPlatform.DefaultCodec;
 
@@ -324,9 +332,13 @@ public class CreateProjectViewModel : INotifyPropertyChanged
                 AvailablePresets.Add(preset);
             }
         }
-        
+
         // Don't auto-select preset
         SelectedPreset = null;
+
+        // Notify that HasPresetsForPlatform and IsManualSettingsEnabled may have changed
+        OnPropertyChanged(nameof(HasPresetsForPlatform));
+        OnPropertyChanged(nameof(IsManualSettingsEnabled));
     }
 
     private string GetLocalizedString(string key)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -441,7 +441,16 @@ public class ProjectListViewModel : INotifyPropertyChanged
         var exportDir = Path.GetDirectoryName(job.OutputPath);
         if (!string.IsNullOrEmpty(exportDir) && !Directory.Exists(exportDir))
         {
-            Directory.CreateDirectory(exportDir);
+            try
+            {
+                Directory.CreateDirectory(exportDir);
+            }
+            catch (Exception ex)
+            {
+                project.IsProcessing = false;
+                project.StatusText = $"Error creating directory: {ex.Message}";
+                return;
+            }
         }
 
         ConversionJobs.Add(job);
