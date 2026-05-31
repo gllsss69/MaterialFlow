@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -124,4 +124,48 @@
     <sys:String x:Key="ErrorInvalidFPS">Ungültige FPS (z.B. 30 oder 60).</sys:String>
     <sys:String x:Key="ErrorInvalidFormat">Ungültiges Format (z.B. .mp4).</sys:String>
     <sys:String x:Key="ErrorInvalidCodec">Ungültiger Codec (z.B. libx264).</sys:String>
+    <sys:String x:Key="LabelRole">Rolle</sys:String>
+    <sys:String x:Key="LabelSelectPreset">Preset auswählen</sys:String>
+    <sys:String x:Key="TitleCreatePlatform">Plattform erstellen</sys:String>
+    <sys:String x:Key="TitleEditPlatform">Plattform bearbeiten</sys:String>
+    <sys:String x:Key="TitleCreatePreset">Preset erstellen</sys:String>
+    <sys:String x:Key="TitleEditPreset">Bearbeiten preset</sys:String>
+    <sys:String x:Key="LabelIcon">Symbol</sys:String>
+    <sys:String x:Key="LabelDefaultSettings">Standardeinstellungen</sys:String>
+    <sys:String x:Key="MsgAdminEditPlatforms">Melden Sie sich als Administrator an, um Plattformen zu bearbeiten.</sys:String>
+    <sys:String x:Key="BtnCreatePlatform">Plattform erstellen</sys:String>
+    <sys:String x:Key="LabelSearchPlatforms">Plattformen suchen...</sys:String>
+    <sys:String x:Key="MsgAdminEditPresets">Melden Sie sich als Administrator an, um Presets zu bearbeiten.</sys:String>
+    <sys:String x:Key="BtnCreatePreset">Preset erstellen</sys:String>
+    <sys:String x:Key="LabelSearchPresets">Presets suchen...</sys:String>
+    <sys:String x:Key="TextAppVersion">Version 1.0.1</sys:String>
+    <sys:String x:Key="LabelPlatformName">Plattformname</sys:String>
+    <sys:String x:Key="LabelPresetName">Preset-Name</sys:String>
+    <sys:String x:Key="BtnEdit">Bearbeiten</sys:String>
+    <sys:String x:Key="PlaceholderResolution">z.B. 1920x1080</sys:String>
+    <sys:String x:Key="PlaceholderBitrate">z.B. 5000</sys:String>
+    <sys:String x:Key="PlaceholderFPS">z.B. 60</sys:String>
+    <sys:String x:Key="PlaceholderCodec">z.B. libx264</sys:String>
+    <sys:String x:Key="PlaceholderFormat">z.B. .mp4</sys:String>
+    <sys:String x:Key="LabelFFmpegStatusPrefix">FFmpeg-Status:</sys:String>
+    <sys:String x:Key="FFmpegAvailable">Verfügbar</sys:String>
+    <sys:String x:Key="FFmpegNotFound">Nicht gefunden</sys:String>
+    <sys:String x:Key="FFmpegNotFoundInPath">FFmpeg wurde im System-PATH nicht gefunden</sys:String>
+    <sys:String x:Key="StatusError">Fehler</sys:String>
+    <sys:String x:Key="StatusErrorCreatingDirectory">Fehler beim Erstellen des Ordners</sys:String>
+    <sys:String x:Key="StatusPendingInQueue">Wartet in der Queue...</sys:String>
+    <sys:String x:Key="StatusProcessing">Verarbeitung...</sys:String>
+    <sys:String x:Key="StatusProcessingPrefix">Verarbeitung</sys:String>
+    <sys:String x:Key="AuthLoginPasswordRequired">Login und Passwort sind erforderlich.</sys:String>
+    <sys:String x:Key="AuthUserAlreadyExists">Benutzer existiert bereits.</sys:String>
+    <sys:String x:Key="AuthRegistrationSuccessful">Registrierung erfolgreich.</sys:String>
+    <sys:String x:Key="AuthInvalidLoginOrPassword">Ungültiger Login oder ungültiges Passwort.</sys:String>
+    <sys:String x:Key="AuthLoginSuccessful">Login erfolgreich.</sys:String>
+    <sys:String x:Key="DialogSelectSourceVideo">Quellvideo auswählen</sys:String>
+    <sys:String x:Key="DialogVideoFiles">Videodateien</sys:String>
+    <sys:String x:Key="DialogSelectDestinationFolder">Zielordner auswählen</sys:String>
+    <sys:String x:Key="DialogSelectDefaultProjectsFolder">Standard-Projektordner auswählen</sys:String>
+    <sys:String x:Key="LogProject">Projekt</sys:String>
+    <sys:String x:Key="LogCreated">Erstellt</sys:String>
+    <sys:String x:Key="LogSource">Quelle</sys:String>
 </ResourceDictionary>

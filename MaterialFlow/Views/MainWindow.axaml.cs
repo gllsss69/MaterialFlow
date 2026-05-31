@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
+using MaterialFlow.Services;
 using MaterialFlow.ViewModels;
 using System.Threading.Tasks;
 
@@ -107,7 +108,7 @@ namespace MaterialFlow
 
             var folders = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
             {
-                Title = "Select Default Projects Folder",
+                Title = LocalizationService.Get("DialogSelectDefaultProjectsFolder", "Select Default Projects Folder"),
                 AllowMultiple = false
             });
 

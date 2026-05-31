@@ -25,6 +25,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
     {
         _ffmpegService = new FFmpegService("ffmpeg");
         _selectedStatusFilter = StatusFilters[0];
+        RefreshPlatformFilters();
         _selectedPlatformFilter = PlatformFilters.First();
         Projects.CollectionChanged += (s, e) => UpdateFilteredProjects();
     }
@@ -68,15 +69,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
         new("Processing", "ProgressClock")
     };
 
-    public IEnumerable<FilterItem> PlatformFilters
-    {
-        get
-        {
-            var list = new List<FilterItem> { new("All", "FilterVariant") };
-            list.AddRange(DataService.Instance.Platforms.Select(p => new FilterItem(p.Name, p.IconKind)));
-            return list;
-        }
-    }
+    public ObservableCollection<FilterItem> PlatformFilters { get; } = new();
 
     private FilterItem _selectedStatusFilter;
     public FilterItem SelectedStatusFilter
@@ -142,6 +135,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
     /// </summary>
     public void RefreshLocalizations()
     {
+        RefreshPlatformFilters();
         foreach (var item in StatusFilters) item.Refresh();
         foreach (var item in PlatformFilters) item.Refresh();
         
@@ -150,6 +144,21 @@ public class ProjectListViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(SelectedSortText));
         OnPropertyChanged(nameof(StatusFilters));
         OnPropertyChanged(nameof(PlatformFilters));
+    }
+
+    private void RefreshPlatformFilters()
+    {
+        var selectedName = _selectedPlatformFilter?.Name ?? "All";
+        var filters = new List<FilterItem> { new("All", "FilterVariant") };
+        filters.AddRange(DataService.Instance.Platforms.Select(p => new FilterItem(p.Name, p.IconKind)));
+
+        PlatformFilters.Clear();
+        foreach (var filter in filters)
+        {
+            PlatformFilters.Add(filter);
+        }
+
+        _selectedPlatformFilter = PlatformFilters.FirstOrDefault(p => p.Name == selectedName) ?? PlatformFilters.First();
     }
 
     public string SelectedSortText
@@ -175,10 +184,10 @@ public class ProjectListViewModel : INotifyPropertyChanged
 
             return _selectedSortOption switch
             {
-                "NameAsc" => "Name (A-Z)",
-                "NameDesc" => "Name (Z-A)",
-                "DateAsc" => "Oldest First",
-                "DateDesc" or _ => "Newest First",
+                "NameAsc" => LocalizationService.Get("SortByNameAsc", "Name (A-Z)"),
+                "NameDesc" => LocalizationService.Get("SortByNameDesc", "Name (Z-A)"),
+                "DateAsc" => LocalizationService.Get("SortByDateAsc", "Oldest First"),
+                "DateDesc" or _ => LocalizationService.Get("SortByDateDesc", "Newest First"),
             };
         }
     }
@@ -282,8 +291,8 @@ public class ProjectListViewModel : INotifyPropertyChanged
         {
             result = _selectedStatusFilter.Name switch
             {
-                "Completed" => result.Where(p => p.Progress >= 100 && (string.IsNullOrEmpty(p.StatusText) || p.StatusText == "Completed")),
-                "Error" => result.Where(p => !string.IsNullOrEmpty(p.StatusText) && p.StatusText.StartsWith("Error")),
+                "Completed" => result.Where(p => p.Progress >= 100 && string.IsNullOrEmpty(p.StatusText)),
+                "Error" => result.Where(p => !string.IsNullOrEmpty(p.StatusText) && !p.IsProcessing),
                 "Processing" => result.Where(p => p.IsProcessing),
                 _ => result
             };
@@ -448,7 +457,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
             catch (Exception ex)
             {
                 project.IsProcessing = false;
-                project.StatusText = $"Error creating directory: {ex.Message}";
+                project.StatusText = $"{LocalizationService.Get("StatusErrorCreatingDirectory", "Error creating directory")}: {ex.Message}";
                 return;
             }
         }
@@ -456,14 +465,16 @@ public class ProjectListViewModel : INotifyPropertyChanged
         ConversionJobs.Add(job);
 
         project.IsProcessing = true;
-        project.StatusText = "Pending in queue...";
+        project.StatusText = LocalizationService.Get("StatusPendingInQueue", "Pending in queue...");
         project.Progress = 0;
 
         var progress = new Progress<double>(p =>
         {
             job.Progress = p;
             project.Progress = p;
-            project.StatusText = p == 0 ? "Processing..." : $"Processing: {p:F1}%";
+            project.StatusText = p == 0
+                ? LocalizationService.Get("StatusProcessing", "Processing...")
+                : $"{LocalizationService.Get("StatusProcessingPrefix", "Processing")}: {p:F1}%";
         });
 
         string? logFilePath = SettingsService.Instance.EnableProjectLogging
@@ -480,7 +491,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
         if (success)
         {
             project.Progress = 100;
-            project.StatusText = "Processing: 100.0%";
+            project.StatusText = $"{LocalizationService.Get("StatusProcessingPrefix", "Processing")}: 100.0%";
 
             try
             {
@@ -511,7 +522,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
         else
         {
             project.IsProcessing = false;
-            project.StatusText = $"Error: {job.ErrorMessage}";
+            project.StatusText = $"{LocalizationService.Get("StatusError", "Error")}: {job.ErrorMessage}";
         }
 
         try

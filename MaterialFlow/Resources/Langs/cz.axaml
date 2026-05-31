@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -124,4 +124,48 @@
     <sys:String x:Key="ErrorInvalidFPS">Neplatné FPS (např. 30 nebo 60).</sys:String>
     <sys:String x:Key="ErrorInvalidFormat">Neplatný formát (např. .mp4).</sys:String>
     <sys:String x:Key="ErrorInvalidCodec">Neplatný kodek (např. libx264).</sys:String>
+    <sys:String x:Key="LabelIcon">Ikona</sys:String>
+    <sys:String x:Key="LabelDefaultSettings">Výchozí nastavení</sys:String>
+    <sys:String x:Key="MsgAdminEditPlatforms">Pro úpravu platforem se přihlaste jako administrátor.</sys:String>
+    <sys:String x:Key="BtnCreatePlatform">Vytvořit platformu</sys:String>
+    <sys:String x:Key="LabelSearchPlatforms">Hledat platformy...</sys:String>
+    <sys:String x:Key="MsgAdminEditPresets">Pro úpravu presetů se přihlaste jako administrátor.</sys:String>
+    <sys:String x:Key="BtnCreatePreset">Vytvořit preset</sys:String>
+    <sys:String x:Key="LabelSearchPresets">Hledat presety...</sys:String>
+    <sys:String x:Key="TextAppVersion">Verze 1.0.1</sys:String>
+    <sys:String x:Key="LabelPlatformName">Název platformy</sys:String>
+    <sys:String x:Key="LabelPresetName">Název presetu</sys:String>
+    <sys:String x:Key="LabelRole">Role</sys:String>
+    <sys:String x:Key="LabelSelectPreset">Vyberte preset</sys:String>
+    <sys:String x:Key="TitleCreatePlatform">Vytvořit platformu</sys:String>
+    <sys:String x:Key="TitleEditPlatform">Upravit platformu</sys:String>
+    <sys:String x:Key="TitleCreatePreset">Vytvořit preset</sys:String>
+    <sys:String x:Key="TitleEditPreset">Upravit</sys:String>
+    <sys:String x:Key="BtnEdit">Upravit</sys:String>
+    <sys:String x:Key="PlaceholderResolution">např. 1920x1080</sys:String>
+    <sys:String x:Key="PlaceholderBitrate">např. 5000</sys:String>
+    <sys:String x:Key="PlaceholderFPS">např. 60</sys:String>
+    <sys:String x:Key="PlaceholderCodec">např. libx264</sys:String>
+    <sys:String x:Key="PlaceholderFormat">např. .mp4</sys:String>
+    <sys:String x:Key="LabelFFmpegStatusPrefix">Stav FFmpeg:</sys:String>
+    <sys:String x:Key="FFmpegAvailable">Dostupné</sys:String>
+    <sys:String x:Key="FFmpegNotFound">Nenalezeno</sys:String>
+    <sys:String x:Key="FFmpegNotFoundInPath">FFmpeg nebyl nalezen v systémové proměnné PATH</sys:String>
+    <sys:String x:Key="StatusError">Chyba</sys:String>
+    <sys:String x:Key="StatusErrorCreatingDirectory">Chyba při vytváření složky</sys:String>
+    <sys:String x:Key="StatusPendingInQueue">Čeká ve frontě...</sys:String>
+    <sys:String x:Key="StatusProcessing">Zpracování...</sys:String>
+    <sys:String x:Key="StatusProcessingPrefix">Zpracování</sys:String>
+    <sys:String x:Key="AuthLoginPasswordRequired">Login a heslo jsou povinné.</sys:String>
+    <sys:String x:Key="AuthUserAlreadyExists">Uživatel již existuje.</sys:String>
+    <sys:String x:Key="AuthRegistrationSuccessful">Registrace byla úspěšná.</sys:String>
+    <sys:String x:Key="AuthInvalidLoginOrPassword">Neplatný login nebo heslo.</sys:String>
+    <sys:String x:Key="AuthLoginSuccessful">Přihlášení bylo úspěšné.</sys:String>
+    <sys:String x:Key="DialogSelectSourceVideo">Vyberte zdrojové video</sys:String>
+    <sys:String x:Key="DialogVideoFiles">Video soubory</sys:String>
+    <sys:String x:Key="DialogSelectDestinationFolder">Vyberte cílovou složku</sys:String>
+    <sys:String x:Key="DialogSelectDefaultProjectsFolder">Vyberte výchozí složku projektů</sys:String>
+    <sys:String x:Key="LogProject">Projekt</sys:String>
+    <sys:String x:Key="LogCreated">Vytvořeno</sys:String>
+    <sys:String x:Key="LogSource">Zdroj</sys:String>
 </ResourceDictionary>

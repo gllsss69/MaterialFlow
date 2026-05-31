@@ -45,19 +45,19 @@
             <TextBlock Grid.Row="0" Text="{Binding WindowTitle}" FontSize="32" FontWeight="Normal" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,16"/>
 
             <StackPanel Grid.Row="1" Spacing="16">
-                    <!-- Name Input -->
+                <!-- Name Input -->
                 <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                         p1:TextFieldAssist.Label="Preset Name"
-                         
+                         p1:TextFieldAssist.Label="{DynamicResource LabelPresetName}"
+
                          Background="{DynamicResource SurfaceVariantBrush}"
-                         
+
                          Text="{Binding PresetName}"/>
 
                 <!-- Platform Selection -->
-                <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                          p1:ComboBoxAssist.Label="Platform" 
+                <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                          p1:ComboBoxAssist.Label="{DynamicResource HeaderPlatform}"
                           Classes="dense"
-                          ItemsSource="{Binding Platforms}" 
+                          ItemsSource="{Binding Platforms}"
                           SelectedItem="{Binding SelectedPlatform}"
                           HorizontalAlignment="Stretch">
                     <ComboBox.ItemTemplate>
@@ -79,15 +79,15 @@
 
                 <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
                     <Panel Grid.Row="0" Grid.Column="0" Margin="0,0,8,16">
-                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="Resolution" 
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderResolution}"
                                   Classes="dense"
                                   ItemsSource="{Binding Resolutions}"
                                   SelectedItem="{Binding Resolution}"
                                   IsVisible="{Binding !IsManualMode}"
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                                 p1:TextFieldAssist.Label="Resolution"
+                                 p1:TextFieldAssist.Label="{DynamicResource HeaderResolution}"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding Resolution}"
                                  IsVisible="{Binding IsManualMode}"
@@ -95,15 +95,15 @@
                     </Panel>
 
                     <Panel Grid.Row="0" Grid.Column="1" Margin="8,0,0,16">
-                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="Bitrate (kbps)" 
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderBitrate}"
                                   Classes="dense"
                                   ItemsSource="{Binding Bitrates}"
                                   SelectedItem="{Binding Bitrate}"
                                   IsVisible="{Binding !IsManualMode}"
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                                 p1:TextFieldAssist.Label="Bitrate (kbps)"
+                                 p1:TextFieldAssist.Label="{DynamicResource HeaderBitrate}"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding Bitrate}"
                                  IsVisible="{Binding IsManualMode}"
@@ -111,15 +111,15 @@
                     </Panel>
 
                     <Panel Grid.Row="1" Grid.Column="0" Margin="0,0,8,16">
-                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="FPS" 
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderFPS}"
                                   Classes="dense"
                                   ItemsSource="{Binding FrameRates}"
                                   SelectedItem="{Binding FrameRate}"
                                   IsVisible="{Binding !IsManualMode}"
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                                 p1:TextFieldAssist.Label="FPS"
+                                 p1:TextFieldAssist.Label="{DynamicResource HeaderFPS}"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding FrameRate}"
                                  IsVisible="{Binding IsManualMode}"
@@ -127,15 +127,15 @@
                     </Panel>
 
                     <Panel Grid.Row="1" Grid.Column="1" Margin="8,0,0,16">
-                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="Codec" 
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderCodec}"
                                   Classes="dense"
                                   ItemsSource="{Binding Codecs}"
                                   SelectedItem="{Binding Codec}"
                                   IsVisible="{Binding !IsManualMode}"
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                                 p1:TextFieldAssist.Label="Codec"
+                                 p1:TextFieldAssist.Label="{DynamicResource HeaderCodec}"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding Codec}"
                                  IsVisible="{Binding IsManualMode}"
@@ -147,17 +147,17 @@
             <!-- Actions -->
             <StackPanel Grid.Row="2" Margin="0,16,0,0">
                 <!-- Error Message -->
-                <TextBlock Text="{Binding ErrorMessage}" 
-                           Foreground="#B3261E" 
-                           FontWeight="Medium" 
-                           FontSize="14" 
-                           HorizontalAlignment="Right" 
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="#B3261E"
+                           FontWeight="Medium"
+                           FontSize="14"
+                           HorizontalAlignment="Right"
                            Margin="0,0,0,16"
                            IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-                           
+
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="24">
-                    <Button Content="Cancel" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Cancel_Click" FontSize="16"/>
-                    <Button Content="Save" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Save_Click" FontSize="16"/>
+                    <Button Content="{DynamicResource BtnCancel}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Cancel_Click" FontSize="16"/>
+                    <Button Content="{DynamicResource BtnSave}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Save_Click" FontSize="16"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

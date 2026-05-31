@@ -1,8 +1,8 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
-    <sys:String x:Key="NavHome">ホーム</sys:String>
+    <sys:String x:Key="NavHome">ダッシュボード</sys:String>
     <sys:String x:Key="NavSettings">設定</sys:String>
     <sys:String x:Key="LabelLogin">ログイン</sys:String>
     <sys:String x:Key="LabelLogout">ログアウト</sys:String>
@@ -11,7 +11,7 @@
     <!-- Home Page Toolbar -->
     <sys:String x:Key="BtnCreateProject">プロジェクト作成</sys:String>
     <sys:String x:Key="LabelSearchPlaceholder">プロジェクトを検索...</sys:String>
-    <sys:String x:Key="LabelAllProjects">すべてのプロジェクト</sys:String>
+    <sys:String x:Key="LabelAllProjects">全てのプロジェクト</sys:String>
     <sys:String x:Key="LabelRecent">最近使用した項目</sys:String>
     <sys:String x:Key="LabelFavorites">お気に入り</sys:String>
     
@@ -26,14 +26,14 @@
     <sys:String x:Key="LabelSelectLanguage">言語の選択</sys:String>
     <sys:String x:Key="HeaderTheme">テーマ</sys:String>
     <sys:String x:Key="LabelSelectTheme">テーマの選択</sys:String>
-    <sys:String x:Key="HeaderSavePath">プロジェクトの保存先パス</sys:String>
+    <sys:String x:Key="HeaderSavePath">プロジェクトの保存先</sys:String>
     <sys:String x:Key="LabelPathForProjects">プロジェクトのパス</sys:String>
     <sys:String x:Key="LabelSavePathPlaceholder">保存先フォルダを選択...</sys:String>
 
     <!-- Create Project Window -->
     <sys:String x:Key="HeaderCreateProject">プロジェクト作成</sys:String>
     <sys:String x:Key="LabelProjectName">プロジェクト名</sys:String>
-    <sys:String x:Key="LabelSelectVideoFile">動画ファイルの選択</sys:String>
+    <sys:String x:Key="LabelSelectVideoFile">動画像ファイルの選択</sys:String>
     <sys:String x:Key="LabelExportTo">エクスポート先</sys:String>
     <sys:String x:Key="HeaderPlatform">プラットフォーム</sys:String>
     <sys:String x:Key="HeaderResolution">解像度</sys:String>
@@ -66,20 +66,21 @@
     <!-- Login Window -->
     <sys:String x:Key="LoginTitleLogin">ログイン</sys:String>
     <sys:String x:Key="LoginTitleRegister">アカウント作成</sys:String>
-    <sys:String x:Key="LoginLabelLogin">ログイン名</sys:String>
-    <sys:String x:Key="LoginLabelFullName">氏名</sys:String>
+    <sys:String x:Key="LoginLabelLogin">ログイン</sys:String>
+    <sys:String x:Key="LoginLabelFullName">フルネーム</sys:String>
     <sys:String x:Key="LoginLabelPassword">パスワード</sys:String>
     <sys:String x:Key="LoginBtnLogin">ログイン</sys:String>
     <sys:String x:Key="LoginBtnRegister">登録</sys:String>
-    <sys:String x:Key="LoginSwitchToRegister">アカウントをお持ちでないですか？登録</sys:String>
+    <sys:String x:Key="LoginSwitchToRegister">アカウントをお持ちではありませんか？登録</sys:String>
     <sys:String x:Key="LoginSwitchToLogin">アカウントをお持ちですか？ログイン</sys:String>
+    <sys:String x:Key="LabelRole">役割</sys:String>
 
     <!-- Sorting & Favorites -->
     <sys:String x:Key="SortByNameAsc">名前 (A-Z)</sys:String>
     <sys:String x:Key="SortByNameDesc">名前 (Z-A)</sys:String>
     <sys:String x:Key="SortByDateDesc">新しい順</sys:String>
     <sys:String x:Key="SortByDateAsc">古い順</sys:String>
-    <sys:String x:Key="LabelSortBy">並べ替え</sys:String>
+    <sys:String x:Key="LabelSortBy">並び替え</sys:String>
     <sys:String x:Key="LabelAddToFavorites">お気に入りに追加</sys:String>
     <sys:String x:Key="LabelRemoveFromFavorites">お気に入りから削除</sys:String>
     <!-- Pagination -->
@@ -92,12 +93,12 @@
     <!-- General UI -->
     <sys:String x:Key="LabelStatus">ステータス:</sys:String>
     <sys:String x:Key="LabelPlatform">プラットフォーム:</sys:String>
-    <sys:String x:Key="LabelNothingHere">まだ何もありません</sys:String>
+    <sys:String x:Key="LabelNothingHere">何も表示されていません</sys:String>
     <sys:String x:Key="LabelEnableLogging">ファイルへのログ記録を有効にする</sys:String>
     <sys:String x:Key="HeaderFFmpegStatus">FFmpegステータス</sys:String>
     <sys:String x:Key="BtnRefreshStatus">ステータスを更新</sys:String>
     <sys:String x:Key="HeaderAbout">概要</sys:String>
-    <sys:String x:Key="TextAboutDescription">高度なビデオ適応およびプリセット管理ツール。</sys:String>
+    <sys:String x:Key="TextAboutDescription">高画質ビデオ対向用プリセット管理ツール。</sys:String>
     <sys:String x:Key="BtnViewGitHub">GitHubで表示</sys:String>
     <sys:String x:Key="NavPresets">プリセット</sys:String>
     <sys:String x:Key="NavPlatforms">プラットフォーム</sys:String>
@@ -110,17 +111,60 @@
     <sys:String x:Key="ErrorEmptyFormat">ビデオフォーマットを選択してください。</sys:String>
     <sys:String x:Key="ErrorPlatformExists">この名前のプラットフォームは既に存在します。</sys:String>
     <sys:String x:Key="ErrorEmptySavePath">エクスポート先を選択してください。</sys:String>
-    <sys:String x:Key="ErrorEmptyFPS">フレームレート（FPS）を選択してください。</sys:String>
+    <sys:String x:Key="ErrorEmptyFPS">フレームレート (FPS) を選択してください。</sys:String>
     <sys:String x:Key="ErrorEmptySourceFile">ソースの動画ファイルを選択してください。</sys:String>
     <sys:String x:Key="ErrorEmptyResolution">解像度を選択してください。</sys:String>
     <sys:String x:Key="ErrorEmptyProjectName">プロジェクト名を空にすることはできません。</sys:String>
     <sys:String x:Key="ErrorEmptyBitrate">ビットレートを選択してください。</sys:String>
-    <sys:String x:Key="ErrorInvalidBitrate">無効なビットレート（例：5000）。</sys:String>
+    <sys:String x:Key="ErrorInvalidBitrate">無効なビットレート（例: 5000）。</sys:String>
     <sys:String x:Key="ErrorEmptyCodec">コーデックを選択してください。</sys:String>
-    <sys:String x:Key="ErrorInvalidResolution">無効な解像度です（例：1920x1080）。</sys:String>
-    <sys:String x:Key="ErrorEmptyPresetName">プリセット名を空にすることはできません。</sys:String>
+    <sys:String x:Key="ErrorInvalidResolution">無効な解像度（例: 1920x1080）。</sys:String>
+    <sys:String x:Key="ErrorEmptyPresetName">プリセット名を入力してください。</sys:String>
     <sys:String x:Key="ErrorEmptyPlatformName">プラットフォーム名を入力してください。</sys:String>
-    <sys:String x:Key="ErrorInvalidFPS">無効なFPS（例：30または60）。</sys:String>
-    <sys:String x:Key="ErrorInvalidFormat">無効なフォーマット（例：.mp4）。</sys:String>
-    <sys:String x:Key="ErrorInvalidCodec">無効なコーデック（例：libx264）。</sys:String>
+    <sys:String x:Key="ErrorInvalidFPS">無効なFPS（例: 30または60）。</sys:String>
+    <sys:String x:Key="ErrorInvalidFormat">無効なフォーマット（例: .mp4）。</sys:String>
+    <sys:String x:Key="ErrorInvalidCodec">無効なコーデック（例: libx264）。</sys:String>
+    <sys:String x:Key="LabelSelectPreset">プリセットを選択</sys:String>
+    <sys:String x:Key="TitleCreatePlatform">プラットフォームを作成</sys:String>
+    <sys:String x:Key="TitleEditPlatform">プラットフォームを編集</sys:String>
+    <sys:String x:Key="TitleCreatePreset">プリセットを作成</sys:String>
+    <sys:String x:Key="TitleEditPreset">編集</sys:String>
+    <sys:String x:Key="LabelIcon">アイコン</sys:String>
+    <sys:String x:Key="LabelDefaultSettings">デフォルト設定</sys:String>
+    <sys:String x:Key="MsgAdminEditPlatforms">プラットフォームを編集するには管理者としてログインしてください。</sys:String>
+    <sys:String x:Key="BtnCreatePlatform">プラットフォームを作成</sys:String>
+    <sys:String x:Key="LabelSearchPlatforms">プラットフォームを検索...</sys:String>
+    <sys:String x:Key="MsgAdminEditPresets">プリセットを編集するには管理者としてログインしてください。</sys:String>
+    <sys:String x:Key="BtnCreatePreset">プリセットを作成</sys:String>
+    <sys:String x:Key="LabelSearchPresets">プリセットを検索...</sys:String>
+    <sys:String x:Key="TextAppVersion">バージョン 1.0.1</sys:String>
+    <sys:String x:Key="LabelPlatformName">プラットフォーム名</sys:String>
+    <sys:String x:Key="LabelPresetName">プリセット名</sys:String>
+    <sys:String x:Key="BtnEdit">編集</sys:String>
+    <sys:String x:Key="PlaceholderResolution">例: 1920x1080</sys:String>
+    <sys:String x:Key="PlaceholderBitrate">例: 5000</sys:String>
+    <sys:String x:Key="PlaceholderFPS">例: 60</sys:String>
+    <sys:String x:Key="PlaceholderCodec">例: libx264</sys:String>
+    <sys:String x:Key="PlaceholderFormat">例: .mp4</sys:String>
+    <sys:String x:Key="LabelFFmpegStatusPrefix">FFmpeg ステータス:</sys:String>
+    <sys:String x:Key="FFmpegAvailable">使用可能</sys:String>
+    <sys:String x:Key="FFmpegNotFound">見つかりません</sys:String>
+    <sys:String x:Key="FFmpegNotFoundInPath">システム PATH に FFmpeg が見つかりません</sys:String>
+    <sys:String x:Key="StatusError">エラー</sys:String>
+    <sys:String x:Key="StatusErrorCreatingDirectory">フォルダーの作成エラー</sys:String>
+    <sys:String x:Key="StatusPendingInQueue">キューで待機中...</sys:String>
+    <sys:String x:Key="StatusProcessing">処理中...</sys:String>
+    <sys:String x:Key="StatusProcessingPrefix">処理中</sys:String>
+    <sys:String x:Key="AuthLoginPasswordRequired">ログインとパスワードは必須です。</sys:String>
+    <sys:String x:Key="AuthUserAlreadyExists">ユーザーは既に存在します。</sys:String>
+    <sys:String x:Key="AuthRegistrationSuccessful">登録が完了しました。</sys:String>
+    <sys:String x:Key="AuthInvalidLoginOrPassword">ログインまたはパスワードが正しくありません。</sys:String>
+    <sys:String x:Key="AuthLoginSuccessful">ログインしました。</sys:String>
+    <sys:String x:Key="DialogSelectSourceVideo">ソースの動画を選択</sys:String>
+    <sys:String x:Key="DialogVideoFiles">動画ファイル</sys:String>
+    <sys:String x:Key="DialogSelectDestinationFolder">保存先フォルダーを選択</sys:String>
+    <sys:String x:Key="DialogSelectDefaultProjectsFolder">デフォルトのプロジェクトフォルダーを選択</sys:String>
+    <sys:String x:Key="LogProject">プロジェクト</sys:String>
+    <sys:String x:Key="LogCreated">作成日時</sys:String>
+    <sys:String x:Key="LogSource">ソース</sys:String>
 </ResourceDictionary>

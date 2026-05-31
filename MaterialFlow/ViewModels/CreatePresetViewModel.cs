@@ -21,7 +21,9 @@ public class CreatePresetViewModel : INotifyPropertyChanged
     private string _originalName = string.Empty;
     private bool _isManualMode = false;
 
-    public string WindowTitle => _isEditMode ? $"Edit {_originalName}" : "Create Preset";
+    public string WindowTitle => _isEditMode
+        ? $"{GetLocalizedString("TitleEditPreset")} {_originalName}"
+        : GetLocalizedString("TitleCreatePreset");
 
     public ObservableCollection<Platform> Platforms { get; } = new();
     public ObservableCollection<string> Resolutions { get; } = new() { "1920x1080", "1280x720", "720x1280", "1080x1080", "2560x1440", "3840x2160", "1440x2560", "2160x3840" };
@@ -139,7 +141,7 @@ public class CreatePresetViewModel : INotifyPropertyChanged
             ErrorMessage = GetLocalizedString("ErrorInvalidFPS");
             return false;
         }
-        
+
         ErrorMessage = string.Empty;
         return true;
     }

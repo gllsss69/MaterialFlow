@@ -73,6 +73,7 @@
     <sys:String x:Key="LoginBtnRegister">Register</sys:String>
     <sys:String x:Key="LoginSwitchToRegister">Don't have an account? Register</sys:String>
     <sys:String x:Key="LoginSwitchToLogin">Already have an account? Login</sys:String>
+    <sys:String x:Key="LabelRole">Role</sys:String>
 
     <!-- Sorting & Favorites -->
     <sys:String x:Key="SortByNameAsc">Name (A-Z)</sys:String>
@@ -124,4 +125,49 @@
     <sys:String x:Key="ErrorInvalidFPS">Invalid FPS (e.g., 30 or 60).</sys:String>
     <sys:String x:Key="ErrorInvalidFormat">Invalid format (e.g., .mp4).</sys:String>
     <sys:String x:Key="ErrorInvalidCodec">Invalid codec (e.g., libx264).</sys:String>
+
+    <!-- Additional UI Labels -->
+    <sys:String x:Key="LabelIcon">Icon</sys:String>
+    <sys:String x:Key="LabelDefaultSettings">Default Settings</sys:String>
+    <sys:String x:Key="MsgAdminEditPlatforms">To edit platforms, log in as Administrator.</sys:String>
+    <sys:String x:Key="BtnCreatePlatform">Create Platform</sys:String>
+    <sys:String x:Key="LabelSearchPlatforms">Search platforms...</sys:String>
+    <sys:String x:Key="MsgAdminEditPresets">To edit presets, log in as Administrator.</sys:String>
+    <sys:String x:Key="BtnCreatePreset">Create Preset</sys:String>
+    <sys:String x:Key="LabelSearchPresets">Search presets...</sys:String>
+    <sys:String x:Key="TextAppVersion">Version 1.0.1</sys:String>
+    <sys:String x:Key="LabelPlatformName">Platform Name</sys:String>
+    <sys:String x:Key="LabelPresetName">Preset Name</sys:String>
+    <sys:String x:Key="LabelSelectPreset">Select Preset</sys:String>
+    <sys:String x:Key="TitleCreatePlatform">Create Platform</sys:String>
+    <sys:String x:Key="TitleEditPlatform">Edit Platform</sys:String>
+    <sys:String x:Key="TitleCreatePreset">Create Preset</sys:String>
+    <sys:String x:Key="TitleEditPreset">Edit Preset</sys:String>
+    <sys:String x:Key="BtnEdit">Edit</sys:String>
+    <sys:String x:Key="PlaceholderResolution">e.g. 1920x1080</sys:String>
+    <sys:String x:Key="PlaceholderBitrate">e.g. 5000</sys:String>
+    <sys:String x:Key="PlaceholderFPS">e.g. 60</sys:String>
+    <sys:String x:Key="PlaceholderCodec">e.g. libx264</sys:String>
+    <sys:String x:Key="PlaceholderFormat">e.g. .mp4</sys:String>
+    <sys:String x:Key="LabelFFmpegStatusPrefix">FFmpeg Status:</sys:String>
+    <sys:String x:Key="FFmpegAvailable">Available</sys:String>
+    <sys:String x:Key="FFmpegNotFound">Not Found</sys:String>
+    <sys:String x:Key="FFmpegNotFoundInPath">FFmpeg not found in system PATH</sys:String>
+    <sys:String x:Key="StatusError">Error</sys:String>
+    <sys:String x:Key="StatusErrorCreatingDirectory">Error creating directory</sys:String>
+    <sys:String x:Key="StatusPendingInQueue">Pending in queue...</sys:String>
+    <sys:String x:Key="StatusProcessing">Processing...</sys:String>
+    <sys:String x:Key="StatusProcessingPrefix">Processing</sys:String>
+    <sys:String x:Key="AuthLoginPasswordRequired">Login and password are required.</sys:String>
+    <sys:String x:Key="AuthUserAlreadyExists">User already exists.</sys:String>
+    <sys:String x:Key="AuthRegistrationSuccessful">Registration successful.</sys:String>
+    <sys:String x:Key="AuthInvalidLoginOrPassword">Invalid login or password.</sys:String>
+    <sys:String x:Key="AuthLoginSuccessful">Login successful.</sys:String>
+    <sys:String x:Key="DialogSelectSourceVideo">Select Source Video</sys:String>
+    <sys:String x:Key="DialogVideoFiles">Video files</sys:String>
+    <sys:String x:Key="DialogSelectDestinationFolder">Select Destination Folder</sys:String>
+    <sys:String x:Key="DialogSelectDefaultProjectsFolder">Select Default Projects Folder</sys:String>
+    <sys:String x:Key="LogProject">Project</sys:String>
+    <sys:String x:Key="LogCreated">Created</sys:String>
+    <sys:String x:Key="LogSource">Source</sys:String>
 </ResourceDictionary>

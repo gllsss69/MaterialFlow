@@ -23,16 +23,16 @@
         <Style Selector="RadioButton.Chip">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Border Name="PART_RootBorder" 
-                            Background="{DynamicResource SurfaceBrush}" 
-                            CornerRadius="16" 
-                            Padding="10,6" 
+                    <Border Name="PART_RootBorder"
+                            Background="{DynamicResource SurfaceBrush}"
+                            CornerRadius="16"
+                            Padding="10,6"
                             Margin="0,0,5,8">
-                        <ContentPresenter Name="PART_ContentPresenter" 
-                                   Content="{TemplateBinding Content}" 
-                                   TextElement.Foreground="{DynamicResource OnSurfaceBrush}" 
-                                   TextElement.FontWeight="Medium"
-                                   TextElement.FontSize="13"/>
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          TextElement.Foreground="{DynamicResource OnSurfaceBrush}"
+                                          TextElement.FontWeight="Medium"
+                                          TextElement.FontSize="13"/>
                     </Border>
                 </ControlTemplate>
             </Setter>
@@ -43,14 +43,14 @@
         <Style Selector="RadioButton.Chip:checked /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSecondaryContainerBrush}"/>
         </Style>
-        
+
         <Style Selector="ComboBox.dense">
             <Setter Property="Height" Value="52"/>
             <Setter Property="Padding" Value="12,0"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
         <Style Selector="ComboBox.dense:disabled">
-            <!-- ������ ��������� "�����" ���� IsEnabled = false -->
+            <!-- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅ" пїЅпїЅпїЅпїЅ IsEnabled = false -->
             <Setter Property="Opacity" Value="0.5"/>
         </Style>
     </Window.Styles>
@@ -78,19 +78,19 @@
             <TextBlock Grid.Row="0" Text="{DynamicResource HeaderCreateProject}" FontSize="26" FontWeight="Normal" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,10"/>
 
             <StackPanel Grid.Row="1" Spacing="10">
-                    <!-- Name Input -->
+                <!-- Name Input -->
                 <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
                          p1:TextFieldAssist.Label="{DynamicResource LabelProjectName}"
-                         
+
                          Background="{DynamicResource SurfaceVariantBrush}"
-                         
+
                          Text="{Binding ProjectName}"/>
 
                 <!-- Source File Selection -->
                 <Panel>
                     <!-- Button when no file selected -->
                     <Button Theme="{StaticResource MaterialOutlineButton}"
-                            Height="44" 
+                            Height="44"
                             HorizontalAlignment="Stretch"
                             IsVisible="{Binding !IsSourceFileSelected}"
                             Click="SelectSourceFile_Click"
@@ -101,27 +101,27 @@
                             <TextBlock Text="{DynamicResource LabelSelectVideoFile}" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold"/>
                         </StackPanel>
                     </Button>
-                    
+
                     <!-- File info when selected -->
-                    <Border Height="44" 
-                            CornerRadius="22" 
-                            BorderThickness="1" 
+                    <Border Height="44"
+                            CornerRadius="22"
+                            BorderThickness="1"
                             BorderBrush="{DynamicResource PrimaryBrush}"
                             Background="{DynamicResource SecondaryContainerBrush}"
                             Padding="16,0"
                             IsVisible="{Binding IsSourceFileSelected}">
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <material:MaterialIcon Kind="FileCheck" Width="24" Height="24" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                            <TextBlock Grid.Column="1" 
-                                       Text="{Binding SourceFileName}" 
-                                       VerticalAlignment="Center" 
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding SourceFileName}"
+                                       VerticalAlignment="Center"
                                        Margin="12,0"
                                        Foreground="{DynamicResource OnSecondaryContainerBrush}"
                                        FontWeight="Medium"
                                        TextTrimming="CharacterEllipsis"/>
-                            <Button Grid.Column="2" 
+                            <Button Grid.Column="2"
                                     Theme="{StaticResource MaterialFlatButton}"
-                                    Width="40" Height="40" 
+                                    Width="40" Height="40"
                                     Padding="0"
                                     Click="SelectSourceFile_Click"
                                     ToolTip.Tip="Change file">
@@ -142,9 +142,9 @@
                              IsReadOnly="True"
                              PlaceholderText="{DynamicResource LabelSavePathPlaceholder}"
                              Text="{Binding SavePath}"/>
-                    <Button Grid.Column="1" 
-                            Classes="Flat" 
-                            Width="48" Height="48" 
+                    <Button Grid.Column="1"
+                            Classes="Flat"
+                            Width="48" Height="48"
                             Margin="8,4,0,0"
                             Padding="0"
                             Click="SelectPath_Click">
@@ -155,8 +155,8 @@
                 <!-- Platform Selection -->
                 <StackPanel Spacing="8">
                     <TextBlock Text="{DynamicResource HeaderPlatform}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="14"/>
-                    <ListBox ItemsSource="{Binding AvailablePlatforms}" SelectedItem="{Binding SelectedPlatform, Mode=TwoWay}" 
-                             Background="Transparent" BorderThickness="0" Padding="0" MinHeight="0" 
+                    <ListBox ItemsSource="{Binding AvailablePlatforms}" SelectedItem="{Binding SelectedPlatform, Mode=TwoWay}"
+                             Background="Transparent" BorderThickness="0" Padding="0" MinHeight="0"
                              ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -179,15 +179,15 @@
                                 <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
                                 <Setter Property="Template">
                                     <ControlTemplate>
-                                        <Border Name="PART_RootBorder" 
-                                                Background="{TemplateBinding Background}" 
-                                                CornerRadius="16" 
-                                                Padding="{TemplateBinding Padding}" 
+                                        <Border Name="PART_RootBorder"
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="16"
+                                                Padding="{TemplateBinding Padding}"
                                                 Margin="{TemplateBinding Margin}">
-                                            <ContentPresenter Name="PART_ContentPresenter" 
-                                                              Content="{TemplateBinding Content}" 
+                                            <ContentPresenter Name="PART_ContentPresenter"
+                                                              Content="{TemplateBinding Content}"
                                                               ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                              TextElement.Foreground="{TemplateBinding Foreground}" 
+                                                              TextElement.Foreground="{TemplateBinding Foreground}"
                                                               TextElement.FontWeight="Medium"
                                                               TextElement.FontSize="13"/>
                                         </Border>
@@ -205,8 +205,8 @@
                 </StackPanel>
 
                 <!-- Preset Selection -->
-                <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                          p1:ComboBoxAssist.Label="Select Preset" 
+                <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                          p1:ComboBoxAssist.Label="{DynamicResource LabelSelectPreset}"
                           Classes="dense"
                           Foreground="{DynamicResource PrimaryBrush}"
                           ItemsSource="{Binding AvailablePresets}"
@@ -220,7 +220,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                 <!-- Settings -->
+                <!-- Settings -->
                 <!-- Manual Mode Toggle -->
                 <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,4">
                     <TextBlock Text="{DynamicResource LabelManualSettings}" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="14"/>
@@ -231,8 +231,8 @@
                     <!-- Resolution -->
                     <Panel Grid.Row="0" Grid.Column="0" Margin="0,0,8,8">
                         <ComboBox Name="ResolutionComboBox"
-                                  Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderResolution}" 
+                                  Theme="{StaticResource MaterialOutlineComboBox}"
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderResolution}"
                                   Classes="dense"
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding Resolutions}"
@@ -241,8 +241,8 @@
                                   IsVisible="{Binding !IsManualMode}"
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                                 p1:TextFieldAssist.Label="{DynamicResource HeaderResolution}"
-                                 Watermark="e.g. 1920x1080"
+                                p1:TextFieldAssist.Label="{DynamicResource HeaderResolution}"
+                                PlaceholderText="{DynamicResource PlaceholderResolution}"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedResolution}"
                                  IsVisible="{Binding IsManualMode}"
@@ -251,8 +251,8 @@
 
                     <!-- Bitrate -->
                     <Panel Grid.Row="0" Grid.Column="1" Margin="8,0,0,8">
-                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderBitrate}" 
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderBitrate}"
                                   Classes="dense"
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding Bitrates}"
@@ -261,8 +261,8 @@
                                   IsVisible="{Binding !IsManualMode}"
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                                 p1:TextFieldAssist.Label="{DynamicResource HeaderBitrate}"
-                                 Watermark="e.g. 5000"
+                                p1:TextFieldAssist.Label="{DynamicResource HeaderBitrate}"
+                                PlaceholderText="{DynamicResource PlaceholderBitrate}"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedBitrate}"
                                  IsVisible="{Binding IsManualMode}"
@@ -271,8 +271,8 @@
 
                     <!-- FPS -->
                     <Panel Grid.Row="1" Grid.Column="0" Margin="0,0,8,8">
-                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="FPS" 
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderFPS}"
                                   Classes="dense"
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding FPSs}"
@@ -281,8 +281,8 @@
                                   IsVisible="{Binding !IsManualMode}"
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                                 p1:TextFieldAssist.Label="FPS (fps)"
-                                 Watermark="e.g. 60"
+                                p1:TextFieldAssist.Label="{DynamicResource HeaderFPS}"
+                                PlaceholderText="{DynamicResource PlaceholderFPS}"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedFPS}"
                                  IsVisible="{Binding IsManualMode}"
@@ -291,8 +291,8 @@
 
                     <!-- Codec -->
                     <Panel Grid.Row="1" Grid.Column="1" Margin="8,0,0,8">
-                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderCodec}" 
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderCodec}"
                                   Classes="dense"
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding Codecs}"
@@ -301,8 +301,8 @@
                                   IsVisible="{Binding !IsManualMode}"
                                   HorizontalAlignment="Stretch"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                                 p1:TextFieldAssist.Label="{DynamicResource HeaderCodec}"
-                                 Watermark="e.g. libx264"
+                                p1:TextFieldAssist.Label="{DynamicResource HeaderCodec}"
+                                PlaceholderText="{DynamicResource PlaceholderCodec}"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedCodec}"
                                  IsVisible="{Binding IsManualMode}"
@@ -311,16 +311,16 @@
 
                     <!-- Format (always editable) -->
                     <Panel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderFormat}" 
+                        <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+                                  p1:ComboBoxAssist.Label="{DynamicResource HeaderFormat}"
                                   Classes="dense"
                                   Foreground="{DynamicResource PrimaryBrush}"
                                   ItemsSource="{Binding Formats}"
                                   SelectedItem="{Binding SelectedFormat}"
                                   IsVisible="{Binding !IsManualMode}"/>
                         <TextBox UseFloatingPlaceholder="True" Classes="outline dense" Theme="{StaticResource OutlineTextBox}"
-                                 p1:TextFieldAssist.Label="{DynamicResource HeaderFormat}"
-                                 Watermark="e.g. .mp4"
+                                p1:TextFieldAssist.Label="{DynamicResource HeaderFormat}"
+                                PlaceholderText="{DynamicResource PlaceholderFormat}"
                                  Foreground="{DynamicResource PrimaryBrush}"
                                  Text="{Binding SelectedFormat}"
                                  IsVisible="{Binding IsManualMode}"/>
@@ -337,14 +337,14 @@
             <!-- Actions -->
             <StackPanel Grid.Row="2" Margin="0,10,0,0">
                 <!-- Error Message -->
-                <TextBlock Text="{Binding ErrorMessage}" 
-                           Foreground="#B3261E" 
-                           FontWeight="Medium" 
-                           FontSize="14" 
-                           HorizontalAlignment="Right" 
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="#B3261E"
+                           FontWeight="Medium"
+                           FontSize="14"
+                           HorizontalAlignment="Right"
                            Margin="0,0,0,16"
                            IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-                           
+
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="24">
                     <Button Content="{DynamicResource BtnCancel}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Cancel_Click" FontSize="16"/>
                     <Button Content="{DynamicResource BtnCreate}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" Click="Create_Click" FontSize="16"/>

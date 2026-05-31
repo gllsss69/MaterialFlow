@@ -442,11 +442,11 @@
                             <Button.Flyout>
                                 <MenuFlyout Placement="BottomEdgeAlignedLeft" ItemsSource="{Binding StatusFilters}"/>
                             </Button.Flyout>
-                            <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8" MinWidth="0">
                                 <material:MaterialIcon Kind="FilterVariant" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="{DynamicResource LabelStatus}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="{Binding SelectedStatusFilter.DisplayName}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
-                            </StackPanel>
+                                <TextBlock Grid.Column="1" Text="{DynamicResource LabelStatus}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Grid.Column="2" Text="{Binding SelectedStatusFilter.DisplayName}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" TextTrimming="CharacterEllipsis"/>
+                            </Grid>
                         </Button>
 
                         <!-- Platform Filter -->
@@ -466,11 +466,11 @@
                             <Button.Flyout>
                                 <MenuFlyout Placement="BottomEdgeAlignedLeft" ItemsSource="{Binding PlatformFilters}"/>
                             </Button.Flyout>
-                            <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8" MinWidth="0">
                                 <material:MaterialIcon Kind="MonitorDashboard" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="{DynamicResource LabelPlatform}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="{Binding SelectedPlatformFilter.DisplayName}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
-                            </StackPanel>
+                                <TextBlock Grid.Column="1" Text="{DynamicResource LabelPlatform}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <TextBlock Grid.Column="2" Text="{Binding SelectedPlatformFilter.DisplayName}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" TextTrimming="CharacterEllipsis"/>
+                            </Grid>
                         </Button>
 
                         <!-- Sorting Options -->
@@ -501,8 +501,10 @@
                             </Button.Flyout>
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <material:MaterialIcon Kind="Sort" Width="18" Height="18" Opacity="0.8" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text="{DynamicResource LabelSortBy}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
-                                <TextBlock Text=":" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                <StackPanel Orientation="Horizontal" Spacing="0">
+                                    <TextBlock Text="{DynamicResource LabelSortBy}" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                    <TextBlock Text=":" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource OnSecondaryContainerBrush}"/>
+                                </StackPanel>
                                 <TextBlock Text="{Binding SelectedSortText}" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
                             </StackPanel>
                         </Button>
@@ -698,4 +700,3 @@
     </Border>
 </Grid>
 </Window>
-

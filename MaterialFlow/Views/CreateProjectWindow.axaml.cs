@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using MaterialFlow.Services;
 using MaterialFlow.ViewModels;
 using System.Threading.Tasks;
 
@@ -26,11 +27,11 @@ public partial class CreateProjectWindow : Window
 
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Select Source Video",
+            Title = LocalizationService.Get("DialogSelectSourceVideo", "Select Source Video"),
             AllowMultiple = false,
             FileTypeFilter = new[] 
             { 
-                new FilePickerFileType("Video files") 
+                new FilePickerFileType(LocalizationService.Get("DialogVideoFiles", "Video files")) 
                 { 
                     Patterns = new[] { "*.mp4", "*.mkv", "*.avi", "*.mov" } 
                 } 
@@ -52,7 +53,7 @@ public partial class CreateProjectWindow : Window
 
         var folders = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
-            Title = "Select Destination Folder",
+            Title = LocalizationService.Get("DialogSelectDestinationFolder", "Select Destination Folder"),
             AllowMultiple = false
         });
 

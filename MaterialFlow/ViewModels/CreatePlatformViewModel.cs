@@ -17,14 +17,19 @@ public class CreatePlatformViewModel : INotifyPropertyChanged
     private PlatformIconItem _iconKind;
     private string _errorMessage = string.Empty;
     private bool _isManualMode = false;
-    
+
     private string _resolution = "1920x1080";
     private string _bitrate = "5000";
     private string _frameRate = "30";
     private string _codec = "libx264";
 
-    public string WindowTitle => _editingPlatform == null ? "Create Platform" : "Edit Platform";
-    public string SubmitButtonText => _editingPlatform == null ? "Create" : "Save";
+    public string WindowTitle => _editingPlatform == null
+        ? GetLocalizedString("TitleCreatePlatform")
+        : GetLocalizedString("TitleEditPlatform");
+
+    public string SubmitButtonText => _editingPlatform == null
+        ? GetLocalizedString("BtnCreate")
+        : GetLocalizedString("BtnSave");
 
     public string PlatformName
     {
@@ -115,7 +120,7 @@ public class CreatePlatformViewModel : INotifyPropertyChanged
     /// Валідує введені дані платформи, додає її в DataService та зберігає зміни у файл.
     /// </summary>
     /// <returns>Об'єкт створеної чи оновленої моделі Platform у разі успіху; null — у разі помилки.</returns>
-        private string GetLocalizedString(string key)
+    private string GetLocalizedString(string key)
     {
         if (Avalonia.Application.Current?.Resources.TryGetResource(key, null, out var value) == true && value is string s)
         {
@@ -150,7 +155,7 @@ public class CreatePlatformViewModel : INotifyPropertyChanged
             return null;
         }
 
-                if (!System.Text.RegularExpressions.Regex.IsMatch(Resolution?.Trim() ?? "", @"^\d+x\d+$"))
+        if (!System.Text.RegularExpressions.Regex.IsMatch(Resolution?.Trim() ?? "", @"^\d+x\d+$"))
         {
             ErrorMessage = GetLocalizedString("ErrorInvalidResolution");
             return null;
@@ -159,7 +164,7 @@ public class CreatePlatformViewModel : INotifyPropertyChanged
         var platform = _editingPlatform ?? new Platform();
         platform.Name = PlatformName.Trim();
         platform.IconKind = IconKind.Kind;
-        platform.DefaultResolution = Resolution;
+        platform.DefaultResolution = (Resolution ?? string.Empty).Trim();
         platform.DefaultBitrate = bitrateValue;
         platform.DefaultFPS = fpsValue;
         platform.DefaultCodec = Codec;

@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -48,7 +48,7 @@
     <!-- Rename Project Window -->
     <sys:String x:Key="HeaderRenameProject">Zmień nazwę projektu</sys:String>
     <sys:String x:Key="LabelNewName">Nowa nazwa</sys:String>
-    <sys:String x:Key="ErrorProjectExists">Projekt o tej nazwie już istnieje.</sys:String>
+    <sys:String x:Key="ErrorProjectExists">Projekt o tej nazwie istnieje.</sys:String>
     <sys:String x:Key="BtnSave">Zapisz</sys:String>
 
     <!-- Properties Window -->
@@ -108,7 +108,7 @@
     <sys:String x:Key="LabelManualSettings">Ustawienia ręczne</sys:String>
     <sys:String x:Key="ErrorEmptyPlatform">Wybierz platformę.</sys:String>
     <sys:String x:Key="ErrorEmptyFormat">Wybierz format wideo.</sys:String>
-    <sys:String x:Key="ErrorPlatformExists">Platforma o tej nazwie już istnieje.</sys:String>
+    <sys:String x:Key="ErrorPlatformExists">Platforma o tej nazwie istnieje.</sys:String>
     <sys:String x:Key="ErrorEmptySavePath">Wybierz folder docelowy.</sys:String>
     <sys:String x:Key="ErrorEmptyFPS">Wybierz liczbę klatek (FPS).</sys:String>
     <sys:String x:Key="ErrorEmptySourceFile">Wybierz plik wideo źródłowy.</sys:String>
@@ -123,4 +123,50 @@
     <sys:String x:Key="ErrorInvalidFPS">Nieprawidłowe FPS (np. 30 lub 60).</sys:String>
     <sys:String x:Key="ErrorInvalidFormat">Nieprawidłowy format (np. .mp4).</sys:String>
     <sys:String x:Key="ErrorInvalidCodec">Nieprawidłowy kodek (np. libx264).</sys:String>
+
+    <!-- Additional UI Labels -->
+    <sys:String x:Key="LabelIcon">Ikona</sys:String>
+    <sys:String x:Key="LabelDefaultSettings">Ustawienia domyślne</sys:String>
+    <sys:String x:Key="MsgAdminEditPlatforms">Aby edytować platformy, zaloguj się jako Administrator.</sys:String>
+    <sys:String x:Key="BtnCreatePlatform">Utwórz platformę</sys:String>
+    <sys:String x:Key="LabelSearchPlatforms">Szukaj platform...</sys:String>
+    <sys:String x:Key="MsgAdminEditPresets">Aby edytować presety, zaloguj się jako Administrator.</sys:String>
+    <sys:String x:Key="BtnCreatePreset">Utwórz preset</sys:String>
+    <sys:String x:Key="LabelSearchPresets">Szukaj presetów...</sys:String>
+    <sys:String x:Key="TextAppVersion">Wersja 1.0.1</sys:String>
+    <sys:String x:Key="LabelPlatformName">Nazwa platformy</sys:String>
+    <sys:String x:Key="LabelPresetName">Nazwa presetu</sys:String>
+    <sys:String x:Key="LabelRole">Rola</sys:String>
+    <sys:String x:Key="LabelSelectPreset">Wybierz preset</sys:String>
+    <sys:String x:Key="TitleCreatePlatform">Utwórz platformę</sys:String>
+    <sys:String x:Key="TitleEditPlatform">Edytuj platformę</sys:String>
+    <sys:String x:Key="TitleCreatePreset">Utwórz preset</sys:String>
+    <sys:String x:Key="TitleEditPreset">Edytuj</sys:String>
+    <sys:String x:Key="BtnEdit">Edytuj</sys:String>
+    <sys:String x:Key="PlaceholderResolution">np. 1920x1080</sys:String>
+    <sys:String x:Key="PlaceholderBitrate">np. 5000</sys:String>
+    <sys:String x:Key="PlaceholderFPS">np. 60</sys:String>
+    <sys:String x:Key="PlaceholderCodec">np. libx264</sys:String>
+    <sys:String x:Key="PlaceholderFormat">np. .mp4</sys:String>
+    <sys:String x:Key="LabelFFmpegStatusPrefix">Status FFmpeg:</sys:String>
+    <sys:String x:Key="FFmpegAvailable">Dostępny</sys:String>
+    <sys:String x:Key="FFmpegNotFound">Nie znaleziono</sys:String>
+    <sys:String x:Key="FFmpegNotFoundInPath">Nie znaleziono FFmpeg w systemowym PATH</sys:String>
+    <sys:String x:Key="StatusError">Błąd</sys:String>
+    <sys:String x:Key="StatusErrorCreatingDirectory">Błąd tworzenia folderu</sys:String>
+    <sys:String x:Key="StatusPendingInQueue">Oczekuje w kolejce...</sys:String>
+    <sys:String x:Key="StatusProcessing">Przetwarzanie...</sys:String>
+    <sys:String x:Key="StatusProcessingPrefix">Przetwarzanie</sys:String>
+    <sys:String x:Key="AuthLoginPasswordRequired">Login i hasło są wymagane.</sys:String>
+    <sys:String x:Key="AuthUserAlreadyExists">Użytkownik już istnieje.</sys:String>
+    <sys:String x:Key="AuthRegistrationSuccessful">Rejestracja zakończona sukcesem.</sys:String>
+    <sys:String x:Key="AuthInvalidLoginOrPassword">Nieprawidłowy login lub hasło.</sys:String>
+    <sys:String x:Key="AuthLoginSuccessful">Logowanie zakończone sukcesem.</sys:String>
+    <sys:String x:Key="DialogSelectSourceVideo">Wybierz wideo źródłowe</sys:String>
+    <sys:String x:Key="DialogVideoFiles">Pliki wideo</sys:String>
+    <sys:String x:Key="DialogSelectDestinationFolder">Wybierz folder docelowy</sys:String>
+    <sys:String x:Key="DialogSelectDefaultProjectsFolder">Wybierz domyślny folder projektów</sys:String>
+    <sys:String x:Key="LogProject">Projekt</sys:String>
+    <sys:String x:Key="LogCreated">Utworzono</sys:String>
+    <sys:String x:Key="LogSource">Źródło</sys:String>
 </ResourceDictionary>

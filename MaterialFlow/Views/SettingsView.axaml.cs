@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using MaterialFlow.Services;
 using MaterialFlow.ViewModels;
 using System.Threading.Tasks;
 
@@ -39,7 +40,7 @@ public partial class SettingsView : UserControl
 
         var folders = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
-            Title = "Select Default Projects Folder",
+            Title = LocalizationService.Get("DialogSelectDefaultProjectsFolder", "Select Default Projects Folder"),
             AllowMultiple = false
         });
 

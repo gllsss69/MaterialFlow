@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -10,9 +10,9 @@
 
     <!-- Home Page Toolbar -->
     <sys:String x:Key="BtnCreateProject">Vytvoriť projekt</sys:String>
-    <sys:String x:Key="LabelSearchPlaceholder">Hľadať projekty...</sys:String>
+    <sys:String x:Key="LabelSearchPlaceholder">Hľadaj projekty...</sys:String>
     <sys:String x:Key="LabelAllProjects">Všetky projekty</sys:String>
-    <sys:String x:Key="LabelRecent">Nedávne</sys:String>
+    <sys:String x:Key="LabelRecent">Nedávné</sys:String>
     <sys:String x:Key="LabelFavorites">Obľúbené</sys:String>
     
     <!-- Project Card Menu -->
@@ -79,7 +79,7 @@
     <sys:String x:Key="SortByNameDesc">Názov (Z-A)</sys:String>
     <sys:String x:Key="SortByDateDesc">Najnovšie</sys:String>
     <sys:String x:Key="SortByDateAsc">Najstaršie</sys:String>
-    <sys:String x:Key="LabelSortBy">Trieďiť</sys:String>
+    <sys:String x:Key="LabelSortBy">Trieď</sys:String>
     <sys:String x:Key="LabelAddToFavorites">Pridať do obľúbených</sys:String>
     <sys:String x:Key="LabelRemoveFromFavorites">Odstrániť z obľúbených</sys:String>
 
@@ -124,4 +124,48 @@
     <sys:String x:Key="ErrorInvalidFPS">Neplatné FPS (napr. 30 alebo 60).</sys:String>
     <sys:String x:Key="ErrorInvalidFormat">Neplatný formát (napr. .mp4).</sys:String>
     <sys:String x:Key="ErrorInvalidCodec">Neplatný kodek (napr. libx264).</sys:String>
+    <sys:String x:Key="LabelRole">Rola</sys:String>
+    <sys:String x:Key="LabelSelectPreset">Vybrať preset</sys:String>
+    <sys:String x:Key="TitleCreatePlatform">Vytvoriť platformu</sys:String>
+    <sys:String x:Key="TitleEditPlatform">Upraviť platformu</sys:String>
+    <sys:String x:Key="TitleCreatePreset">Vytvoriť preset</sys:String>
+    <sys:String x:Key="TitleEditPreset">Upraviť</sys:String>
+    <sys:String x:Key="LabelIcon">Ikona</sys:String>
+    <sys:String x:Key="LabelDefaultSettings">Predvolené nastavenia</sys:String>
+    <sys:String x:Key="MsgAdminEditPlatforms">Na úpravu platforiem sa prihláste ako administrátor.</sys:String>
+    <sys:String x:Key="BtnCreatePlatform">Vytvoriť platformu</sys:String>
+    <sys:String x:Key="LabelSearchPlatforms">Hľadať platformy...</sys:String>
+    <sys:String x:Key="MsgAdminEditPresets">Na úpravu presetov sa prihláste ako administrátor.</sys:String>
+    <sys:String x:Key="BtnCreatePreset">Vytvoriť preset</sys:String>
+    <sys:String x:Key="LabelSearchPresets">Hľadať presety...</sys:String>
+    <sys:String x:Key="TextAppVersion">Verzia 1.0.0</sys:String>
+    <sys:String x:Key="LabelPlatformName">Názov platformy</sys:String>
+    <sys:String x:Key="LabelPresetName">Názov presetu</sys:String>
+    <sys:String x:Key="BtnEdit">Upraviť</sys:String>
+    <sys:String x:Key="PlaceholderResolution">napr. 1920x1080</sys:String>
+    <sys:String x:Key="PlaceholderBitrate">napr. 5000</sys:String>
+    <sys:String x:Key="PlaceholderFPS">napr. 60</sys:String>
+    <sys:String x:Key="PlaceholderCodec">napr. libx264</sys:String>
+    <sys:String x:Key="PlaceholderFormat">napr. .mp4</sys:String>
+    <sys:String x:Key="LabelFFmpegStatusPrefix">Stav FFmpeg:</sys:String>
+    <sys:String x:Key="FFmpegAvailable">Dostupné</sys:String>
+    <sys:String x:Key="FFmpegNotFound">Nenájdené</sys:String>
+    <sys:String x:Key="FFmpegNotFoundInPath">FFmpeg nebol nájdený v systémovej premennej PATH</sys:String>
+    <sys:String x:Key="StatusError">Chyba</sys:String>
+    <sys:String x:Key="StatusErrorCreatingDirectory">Chyba pri vytváraní priečinka</sys:String>
+    <sys:String x:Key="StatusPendingInQueue">Čaká vo fronte...</sys:String>
+    <sys:String x:Key="StatusProcessing">Spracovanie...</sys:String>
+    <sys:String x:Key="StatusProcessingPrefix">Spracovanie</sys:String>
+    <sys:String x:Key="AuthLoginPasswordRequired">Login a heslo sú povinné.</sys:String>
+    <sys:String x:Key="AuthUserAlreadyExists">Používateľ už existuje.</sys:String>
+    <sys:String x:Key="AuthRegistrationSuccessful">Registrácia bola úspešná.</sys:String>
+    <sys:String x:Key="AuthInvalidLoginOrPassword">Neplatný login alebo heslo.</sys:String>
+    <sys:String x:Key="AuthLoginSuccessful">Prihlásenie bolo úspešné.</sys:String>
+    <sys:String x:Key="DialogSelectSourceVideo">Vyberte zdrojové video</sys:String>
+    <sys:String x:Key="DialogVideoFiles">Video súbory</sys:String>
+    <sys:String x:Key="DialogSelectDestinationFolder">Vyberte cieľový priečinok</sys:String>
+    <sys:String x:Key="DialogSelectDefaultProjectsFolder">Vyberte predvolený priečinok projektov</sys:String>
+    <sys:String x:Key="LogProject">Projekt</sys:String>
+    <sys:String x:Key="LogCreated">Vytvorené</sys:String>
+    <sys:String x:Key="LogSource">Zdroj</sys:String>
 </ResourceDictionary>

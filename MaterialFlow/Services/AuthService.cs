@@ -75,10 +75,10 @@ public class AuthService
     public (bool Success, string Message) Register(string login, string password, string fullName, UserRole role = UserRole.Editor)
     {
         if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
-            return (false, "Login and password are required.");
+            return (false, "AuthLoginPasswordRequired");
 
         if (_users.Any(u => u.Login.Equals(login, StringComparison.OrdinalIgnoreCase)))
-            return (false, "User already exists.");
+            return (false, "AuthUserAlreadyExists");
 
         var user = new User
         {
@@ -90,7 +90,7 @@ public class AuthService
 
         _users.Add(user);
         SaveUsers();
-        return (true, "Registration successful.");
+        return (true, "AuthRegistrationSuccessful");
     }
 
     /// <summary>
@@ -116,15 +116,15 @@ public class AuthService
     {
         var user = _users.FirstOrDefault(u => u.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
         if (user == null)
-            return (false, "Invalid login or password.", null);
+            return (false, "AuthInvalidLoginOrPassword", null);
 
         if (VerifyPassword(password, user.PasswordHash))
         {
             CurrentUser = user;
-            return (true, "Login successful.", user);
+            return (true, "AuthLoginSuccessful", user);
         }
 
-        return (false, "Invalid login or password.", null);
+        return (false, "AuthInvalidLoginOrPassword", null);
     }
 
     /// <summary>

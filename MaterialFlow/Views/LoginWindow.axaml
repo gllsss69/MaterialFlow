@@ -9,7 +9,7 @@
         x:Class="MaterialFlow.Views.LoginWindow"
         x:DataType="vm:LoginViewModel"
         Title="{Binding Title}"
-        Width="480" 
+        Width="480"
         SizeToContent="Height"
         CanResize="False"
         WindowStartupLocation="CenterOwner"
@@ -55,10 +55,10 @@
                     Background="{Binding Message, Converter={StaticResource MessageColorConverter}, ConverterParameter=bg}"
                     CornerRadius="12" Padding="16,12">
                 <StackPanel Orientation="Horizontal" Spacing="12">
-                    <material:MaterialIcon Kind="AlertCircleOutline" Width="20" Height="20" 
-                                            Foreground="{Binding Message, Converter={StaticResource MessageColorConverter}}"/>
-                    <TextBlock Text="{Binding Message}" 
-                               Foreground="{Binding Message, Converter={StaticResource MessageColorConverter}}" 
+                    <material:MaterialIcon Kind="AlertCircleOutline" Width="20" Height="20"
+                                           Foreground="{Binding Message, Converter={StaticResource MessageColorConverter}}"/>
+                    <TextBlock Text="{Binding Message}"
+                               Foreground="{Binding Message, Converter={StaticResource MessageColorConverter}}"
                                FontSize="14" FontWeight="Medium"
                                VerticalAlignment="Center"/>
                 </StackPanel>
@@ -90,7 +90,7 @@
                          Text="{Binding Password}"/>
 
                 <ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
-                          p1:ComboBoxAssist.Label="Role"
+                          p1:ComboBoxAssist.Label="{DynamicResource LabelRole}"
                           Classes="outline"
                           Background="{DynamicResource SurfaceVariantBrush}"
                           IsVisible="{Binding IsRegisterMode}"
@@ -101,11 +101,11 @@
 
             <!-- Actions -->
             <StackPanel Spacing="12" Margin="0,8,0,0">
-                <Button Classes="Capsule PrimaryCapsule" 
+                <Button Classes="Capsule PrimaryCapsule"
                         Theme="{StaticResource MaterialFlatButton}"
                         Background="{DynamicResource PrimaryBrush}"
                         Foreground="{DynamicResource OnPrimaryBrush}"
-                        Height="56" 
+                        Height="56"
                         HorizontalAlignment="Stretch"
                         Click="Auth_Click"
                         CornerRadius="28">

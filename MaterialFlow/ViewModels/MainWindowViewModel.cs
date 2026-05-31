@@ -68,7 +68,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public bool IsLoggedOut => CurrentUser == null;
     public bool IsAdmin => CurrentUser?.Role == UserRole.Admin;
     public bool IsEditor => !IsAdmin;
-    public string UserFullName => CurrentUser?.FullName ?? "Guest";
+    public string UserFullName => CurrentUser?.FullName ?? LocalizationService.Get("LabelGuest", "Guest");
     public string UserInitials => string.IsNullOrWhiteSpace(CurrentUser?.FullName) ? "?" :
         new string(CurrentUser.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToArray()).ToUpper();
 
@@ -139,6 +139,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             _selectedLanguage = value;
             OnPropertyChanged();
             ApplyLanguage(value);
+            OnPropertyChanged(nameof(FFmpegStatusText));
             ProjectList.RefreshLocalizations();
             SaveSettings();
         }
@@ -210,7 +211,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     /// <summary>
     /// Текстове відображення статусу доступності FFmpeg.
     /// </summary>
-    public string FFmpegStatusText => IsFFmpegAvailable ? "Available" : "Not Found";
+    public string FFmpegStatusText => IsFFmpegAvailable
+        ? LocalizationService.Get("FFmpegAvailable", "Available")
+        : LocalizationService.Get("FFmpegNotFound", "Not Found");
 
     private bool _isCheckingFFmpeg;
     /// <summary>
@@ -239,13 +242,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
             }
             else
             {
-                FFmpegVersionText = "FFmpeg not found in system PATH";
+                FFmpegVersionText = LocalizationService.Get("FFmpegNotFoundInPath", "FFmpeg not found in system PATH");
             }
         }
         catch (Exception ex)
         {
             IsFFmpegAvailable = false;
-            FFmpegVersionText = $"Error: {ex.Message}";
+            FFmpegVersionText = $"{LocalizationService.Get("StatusError", "Error")}: {ex.Message}";
         }
         finally
         {
@@ -365,15 +368,7 @@ public class FilterItem : INotifyPropertyChanged
         get
         {
             string key = $"Filter{Name}";
-            if (Avalonia.Application.Current != null)
-            {
-                var activeDict = Avalonia.Application.Current.Resources.MergedDictionaries
-                    .OfType<Avalonia.Controls.ResourceDictionary>()
-                    .LastOrDefault(d => d.ContainsKey("NavHome"));
-                if (activeDict != null && activeDict.TryGetValue(key, out object? val) && val is string s)
-                    return s;
-            }
-            return Name;
+            return LocalizationService.Get(key, Name);
         }
     }
 

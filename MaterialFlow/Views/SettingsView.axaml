@@ -88,14 +88,12 @@
                                         <SolidColorBrush Color="#F44336"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
-                                <TextBlock FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"
-                                           Foreground="{DynamicResource OnSurfaceBrush}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="FFmpeg Status: {0}">
-                                            <Binding Path="FFmpegStatusText"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBlock Text="{DynamicResource LabelFFmpegStatusPrefix}" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"
+                                               Foreground="{DynamicResource OnSurfaceBrush}"/>
+                                    <TextBlock Text="{Binding FFmpegStatusText}" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"
+                                               Foreground="{DynamicResource OnSurfaceBrush}"/>
+                                </StackPanel>
                             </StackPanel>
                             <!-- Version string -->
                             <TextBlock Text="{Binding FFmpegVersionText}" TextWrapping="Wrap"
@@ -124,7 +122,7 @@
                     <Border Background="{DynamicResource SurfaceVariantBrush}" CornerRadius="16" Padding="24" Width="550">
                         <StackPanel Spacing="16">
                             <TextBlock Text="MaterialFlow" FontWeight="Bold" FontSize="20" Foreground="{DynamicResource OnSurfaceBrush}"/>
-                            <TextBlock Text="Version 1.0.0" Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
+                            <TextBlock Text="{DynamicResource TextAppVersion}" Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
                             <TextBlock Text="{DynamicResource TextAboutDescription}" TextWrapping="Wrap" Foreground="{DynamicResource OnSurfaceBrush}"/>
                             <Button Theme="{StaticResource MaterialFlatButton}" Foreground="{DynamicResource PrimaryBrush}" Background="Transparent" HorizontalAlignment="Left" Margin="-16,8,0,0" Click="OpenGitHub_Click" CornerRadius="16">
                                 <StackPanel Orientation="Horizontal" Spacing="8">

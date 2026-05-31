@@ -12,7 +12,7 @@
 
     <Panel x:CompileBindings="False">
         <Border Background="#AA000000" IsVisible="{Binding $parent[Window].DataContext.IsEditor}" ZIndex="1" CornerRadius="24" Margin="24,24,24,24">
-            <TextBlock Text="To edit presets, login as Admin." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="White" FontWeight="Bold"/>
+            <TextBlock Text="{DynamicResource MsgAdminEditPresets}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="White" FontWeight="Bold"/>
         </Border>
 
         <Grid RowDefinitions="Auto,*" IsEnabled="{Binding $parent[Window].DataContext.IsAdmin}">
@@ -21,7 +21,7 @@
                 <Button Classes="Capsule PrimaryCapsule" Height="56" Padding="32,0" Click="CreatePreset_Click">
                     <StackPanel Orientation="Horizontal" Spacing="12">
                         <material:MaterialIcon Kind="Plus" Width="24" Height="24"/>
-                        <TextBlock Text="Create Preset" VerticalAlignment="Center" FontSize="16"/>
+                        <TextBlock Text="{DynamicResource BtnCreatePreset}" VerticalAlignment="Center" FontSize="16"/>
                     </StackPanel>
                 </Button>
 
@@ -30,7 +30,7 @@
                           Height="56"
                           CornerRadius="28"
                           Text="{Binding SearchText, Mode=TwoWay}"
-                          PlaceholderText="Search Presets..."
+                          PlaceholderText="{DynamicResource LabelSearchPresets}"
                           Background="{DynamicResource SurfaceVariantBrush}"
                           BorderThickness="0"
                           VerticalContentAlignment="Center"
@@ -86,9 +86,9 @@
 
                                         <!-- Actions -->
                                         <Grid ColumnDefinitions="*,*">
-                                            <Button Grid.Column="0" Content="Edit" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" 
+                                            <Button Grid.Column="0" Content="{DynamicResource BtnEdit}" Classes="Flat" Foreground="{DynamicResource PrimaryBrush}" 
                                                     Click="EditPreset_Click" Tag="{Binding}" HorizontalAlignment="Stretch" Margin="0,0,4,0"/>
-                                            <Button Grid.Column="1" Content="Delete" Classes="Flat" Foreground="#B3261E" 
+                                            <Button Grid.Column="1" Content="{DynamicResource LabelDelete}" Classes="Flat" Foreground="#B3261E" 
                                                     Click="DeletePreset_Click" Tag="{Binding}" HorizontalAlignment="Stretch" Margin="4,0,0,0"/>
                                         </Grid>
                                     </StackPanel>

@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
     <!-- Sidebar / Navigation -->
@@ -60,7 +60,7 @@
     <sys:String x:Key="LabelCodec">Кодек</sys:String>
     <sys:String x:Key="LabelFPS">Кадри/с</sys:String>
     <sys:String x:Key="LabelSize">Розмір</sys:String>
-    <sys:String x:Key="LabelPath">Шлях</sys:String>
+    <sys:String x:Key="LabelPath">Шлях…</sys:String>
     <sys:String x:Key="BtnBack">Назад</sys:String>
 
     <!-- Login Window -->
@@ -80,8 +80,8 @@
     <sys:String x:Key="SortByDateDesc">Спочатку нові</sys:String>
     <sys:String x:Key="SortByDateAsc">Спочатку старі</sys:String>
     <sys:String x:Key="LabelSortBy">Сортування</sys:String>
-    <sys:String x:Key="LabelAddToFavorites">Додати до обраних</sys:String>
-    <sys:String x:Key="LabelRemoveFromFavorites">Вилучити з обраних</sys:String>
+    <sys:String x:Key="LabelAddToFavorites">Додати до обраних…</sys:String>
+    <sys:String x:Key="LabelRemoveFromFavorites">Вилучити з обраних…</sys:String>
     <!-- Pagination -->
     <sys:String x:Key="LabelItemsPerPage">Елементів на сторінці:</sys:String>
     <sys:String x:Key="LabelPrevious">Попередня</sys:String>
@@ -123,4 +123,48 @@
     <sys:String x:Key="ErrorInvalidFPS">Недійсний FPS (напр., 30 або 60).</sys:String>
     <sys:String x:Key="ErrorInvalidFormat">Недійсний формат (напр., .mp4).</sys:String>
     <sys:String x:Key="ErrorInvalidCodec">Недійсний кодек (напр., libx264).</sys:String>
+    <sys:String x:Key="LabelIcon">Іконка</sys:String>
+    <sys:String x:Key="LabelDefaultSettings">Типові налаштування</sys:String>
+    <sys:String x:Key="MsgAdminEditPlatforms">Щоб редагувати платформи, увійдіть як адміністратор.</sys:String>
+    <sys:String x:Key="BtnCreatePlatform">Створити платформу</sys:String>
+    <sys:String x:Key="LabelSearchPlatforms">Пошук платформ...</sys:String>
+    <sys:String x:Key="MsgAdminEditPresets">Щоб редагувати пресети, увійдіть як адміністратор.</sys:String>
+    <sys:String x:Key="BtnCreatePreset">Створити пресет</sys:String>
+    <sys:String x:Key="LabelSearchPresets">Пошук пресетів...</sys:String>
+    <sys:String x:Key="TextAppVersion">Версія 1.0.1</sys:String>
+    <sys:String x:Key="LabelPlatformName">Назва платформи</sys:String>
+    <sys:String x:Key="LabelPresetName">Назва пресета</sys:String>
+    <sys:String x:Key="LabelRole">Роль</sys:String>
+    <sys:String x:Key="LabelSelectPreset">Оберіть пресет</sys:String>
+    <sys:String x:Key="TitleCreatePlatform">Створити платформу</sys:String>
+    <sys:String x:Key="TitleEditPlatform">Редагувати платформу</sys:String>
+    <sys:String x:Key="TitleCreatePreset">Створити пресет</sys:String>
+    <sys:String x:Key="TitleEditPreset">Редагувати</sys:String>
+    <sys:String x:Key="BtnEdit">Редагувати</sys:String>
+    <sys:String x:Key="PlaceholderResolution">напр. 1920x1080</sys:String>
+    <sys:String x:Key="PlaceholderBitrate">напр. 5000</sys:String>
+    <sys:String x:Key="PlaceholderFPS">напр. 60</sys:String>
+    <sys:String x:Key="PlaceholderCodec">напр. libx264</sys:String>
+    <sys:String x:Key="PlaceholderFormat">напр. .mp4</sys:String>
+    <sys:String x:Key="LabelFFmpegStatusPrefix">Статус FFmpeg:</sys:String>
+    <sys:String x:Key="FFmpegAvailable">Доступний</sys:String>
+    <sys:String x:Key="FFmpegNotFound">Не знайдено</sys:String>
+    <sys:String x:Key="FFmpegNotFoundInPath">FFmpeg не знайдено в системному PATH</sys:String>
+    <sys:String x:Key="StatusError">Помилка</sys:String>
+    <sys:String x:Key="StatusErrorCreatingDirectory">Помилка створення папки</sys:String>
+    <sys:String x:Key="StatusPendingInQueue">Очікує в черзі...</sys:String>
+    <sys:String x:Key="StatusProcessing">Обробка...</sys:String>
+    <sys:String x:Key="StatusProcessingPrefix">Обробка</sys:String>
+    <sys:String x:Key="AuthLoginPasswordRequired">Логін і пароль обов'язкові.</sys:String>
+    <sys:String x:Key="AuthUserAlreadyExists">Користувач уже існує.</sys:String>
+    <sys:String x:Key="AuthRegistrationSuccessful">Реєстрація успішна.</sys:String>
+    <sys:String x:Key="AuthInvalidLoginOrPassword">Неправильний логін або пароль.</sys:String>
+    <sys:String x:Key="AuthLoginSuccessful">Вхід успішний.</sys:String>
+    <sys:String x:Key="DialogSelectSourceVideo">Оберіть вихідне відео</sys:String>
+    <sys:String x:Key="DialogVideoFiles">Відеофайли</sys:String>
+    <sys:String x:Key="DialogSelectDestinationFolder">Оберіть папку призначення</sys:String>
+    <sys:String x:Key="DialogSelectDefaultProjectsFolder">Оберіть типову папку проєктів</sys:String>
+    <sys:String x:Key="LogProject">Проєкт</sys:String>
+    <sys:String x:Key="LogCreated">Створено</sys:String>
+    <sys:String x:Key="LogSource">Джерело</sys:String>
 </ResourceDictionary>

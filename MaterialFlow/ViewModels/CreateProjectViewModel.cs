@@ -341,14 +341,7 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(IsManualSettingsEnabled));
     }
 
-    private string GetLocalizedString(string key)
-    {
-        if (Avalonia.Application.Current?.Resources.TryGetResource(key, null, out var value) == true && value is string s)
-        {
-            return s;
-        }
-        return key;
-    }
+    private string GetLocalizedString(string key) => LocalizationService.Get(key, key);
 
     /// <summary>
     /// Перевіряє коректність заповнення форми створення проєкту.
@@ -458,7 +451,7 @@ public class CreateProjectViewModel : INotifyPropertyChanged
         try
         {
             var logPath = System.IO.Path.Combine(SavePath, "project_log.txt");
-            var logContent = $"Project: {ProjectName}\nCreated: {System.DateTime.Now}\nSource: {SourceFilePath}\n";
+            var logContent = $"{LocalizationService.Get("LogProject", "Project")}: {ProjectName}\n{LocalizationService.Get("LogCreated", "Created")}: {System.DateTime.Now}\n{LocalizationService.Get("LogSource", "Source")}: {SourceFilePath}\n";
             System.IO.File.WriteAllText(logPath, logContent);
         }
         catch

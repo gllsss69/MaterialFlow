@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Avalonia;
 using MaterialFlow.Models;
 using MaterialFlow.Services;
 
@@ -63,17 +62,10 @@ public class LoginViewModel : INotifyPropertyChanged
     }
 
     public bool IsLoginMode => !IsRegisterMode;
-    public string Title => Res(IsRegisterMode ? "LoginTitleRegister" : "LoginTitleLogin", IsRegisterMode ? "Create Account" : "Login");
-    public string ButtonText => Res(IsRegisterMode ? "LoginBtnRegister" : "LoginBtnLogin", IsRegisterMode ? "Register" : "Login");
-    public string SwitchText => Res(IsRegisterMode ? "LoginSwitchToLogin" : "LoginSwitchToRegister",
+    public string Title => LocalizationService.Get(IsRegisterMode ? "LoginTitleRegister" : "LoginTitleLogin", IsRegisterMode ? "Create Account" : "Login");
+    public string ButtonText => LocalizationService.Get(IsRegisterMode ? "LoginBtnRegister" : "LoginBtnLogin", IsRegisterMode ? "Register" : "Login");
+    public string SwitchText => LocalizationService.Get(IsRegisterMode ? "LoginSwitchToLogin" : "LoginSwitchToRegister",
         IsRegisterMode ? "Already have an account? Login" : "Don't have an account? Register");
-
-    private static string Res(string key, string fallback)
-    {
-        if (Application.Current?.Resources.TryGetResource(key, null, out var value) == true && value is string s)
-            return s;
-        return fallback;
-    }
 
     /// <summary>
     /// Виконує реєстрацію нового акаунта або вхід в існуючий профіль через AuthService.
@@ -84,7 +76,7 @@ public class LoginViewModel : INotifyPropertyChanged
         if (IsRegisterMode)
         {
             var result = AuthService.Instance.Register(Login, Password, FullName, SelectedRole);
-            Message = result.Message;
+            Message = LocalizationService.Get(result.Message, result.Message);
             if (result.Success)
             {
                 IsRegisterMode = false; // Switch to login after registration
@@ -94,7 +86,7 @@ public class LoginViewModel : INotifyPropertyChanged
         else
         {
             var result = AuthService.Instance.Login(Login, Password);
-            Message = result.Message;
+            Message = LocalizationService.Get(result.Message, result.Message);
             return result.Success;
         }
     }
