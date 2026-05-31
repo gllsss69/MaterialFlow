@@ -50,7 +50,29 @@ The application follows a clean structure utilizing JSON for data storage. Key e
 ### Prerequisites
 
 1. **.NET 9.0 SDK**: Download and install from [Microsoft's official site](https://dotnet.microsoft.com/download/dotnet/9.0).
-2. **FFmpeg**: Ensure `ffmpeg.exe` is installed and added to your system's PATH, or placed in the application's execution directory.
+2. **FFmpeg**: Must be installed and accessible via your system's PATH variable. You can quickly install it using the following package managers:
+
+   - **Windows (winget):**
+     ```cmd
+     winget install Gyan.FFmpeg
+     ```
+   
+   - **Linux (Ubuntu / Debian):**
+     ```bash
+     sudo apt update
+     sudo apt install ffmpeg
+     ```
+   
+   - **Linux (Fedora):**
+     ```bash
+     sudo dnf install ffmpeg
+     ```
+   
+   - **Linux (Arch Linux):**
+     ```bash
+     sudo pacman -S ffmpeg
+     ```
+
 
 ### Installation & Run
 
