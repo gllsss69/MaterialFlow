@@ -131,7 +131,6 @@
     <sys:String x:Key="TitleCreatePreset">Preset erstellen</sys:String>
     <sys:String x:Key="TitleEditPreset">Bearbeiten preset</sys:String>
     <sys:String x:Key="LabelIcon">Symbol</sys:String>
-    <sys:String x:Key="LabelDefaultSettings">Standardeinstellungen</sys:String>
     <sys:String x:Key="MsgAdminEditPlatforms">Melden Sie sich als Administrator an, um Plattformen zu bearbeiten.</sys:String>
     <sys:String x:Key="BtnCreatePlatform">Plattform erstellen</sys:String>
     <sys:String x:Key="LabelSearchPlatforms">Plattformen suchen...</sys:String>

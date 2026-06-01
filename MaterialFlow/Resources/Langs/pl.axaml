@@ -126,7 +126,6 @@
 
     <!-- Additional UI Labels -->
     <sys:String x:Key="LabelIcon">Ikona</sys:String>
-    <sys:String x:Key="LabelDefaultSettings">Ustawienia domyślne</sys:String>
     <sys:String x:Key="MsgAdminEditPlatforms">Aby edytować platformy, zaloguj się jako Administrator.</sys:String>
     <sys:String x:Key="BtnCreatePlatform">Utwórz platformę</sys:String>
     <sys:String x:Key="LabelSearchPlatforms">Szukaj platform...</sys:String>

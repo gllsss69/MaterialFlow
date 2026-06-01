@@ -14,16 +14,30 @@ public class SettingsService
 
     private readonly string _settingsPath;
 
-    private SettingsService()
+    /// <summary>
+    /// Отримує типовий шлях збереження проєктів залежно від операційної системи.
+    /// </summary>
+    private static string GetDefaultProjectsPath()
     {
-        _settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
+        return Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            "MaterialFlow",
+            "Projects"
+        );
     }
 
     public string SelectedLanguage { get; set; } = "English";
     public string SelectedTheme { get; set; } = "System Default";
-    public string DefaultSavePath { get; set; } = "C:\\Users\\maksim\\Documents\\MaterialFlow\\Projects";
+    public string DefaultSavePath { get; set; }
     public string LastLoginUser { get; set; } = string.Empty;
     public bool EnableProjectLogging { get; set; }
+
+    private SettingsService()
+    {
+        _settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
+        // Ініціалізація типового шляху при створенні екземпляра
+        DefaultSavePath = GetDefaultProjectsPath();
+    }
 
     /// <summary>
     /// Зберігає поточні налаштування у файл settings.json.
@@ -69,7 +83,22 @@ public class SettingsService
                 SelectedTheme = themeProp.GetString() ?? "System Default";
 
             if (root.TryGetProperty("DefaultSavePath", out var pathProp))
-                DefaultSavePath = pathProp.GetString() ?? "C:\\Users\\maksim\\Documents\\MaterialFlow\\Projects";
+            {
+                var savedPath = pathProp.GetString();
+                // Якщо збережений шлях порожній або містить старе імя користувача, використай типовий
+                if (string.IsNullOrEmpty(savedPath) || savedPath.Contains("maksim"))
+                {
+                    DefaultSavePath = GetDefaultProjectsPath();
+                }
+                else
+                {
+                    DefaultSavePath = savedPath;
+                }
+            }
+            else
+            {
+                DefaultSavePath = GetDefaultProjectsPath();
+            }
 
             if (root.TryGetProperty("LastLoginUser", out var userProp))
                 LastLoginUser = userProp.GetString() ?? string.Empty;
@@ -80,6 +109,7 @@ public class SettingsService
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Failed to load settings: {ex.Message}");
+            DefaultSavePath = GetDefaultProjectsPath();
         }
     }
 }

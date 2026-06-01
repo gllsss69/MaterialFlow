@@ -124,7 +124,6 @@
     <sys:String x:Key="ErrorInvalidFormat">Недійсний формат (напр., .mp4).</sys:String>
     <sys:String x:Key="ErrorInvalidCodec">Недійсний кодек (напр., libx264).</sys:String>
     <sys:String x:Key="LabelIcon">Іконка</sys:String>
-    <sys:String x:Key="LabelDefaultSettings">Типові налаштування</sys:String>
     <sys:String x:Key="MsgAdminEditPlatforms">Щоб редагувати платформи, увійдіть як адміністратор.</sys:String>
     <sys:String x:Key="BtnCreatePlatform">Створити платформу</sys:String>
     <sys:String x:Key="LabelSearchPlatforms">Пошук платформ...</sys:String>

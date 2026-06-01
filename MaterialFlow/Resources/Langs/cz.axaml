@@ -125,7 +125,6 @@
     <sys:String x:Key="ErrorInvalidFormat">Neplatný formát (např. .mp4).</sys:String>
     <sys:String x:Key="ErrorInvalidCodec">Neplatný kodek (např. libx264).</sys:String>
     <sys:String x:Key="LabelIcon">Ikona</sys:String>
-    <sys:String x:Key="LabelDefaultSettings">Výchozí nastavení</sys:String>
     <sys:String x:Key="MsgAdminEditPlatforms">Pro úpravu platforem se přihlaste jako administrátor.</sys:String>
     <sys:String x:Key="BtnCreatePlatform">Vytvořit platformu</sys:String>
     <sys:String x:Key="LabelSearchPlatforms">Hledat platformy...</sys:String>

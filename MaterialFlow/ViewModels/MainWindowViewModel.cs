@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -30,6 +31,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _defaultSavePath = SettingsService.Instance.DefaultSavePath;
         _enableProjectLogging = SettingsService.Instance.EnableProjectLogging;
 
+        // Якщо шлях порожній або не встановлений, використовуй типовий
+        if (string.IsNullOrWhiteSpace(_defaultSavePath))
+        {
+            _defaultSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MaterialFlow", "Projects");
+        }
+
+        // Автоматично створи папку, якщо вона не існує
+        EnsureDefaultSavePathExists();
+
         var lastLogin = SettingsService.Instance.LastLoginUser;
         if (!string.IsNullOrWhiteSpace(lastLogin))
         {
@@ -43,6 +53,24 @@ public class MainWindowViewModel : INotifyPropertyChanged
         CurrentUser = AuthService.Instance.CurrentUser;
     }
 
+    /// <summary>
+    /// Переконується, що папка для збереження проєктів існує, інакше створює її.
+    /// </summary>
+    private void EnsureDefaultSavePathExists()
+    {
+        try
+        {
+            if (!Directory.Exists(_defaultSavePath))
+            {
+                Directory.CreateDirectory(_defaultSavePath);
+                System.Diagnostics.Debug.WriteLine($"Created default save directory: {_defaultSavePath}");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error creating default save directory: {ex.Message}");
+        }
+    }
 
     private string _lastLoginUser = string.Empty;
     private User? _currentUser;
@@ -126,7 +154,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private string _selectedLanguage = "English";
     private string _selectedTheme = "System Default";
-    private string _defaultSavePath = "C:\\Users\\maksim\\Documents\\MaterialFlow\\Projects";
+    private string _defaultSavePath = string.Empty;
 
     /// <summary>
     /// Поточна вибрана мова локалізації інтерфейсу програми.
@@ -170,6 +198,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             _defaultSavePath = value;
             OnPropertyChanged();
+            EnsureDefaultSavePathExists();
             ProjectList.LoadProjects(_defaultSavePath);
             SaveSettings();
         }

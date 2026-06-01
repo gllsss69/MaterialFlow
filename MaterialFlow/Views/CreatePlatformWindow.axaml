@@ -92,8 +92,6 @@
                 <TextBlock Text="{Binding ErrorMessage}" Foreground="#B3261E"
                            IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                            TextWrapping="Wrap" FontSize="14"/>
-                <!-- Default Settings -->
-                <TextBlock Text="{DynamicResource LabelDefaultSettings}" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Medium" Margin="0,16,0,8"/>
                 <!-- Manual Mode Toggle -->
                 <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,0,0,8">
                     <TextBlock Text="{DynamicResource LabelManualSettings}" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Bold" FontSize="14"/>

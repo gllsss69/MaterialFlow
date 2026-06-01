@@ -130,7 +130,6 @@
     <sys:String x:Key="TitleCreatePreset">プリセットを作成</sys:String>
     <sys:String x:Key="TitleEditPreset">編集</sys:String>
     <sys:String x:Key="LabelIcon">アイコン</sys:String>
-    <sys:String x:Key="LabelDefaultSettings">デフォルト設定</sys:String>
     <sys:String x:Key="MsgAdminEditPlatforms">プラットフォームを編集するには管理者としてログインしてください。</sys:String>
     <sys:String x:Key="BtnCreatePlatform">プラットフォームを作成</sys:String>
     <sys:String x:Key="LabelSearchPlatforms">プラットフォームを検索...</sys:String>
