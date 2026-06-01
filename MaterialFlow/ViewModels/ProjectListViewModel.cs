@@ -464,6 +464,10 @@ public class ProjectListViewModel : INotifyPropertyChanged
 
         ConversionJobs.Add(job);
 
+        // Синхронізуємо з DataService для збереження в jobs.json
+        Services.DataService.Instance.Jobs.Add(job);
+        _ = Services.DataService.Instance.SaveJobsAsync();
+
         project.IsProcessing = true;
         project.StatusText = LocalizationService.Get("StatusPendingInQueue", "Pending in queue...");
         project.Progress = 0;
@@ -484,6 +488,11 @@ public class ProjectListViewModel : INotifyPropertyChanged
         var cts = new CancellationTokenSource();
         _cancellationTokens[project.Id] = cts;
 
+        // Встановлюємо час старту
+        job.StartTime = DateTime.Now;
+        job.Status = JobStatus.Processing;
+        _ = Services.DataService.Instance.SaveJobsAsync();
+
         bool success = await _ffmpegService.ConvertVideoAsync(project, preset, job, progress, cts.Token, logFilePath);
 
         _cancellationTokens.Remove(project.Id);
@@ -493,6 +502,10 @@ public class ProjectListViewModel : INotifyPropertyChanged
             project.Progress = 100;
             project.StatusText = $"{LocalizationService.Get("StatusProcessingPrefix", "Processing")}: 100.0%";
 
+            // Встановлюємо час завершення та статус
+            job.EndTime = DateTime.Now;
+            job.Status = JobStatus.Completed;
+
             try
             {
                 var fileInfo = new FileInfo(job.OutputPath);
@@ -501,7 +514,7 @@ public class ProjectListViewModel : INotifyPropertyChanged
                     JobId = job.Id,
                     FilePath = job.OutputPath,
                     Size = fileInfo.Exists ? fileInfo.Length : 0,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.Now
                 };
 
                 DataService.Instance.OutputFiles.Add(outputFile);
@@ -523,7 +536,14 @@ public class ProjectListViewModel : INotifyPropertyChanged
         {
             project.IsProcessing = false;
             project.StatusText = $"{LocalizationService.Get("StatusError", "Error")}: {job.ErrorMessage}";
+
+            // Встановлюємо час завершення та статус помилки
+            job.EndTime = DateTime.Now;
+            job.Status = JobStatus.Failed;
         }
+
+        // Зберігаємо оновлений job з новим статусом і часами
+        _ = Services.DataService.Instance.SaveJobsAsync();
 
         try
         {

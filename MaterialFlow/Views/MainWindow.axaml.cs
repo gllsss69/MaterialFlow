@@ -48,7 +48,6 @@ namespace MaterialFlow
                     selectedCodec = projectViewModel.SelectedFormat.TrimStart('.').Equals("avi", System.StringComparison.OrdinalIgnoreCase) ? "mpeg4" : "libx264";
                 }
 
-
                 var newProject = new MaterialFlow.Models.VideoProject
                 {
                     Name = projectViewModel.ProjectName,
@@ -60,12 +59,14 @@ namespace MaterialFlow
                     Codec = selectedCodec,
                     UseWatermark = projectViewModel.UseWatermark,
                     Platform = projectViewModel.SelectedPlatform?.Name ?? "None",
-                    CreatedAt = System.DateTime.UtcNow
+                    CreatedAt = System.DateTime.Now
                 };
 
+                Services.DataService.Instance.Projects.Add(newProject);
 
                 _viewModel.ProjectList.Projects.Insert(0, newProject);
-
+                
+                await Services.DataService.Instance.SaveProjectsAsync();
 
                 var preset = new MaterialFlow.Models.Preset
                 {
@@ -75,7 +76,6 @@ namespace MaterialFlow
                     FrameRate = parsedFps,
                     Codec = selectedCodec
                 };
-
 
                 _ = _viewModel.ProjectList.StartConversionAsync(newProject, preset, projectViewModel.SavePath);
             }

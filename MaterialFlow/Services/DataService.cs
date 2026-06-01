@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MaterialFlow.Models;
 
@@ -32,30 +33,11 @@ public class DataService
 
     private DataService()
     {
-        // Визначаємо папку з даними в профілі користувача замість хардкоду
-        string baseFolder;
-        try
-        {
-            if (OperatingSystem.IsWindows())
-            {
-                // Використовуємо Documents, щоб зберігати користувацькі проєкти та файли
-                baseFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            }
-            else
-            {
-                // На Unix-подібних системах беремо HOME або Fall back на Personal
-                baseFolder = Environment.GetEnvironmentVariable("HOME")
-                             ?? Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            }
-        }
-        catch
-        {
-            // Якщо щось пішло не так, повертаємось до попередньої поведінки (каталог програми)
-            baseFolder = Path.GetDirectoryName(Environment.ProcessPath ?? Assembly.GetExecutingAssembly().Location)
-                         ?? AppDomain.CurrentDomain.BaseDirectory;
-        }
+        // Визначаємо папку з даними біля виконуваного файлу
+        string baseFolder = Path.GetDirectoryName(Environment.ProcessPath ?? Assembly.GetExecutingAssembly().Location)
+                            ?? AppDomain.CurrentDomain.BaseDirectory;
 
-        _dataFolderPath = Path.Combine(baseFolder, "MaterialFlow", "Data");
+        _dataFolderPath = Path.Combine(baseFolder, "Data");
 
         _usersPath = Path.Combine(_dataFolderPath, "users.json");
         _projectsPath = Path.Combine(_dataFolderPath, "projects.json");
@@ -88,7 +70,8 @@ public class DataService
         try
         {
             string json = await File.ReadAllTextAsync(filePath);
-            return JsonSerializer.Deserialize<List<T>>(json) ?? new List<T>();
+            var options = CreateSerializerOptions();
+            return JsonSerializer.Deserialize<List<T>>(json, options) ?? new List<T>();
         }
         catch
         {
@@ -106,7 +89,8 @@ public class DataService
     {
         try
         {
-            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+            var options = CreateSerializerOptions();
+            string json = JsonSerializer.Serialize(data, options);
             await File.WriteAllTextAsync(filePath, json);
         }
         catch (Exception ex)
@@ -115,51 +99,73 @@ public class DataService
         }
     }
 
-    /// <summary>
-    /// Завантажує всі прикладні дані додатка при його запуску та ініціалізує стандартні платформи у разі потреби.
-    /// </summary>
-    public async Task LoadAllDataAsync()
+    // Create shared serializer options with consistent DateTime formatting (local time with offset)
+    private JsonSerializerOptions CreateSerializerOptions()
     {
-        Users = await LoadListAsync<User>(_usersPath);
-        Projects = await LoadListAsync<VideoProject>(_projectsPath);
-        Platforms = await LoadListAsync<Platform>(_platformsPath);
-        Presets = await LoadListAsync<Preset>(_presetsPath);
-        Jobs = await LoadListAsync<ConversionJob>(_jobsPath);
-        OutputFiles = await LoadListAsync<OutputFile>(_outputFilesPath);
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
 
-        if (Platforms.Count == 0)
+        options.Converters.Add(new DateTimeWithOffsetConverter());
+        options.Converters.Add(new NullableDateTimeWithOffsetConverter());
+        options.Converters.Add(new JsonStringEnumConverter());
+
+        return options;
+    }
+
+    // Converter for DateTime -> writes local time with offset, format: yyyy-MM-ddTHH:mm:sszzz
+    private sealed class DateTimeWithOffsetConverter : JsonConverter<DateTime>
+    {
+        private const string Format = "yyyy-MM-ddTHH:mm:sszzz";
+
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            InitializeDefaultPlatforms();
-            await SavePlatformsAsync();
-        }
-        else
-        {
-            // Ensure "Other" platform exists for backward compatibility
-            if (!Platforms.Any(p => p.Name.Equals("Other", StringComparison.OrdinalIgnoreCase)))
+            var s = reader.GetString();
+            if (string.IsNullOrEmpty(s)) return DateTime.MinValue;
+            if (DateTimeOffset.TryParse(s, out var dto))
             {
-                Platforms.Add(new Platform { Name = "Other", IconKind = "Web", DefaultResolution = "1920x1080" });
+                return dto.LocalDateTime;
             }
-            
-            // Backfill icons
-            foreach (var p in Platforms)
-            {
-                if (p.IconKind == "Web")
-                {
-                    if (p.Name == "YouTube") p.IconKind = "Youtube";
-                    else if (p.Name == "TikTok") p.IconKind = "MusicNote";
-                    else if (p.Name == "Instagram") p.IconKind = "Instagram";
-                    else if (p.Name == "Facebook") p.IconKind = "Facebook";
-                }
-            }
-            await SavePlatformsAsync();
+            return DateTime.Parse(s);
         }
 
-        // Створення всіх JSON-файлів, яких ще не існує, із порожнім масивом []
-        await EnsureFileExistsAsync(_usersPath, Users);
-        await EnsureFileExistsAsync(_projectsPath, Projects);
-        await EnsureFileExistsAsync(_presetsPath, Presets);
-        await EnsureFileExistsAsync(_jobsPath, Jobs);
-        await EnsureFileExistsAsync(_outputFilesPath, OutputFiles);
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            var dto = value.Kind == DateTimeKind.Utc ? new DateTimeOffset(value.ToLocalTime()) : new DateTimeOffset(value);
+            writer.WriteStringValue(dto.ToString(Format));
+        }
+    }
+
+    // Converter for nullable DateTime
+    private sealed class NullableDateTimeWithOffsetConverter : JsonConverter<DateTime?>
+    {
+        private const string Format = "yyyy-MM-ddTHH:mm:sszzz";
+
+        public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var s = reader.GetString();
+            if (string.IsNullOrEmpty(s)) return null;
+            if (DateTimeOffset.TryParse(s, out var dto))
+            {
+                return dto.LocalDateTime;
+            }
+            return DateTime.Parse(s);
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
+        {
+            if (!value.HasValue)
+            {
+                writer.WriteNullValue();
+                return;
+            }
+
+            var v = value.Value;
+            var dto = v.Kind == DateTimeKind.Utc ? new DateTimeOffset(v.ToLocalTime()) : new DateTimeOffset(v);
+            writer.WriteStringValue(dto.ToString(Format));
+        }
     }
 
     /// <summary>
@@ -186,6 +192,56 @@ public class DataService
     }
 
     /// <summary>
+    /// Завантажує всі прикладні дані додатка при його запуску та ініціалізує стандартні платформи у разі потреби.
+    /// Спочатку створює всі JSON-файли, потім завантажує дані.
+    /// </summary>
+    public async Task LoadAllDataAsync()
+    {
+        // КРОК 1: Спочатку ініціалізуємо та створюємо файли з пустими даними
+        await EnsureFileExistsAsync(_usersPath, new List<User>());
+        await EnsureFileExistsAsync(_projectsPath, new List<VideoProject>());
+        await EnsureFileExistsAsync(_presetsPath, new List<Preset>());
+        await EnsureFileExistsAsync(_jobsPath, new List<ConversionJob>());
+        await EnsureFileExistsAsync(_outputFilesPath, new List<OutputFile>());
+
+        // КРОК 2: Завантажуємо дані з файлів
+        Users = await LoadListAsync<User>(_usersPath);
+        Projects = await LoadListAsync<VideoProject>(_projectsPath);
+        Platforms = await LoadListAsync<Platform>(_platformsPath);
+        Presets = await LoadListAsync<Preset>(_presetsPath);
+        Jobs = await LoadListAsync<ConversionJob>(_jobsPath);
+        OutputFiles = await LoadListAsync<OutputFile>(_outputFilesPath);
+
+        // КРОК 3: Обробляємо платформи (ініціалізація за замовчуванням при першому запуску)
+        if (Platforms.Count == 0)
+        {
+            InitializeDefaultPlatforms();
+            await SavePlatformsAsync();
+        }
+        else
+        {
+            // Ensure "Other" platform exists for backward compatibility
+            if (!Platforms.Any(p => p.Name.Equals("Other", StringComparison.OrdinalIgnoreCase)))
+            {
+                Platforms.Add(new Platform { Name = "Other", IconKind = "Web", DefaultResolution = "1920x1080" });
+            }
+            
+            // Backfill icons
+            foreach (var p in Platforms)
+            {
+                if (p.IconKind == "Web")
+                {
+                    if (p.Name == "YouTube") p.IconKind = "Youtube";
+                    else if (p.Name == "TikTok") p.IconKind = "MusicNote";
+                    else if (p.Name == "Instagram") p.IconKind = "Instagram";
+                    else if (p.Name == "Facebook") p.IconKind = "Facebook";
+                }
+            }
+            await SavePlatformsAsync();
+        }
+    }
+
+    /// <summary>
     /// Асинхронно зберігає список пресетів у presets.json.
     /// </summary>
     public async Task SavePresetsAsync() => await SaveListAsync(_presetsPath, Presets);
@@ -204,4 +260,9 @@ public class DataService
     /// Асинхронно зберігає список вихідних файлів у outputfiles.json.
     /// </summary>
     public async Task SaveOutputFilesAsync() => await SaveListAsync(_outputFilesPath, OutputFiles);
+
+    /// <summary>
+    /// Асинхронно зберігає список проєктів у projects.json.
+    /// </summary>
+    public async Task SaveProjectsAsync() => await SaveListAsync(_projectsPath, Projects);
 }

@@ -95,7 +95,7 @@ public class VideoProject : INotifyPropertyChanged
     /// <summary>
     /// Дата та час створення проєкту.
     /// </summary>
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Ідентифікатор користувача, якому належить проєкт.
