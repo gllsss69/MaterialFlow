@@ -97,8 +97,7 @@
                             </StackPanel>
                             <!-- Version string -->
                             <TextBlock Text="{Binding FFmpegVersionText}" TextWrapping="Wrap"
-                                       FontSize="13" Foreground="{DynamicResource OnSurfaceVariantBrush}"
-                                       IsVisible="{Binding IsFFmpegAvailable}"/>
+                                       FontSize="13" Foreground="{DynamicResource OnSurfaceVariantBrush}"/>
                             <!-- Refresh button -->
                             <Button Theme="{StaticResource MaterialFlatButton}" 
                                     Foreground="{DynamicResource PrimaryBrush}" 
