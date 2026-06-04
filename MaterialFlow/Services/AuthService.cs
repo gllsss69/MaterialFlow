@@ -74,6 +74,12 @@ public class AuthService
     /// <returns>Кортеж з прапорцем успішності та описом результату.</returns>
     public (bool Success, string Message) Register(string login, string password, string fullName, UserRole role = UserRole.Editor)
     {
+        if (login?.Contains(" ") == true || password?.Contains(" ") == true)
+            return (false, "AuthInvalidLoginOrPassword");
+
+        login = login?.Trim() ?? string.Empty;
+        password = password?.Trim() ?? string.Empty;
+
         if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             return (false, "AuthLoginPasswordRequired");
 
@@ -114,6 +120,9 @@ public class AuthService
     /// <returns>Кортеж із результатом входу та об'єктом авторизованого користувача.</returns>
     public (bool Success, string Message, User? User) Login(string login, string password)
     {
+        login = login?.Trim() ?? string.Empty;
+        password = password?.Trim() ?? string.Empty;
+
         var user = _users.FirstOrDefault(u => u.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
         if (user == null)
             return (false, "AuthInvalidLoginOrPassword", null);
